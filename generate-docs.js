@@ -9,12 +9,13 @@ const structure = {
   "product": ["prd", "frd", "mrd"],
   "technical": ["system-architecture", "technical-spec", "api-spec"],
   "testing": ["test-plan", "test-cases", "test-report"],
-  "process": ["sop", "runbook", "how-to-guides"],
+  "process": ["sop", "runbook"],
   "user-guides": ["user-manual", "install-guide", "release-notes"],
   "governance": ["security-policy", "sla", "raci-matrix"],
   "project-management": ["project-charter", "project-plan", "meeting-minutes"],
   "data-terms": ["data-dictionary", "glossary"],
-  "legal": ["nda", "msa"]
+  "legal": ["nda", "msa"],
+  "how-tos": ["create-brd"]
 };
 
 // Root docs directory
