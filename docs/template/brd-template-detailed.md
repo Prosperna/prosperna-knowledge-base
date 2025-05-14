@@ -34,25 +34,7 @@ sidebar_position: 1
 
 ---
 
-## Table of Contents
-
-1. [Executive Summary](#executive-summary)
-2. [Business Objectives](#business-objectives)
-3. [Scope](#scope)
-4. [Stakeholders](#stakeholders)
-5. [Functional Requirements](#functional-requirements)
-6. [Non-functional Requirements](#non-functional-requirements)
-7. [Data Requirements](#data-requirements)
-8. [Interface Requirements](#interface-requirements)
-9. [Assumptions and Constraints](#assumptions-and-constraints)
-10. [Risk Analysis](#risk-analysis)
-11. [Deliverables](#deliverables)
-12. [Timeline and Milestones](#timeline-and-milestones)
-13. [Approval and Sign-off](#approval-and-sign-off)
-
----
-
-## 1. Executive Summary
+## Executive Summary
 
 Provide a high-level overview of the project purpose, scope, and key benefits.
 
@@ -71,7 +53,7 @@ Provide a high-level overview of the project purpose, scope, and key benefits.
 
 ---
 
-## 2. Business Objectives
+## Business Objectives
 
 List clear, measurable objectives aligned with strategic goals.
 
@@ -82,7 +64,7 @@ List clear, measurable objectives aligned with strategic goals.
 
 ---
 
-## 3. Scope
+## Scope
 
 ### 3.1 In-Scope  
 - *Feature or function A*  
@@ -98,7 +80,7 @@ List clear, measurable objectives aligned with strategic goals.
 
 ---
 
-## 4. Stakeholders
+## Stakeholders
 
 Identify all stakeholders and their roles.
 
@@ -111,7 +93,7 @@ Identify all stakeholders and their roles.
 
 ---
 
-## 5. Functional Requirements
+## Functional Requirements
 
 Detail functional requirements with unique IDs.
 
@@ -127,7 +109,7 @@ Detail functional requirements with unique IDs.
 
 ---
 
-## 6. Non-functional Requirements
+## Non-functional Requirements
 
 Outline standards and constraints.
 
@@ -140,7 +122,7 @@ Outline standards and constraints.
 
 ---
 
-## 7. Data Requirements
+## Data Requirements
 
 Define data elements, sources, and storage.
 
@@ -151,7 +133,7 @@ Define data elements, sources, and storage.
 
 ---
 
-## 8. Interface Requirements
+## Interface Requirements
 
 Specify UI and system interfaces.
 
@@ -162,7 +144,7 @@ Specify UI and system interfaces.
 
 ---
 
-## 9. Assumptions and Constraints
+## Assumptions and Constraints
 
 List factors assumed and limitations.
 
@@ -176,7 +158,7 @@ List factors assumed and limitations.
 
 ---
 
-## 10. Risk Analysis
+## Risk Analysis
 
 Identify potential risks and mitigation.
 
@@ -187,7 +169,7 @@ Identify potential risks and mitigation.
 
 ---
 
-## 11. Deliverables
+## Deliverables
 
 List project outputs and formats.
 
@@ -198,7 +180,7 @@ List project outputs and formats.
 
 ---
 
-## 12. Timeline and Milestones
+## Timeline and Milestones
 
 Outline key dates and milestones.
 
@@ -210,7 +192,7 @@ Outline key dates and milestones.
 
 ---
 
-## 13. Approval and Sign-off
+## Approval and Sign-off
 
 Final sign-off section.
 

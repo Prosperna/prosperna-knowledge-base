@@ -29,27 +29,7 @@ sidebar_position: 2
 
 | Version | Date       | Author       | Change Description               |
 | ------- | ---------- | ------------ | -------------------------------- |
-| 1.0     | 2025-05-12 | *Analyst*    | Initial draft                    |
-
----
-
-## Table of Contents
-
-1. [Executive Summary](#executive-summary)  
-2. [Business Objectives](#business-objectives)  
-3. [Scope](#scope)  
-4. [Stakeholders](#stakeholders)  
-5. [Functional Requirements](#functional-requirements)  
-   1. [Use Case Diagram](#use-case-diagram)  
-   2. [Use Case Scenarios](#use-case-scenarios)  
-6. [Non-functional Requirements](#non-functional-requirements)  
-7. [Data Requirements](#data-requirements)  
-8. [Interface Requirements](#interface-requirements)  
-9. [Assumptions and Constraints](#assumptions-and-constraints)  
-10. [Risk Analysis](#risk-analysis)  
-11. [Deliverables](#deliverables)  
-12. [Timeline and Milestones](#timeline-and-milestones)  
-13. [Approval and Sign-off](#approval-and-sign-off)  
+| 1.0     | 2025-05-12 | *Analyst*    | Initial draft                    | 
 
 ---
 
