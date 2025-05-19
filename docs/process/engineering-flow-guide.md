@@ -10,13 +10,13 @@ sidebar_position: 1
 
 ---
 
-## 🖼️ Engineering Flow Diagram
+## Engineering Flow Diagram
 
 ![Engineering Flow](/clickup-guide.png)
 
 ---
 
-## 📌 Overview
+## Overview
 
 The engineering flow includes five key stages:
 
@@ -30,9 +30,9 @@ Each ClickUp card transitions through this flow to ensure delivery quality and m
 
 ---
 
-## 🔄 Flow Stages
+## Flow Stages
 
-### 🧠 1. Not Started / Open
+### 1. Not Started / Open
 
 **Sources of Work:**
 - **Product Roadmap** — Business/feature request from stakeholders
@@ -47,11 +47,11 @@ Each ClickUp card transitions through this flow to ensure delivery quality and m
    - If **Pass Review**, it proceeds to HoE approval
 4. **Ready for Development**
 
-**🕒 BA Cycle Time** = From *Product Grooming* to *Ready for Review*
+**BA Cycle Time** = From *Product Grooming* to *Ready for Review*
 
 ---
 
-### 🚧 2. In Progress
+### 2. In Progress
 
 After HoE approval:
 
@@ -70,7 +70,7 @@ After HoE approval:
 
 ---
 
-### ✅ 3. Done
+### 3. Done
 
 **Pass Testing** is confirmed by QA. Task is then:
 
@@ -79,7 +79,7 @@ After HoE approval:
 
 ---
 
-### 🚀 4. Closed
+### 4. Closed
 
 **Deploy to Prod**:
 - Deployment is executed via GitHub and CI/CD
@@ -88,11 +88,11 @@ After HoE approval:
 
 ---
 
-### 📋 Before Deploy to Prod Checklist
+### Before Deploy to Prod Checklist
 
 All items **must be completed and verified** before a task is moved to **Deploy to Prod**:
 
-| ✅ Checklist Item                                                                 | Owner        | Notes                                                                 |
+| Checklist Item                                                                 | Owner        | Notes                                                                 |
 |----------------------------------------------------------------------------------|--------------|-----------------------------------------------------------------------|
 | ✅ Test cases uploaded to **Prosperna Knowledge Base**                           | QA           | Organized and linked from ClickUp                                    |
 | ✅ BRD uploaded to **Prosperna Knowledge Base**                                  | BA           | Final version; no placeholders or drafts                             |
@@ -110,7 +110,7 @@ All items **must be completed and verified** before a task is moved to **Deploy 
 
 ---
 
-## 📊 Metrics Explained
+## Metrics Explained
 
 | Metric            | Formula                                   | Purpose                                  |
 |-------------------|--------------------------------------------|------------------------------------------|
@@ -120,7 +120,7 @@ All items **must be completed and verified** before a task is moved to **Deploy 
 
 ---
 
-## 👤 Roles & Responsibilities
+## Roles & Responsibilities
 
 | Role        | Responsibility                                              |
 |-------------|-------------------------------------------------------------|
@@ -133,7 +133,7 @@ All items **must be completed and verified** before a task is moved to **Deploy 
 
 ---
 
-## 🏷 Tagging Rules
+## Tagging Rules
 
 - Always **tag the Dev** on `QA Return` with clear comments
 - Tasks must go through QA before deployment
@@ -142,7 +142,7 @@ All items **must be completed and verified** before a task is moved to **Deploy 
 
 ---
 
-## 🛠 Tools
+## Tools
 
 | Tool     | Usage                                |
 |----------|--------------------------------------|
