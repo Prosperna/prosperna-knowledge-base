@@ -1,7 +1,7 @@
 ---
 id: create-brd
 title: How to Create a Business Requirements Document
-sidebar_position: 1
+sidebar_position: 4
 ---
 
 # How to Create a Business Requirements Document
