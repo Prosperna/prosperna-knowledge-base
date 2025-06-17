@@ -4,152 +4,128 @@ title: How to Use the Engineering Flow
 sidebar_position: 1
 ---
 
-# Engineering Flow Guide
+# How to Use the Engineering Flow
 
-> This SOP defines how Prosperna handles product requests from ideation to deployment, ensuring visibility, accountability, and quality across teams.
-
----
-
-## Engineering Flow Diagram
-
-![Engineering Flow](/clickup-guide.png)
+This document explains the step-by-step engineering workflow used at Prosperna to manage tasks, features, bugs, and releases from initial request to production deployment. It provides clarity on roles, responsibilities, and status transitions to ensure smooth collaboration across teams from CEO to PMs to developers. This guide is also part of the onboarding process for new team members.
 
 ---
 
-## Overview
+## Diagram and Overview
 
-The engineering flow includes five key stages:
-
-1. **Not Started / Open**
-2. **In Progress**
-3. **Done**
-4. **Closed**
-5. **Cycle & Lead Time Tracking**
-
-Each ClickUp card transitions through this flow to ensure delivery quality and measurement of engineering metrics.
+![Engineering Flow](/whiteboard_exported_image.png)
 
 ---
 
-## Flow Stages
-
-### 1. Not Started / Open
-
-**Sources of Work:**
-- **Product Roadmap** — Business/feature request from stakeholders
-- **Internal Support** — System logs, reports, errors
-- **External Support** — Customer-reported bugs or complaints
-
-**Process Steps:**
-1. **Product Grooming** (BA + Stakeholder)
-2. **Requirement Gathering**
-3. **Ready for Review**
-   - If **Fail in Review**, it loops back to **Requirement Gathering**
-   - If **Pass Review**, it proceeds to HoE approval
-4. **Ready for Development**
-
-**BA Cycle Time** = From *Product Grooming* to *Ready for Review*
+The workflow is divided into stages that track tasks from idea through development, testing, and deployment. It integrates inputs from product roadmaps, internal system monitoring, and customer support to deliver quality software efficiently.
 
 ---
 
-### 2. In Progress
+## Step-by-Step Guide to Using the Workflow
 
-After HoE approval:
+### 1. Inputs to the Workflow
 
-1. **Priority Delivery** – Task is prioritized by PM
-2. **In Development** – Developer starts coding
-3. **Ready for Testing** – Marked complete by Dev
-4. **In Testing** – QA runs validations
+- **Product Roadmap**  
+  Strategic features and initiatives defined by stakeholders guide the product direction.
 
-#### QA Feedback Loop
-- If **Fail Testing**:
-  - Tag as `QA Return`
-  - Move back to **In Development**
-  - Must tag responsible Dev and explain issue in the comment
-- If **Pass Testing**:
-  - Proceed to **Pass Testing**
+- **Internal Support**  
+  Bugs and issues are reported by internal employees or detected by system monitoring tools such as Datadog and log monitors.
+
+- **External Support**  
+  Customer feedback and enhancement requests collected from users and support teams.
 
 ---
 
-### 3. Done
+### 2. Business Analysis (BA) Cycle
 
-**Pass Testing** is confirmed by QA. Task is then:
+- **Product Grooming**  
+  Business Analysts review and prioritize incoming requests and roadmap items for further analysis.
 
-- Reviewed by PM
-- Moved to **Ready for Deployment**
+- **Requirement Gathering**  
+  Detailed requirements are collected, documented, and refined with input from stakeholders.
 
----
-
-### 4. Closed
-
-**Deploy to Prod**:
-- Deployment is executed via GitHub and CI/CD
-- HoE verifies and signs off
-- PM updates ClickUp task to “Deployed to Production”
+- **Ready for Review**  
+  Requirements are submitted for approval by Heads of Engineering or Product Managers. Items failing review return to gathering for refinement.
 
 ---
 
-### Before Deploy to Prod Checklist
+### 3. Ready for Development
 
-All items **must be completed and verified** before a task is moved to **Deploy to Prod**:
+- Approved requirements and tasks move here, fully analyzed and ready for implementation.
 
-| Checklist Item                                                                 | Owner        | Notes                                                                 |
-|----------------------------------------------------------------------------------|--------------|-----------------------------------------------------------------------|
-| ✅ Test cases uploaded to **Prosperna Knowledge Base**                           | QA           | Organized and linked from ClickUp                                    |
-| ✅ BRD uploaded to **Prosperna Knowledge Base**                                  | BA           | Final version; no placeholders or drafts                             |
-| ✅ Final **PM Sign-off** on feature acceptance                                   | PM           | Confirms business alignment                                           |
-| ✅ QA Status is **Pass Testing**                                                 | QA           | No “QA Return” tag present                                           |
-| ✅ Code review completed and approved                                            | Dev Lead     | At least one approval required                                       |
-| ✅ Unit and integration tests are passing in CI                                  | Dev / QA     | Verified in GitHub Actions or CI tool                                |
-| ✅ Unit test coverage is above **80% at the file level**                         | Dev / QA     | Use SimpleCov or equivalent to measure                               |
-| ✅ API integration tests are completed and verified                              | QA           | Ensure edge cases and failure responses are tested                   |
-| ✅ No critical bugs or blockers in testing environment                           | QA           | Regression tested if needed                                          |
-| ✅ Release notes are prepared and linked                                         | PM           | Stored in ClickUp and/or GitHub PR                                   |
-| ✅ Deployment plan/checklist (rollback steps, environment info) is documented    | Dev / HoE    | For high-risk or multi-step releases                                 |
-| ✅ Final GitHub PR is merged to main/master                                      | Dev          | Confirm correct branch and commit ID                                 |
-| ✅ HoE approval for production release                                           | HoE          | Final gate before live release                                       |
+- Internal support issues and customer requests can also be added once analyzed and approved.
 
 ---
 
-## Metrics Explained
+### 4. Priority Ready
 
-| Metric            | Formula                                   | Purpose                                  |
-|-------------------|--------------------------------------------|------------------------------------------|
-| **Lead Time**     | End Date − Open Date                       | Total duration from task start to deploy |
-| **Cycle Time**    | Done Date − In Development Start Date      | Actual time spent in dev/testing cycle   |
-| **BA Cycle Time** | Ready for Review − Product Grooming Start  | Requirement preparation duration         |
+- Product Managers prioritize tasks from "Ready for Development" and stage them here for imminent development.
+
+- Developers pick tasks from this prioritized queue.
 
 ---
 
-## Roles & Responsibilities
+### 5. Priority Development
 
-| Role        | Responsibility                                              |
-|-------------|-------------------------------------------------------------|
-| Stakeholder | Raises product/feature needs                                |
-| BA          | Grooms and defines requirements                             |
-| HoE         | Approves for development and signs off before deployment    |
-| PM          | Prioritizes, tracks, and ensures readiness                   |
-| Dev         | Implements solution and prepares for QA                     |
-| QA          | Validates functionality and ensures quality                 |
+- High priority tasks and epics enter active planning and early work phases here.
+
+- Epic-level tracking occurs in this stage while subtasks move into active development.
 
 ---
 
-## Tagging Rules
+### 6. In Development
 
-- Always **tag the Dev** on `QA Return` with clear comments
-- Tasks must go through QA before deployment
-- Missing tags/comments during return → **Team Quality Incident**
-- No direct move to "Ready for Deployment" without passing QA
+- Tasks under active implementation by developers move here.
 
----
-
-## Tools
-
-| Tool     | Usage                                |
-|----------|--------------------------------------|
-| ClickUp  | Task flow, tagging, and assignments  |
-| GitHub   | PRs, version control, CI/CD triggers |
-| CI/CD    | Automated deployment pipelines       |
+- Progress and updates are tracked during coding and building.
 
 ---
 
-Following this flow ensures delivery consistency, quality assurance, and measurable DevOps performance across the engineering team.
+### 7. Testing Phase
+
+- **Ready for Testing**: Tasks completed by development are handed over to QA.
+
+- **In Testing**: QA performs verification and validation.
+
+- **Pass Testing**: Successfully tested tasks move here, ready for deployment.
+
+- Tasks failing tests return to **"In Development"** for fixes.
+
+---
+
+### 8. Ready for Deployment
+
+- QA-approved tasks enter this stage for final preparation and coordination before release.
+
+- PMs ensure environment readiness and final documentation.
+
+---
+
+### 9. Deployment to Production
+
+- Tasks are deployed to production.
+
+- Post-deployment monitoring and validation are conducted.
+
+- Completion marks task closure.
+
+---
+
+## Roles and Responsibilities
+
+- **CEO / Stakeholders**: Define vision and approve high-level plans.  
+- **Business Analysts**: Lead grooming, requirements, and review cycles.  
+- **Product Managers**: Prioritize, track progress, and coordinate releases.  
+- **Developers**: Build features, fix bugs, and update statuses.  
+- **QA Team**: Test and verify quality.  
+- **Support Teams**: Report issues and gather customer feedback.
+
+---
+
+## Metrics to Track
+
+- **Lead Time**: Total time from task creation to completion.  
+- **Cycle Time**: Time from start of development to task completion.
+
+Tracking these helps identify bottlenecks and improve process efficiency.
+
+---

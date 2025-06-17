@@ -34,7 +34,7 @@ This document serves as the definitive operating guide for all engineering team 
   BA works with stakeholders to gather user stories, define acceptance criteria, business rules, personas, and success metrics. All dependencies must be identified.
 
 - **Ready for Review**  
-  BA presents the completed spec to the PM, HoE, and Dev team for feedback. Any missing detail or clarification must be resolved before progressing.
+  BA presents the completed spec to the PM, HoE, and Dev team for feedback. Any missing detail or clarification must be resolved before progressing. 
 
 - **Ready for Development**  
   Approved stories that meet the Definition of Ready. Devs can now pull them into the sprint or `Priority Delivery` lane.
