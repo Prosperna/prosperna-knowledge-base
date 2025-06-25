@@ -108,4 +108,4 @@ For issues or escalations, contact:
 
 ---
 
-Stay secure, stay automated. 💪
+Stay secure, stay automated.
