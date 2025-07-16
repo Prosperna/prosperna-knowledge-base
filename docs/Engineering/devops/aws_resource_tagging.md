@@ -1,107 +1,126 @@
 ---
 id: aws-resource-tagging
 title: AWS Resource Tagging Standards
-sidebar_label: 🏷 AWS Resource Tagging
+sidebar_label: 🏷 AWS Tagging
 ---
 
 # AWS Resource Tagging Standards
 
-This guide defines how we tag AWS resources to track project usage, environment grouping, and cost attribution at Prosperna.
+This guide explains how Prosperna applies consistent tagging across all AWS resources to improve cost monitoring, resource ownership, and environment segmentation.
 
 ---
 
-## 🎯 Purpose of Tagging
+## 📟 Tagging Format
 
-Tagging AWS resources ensures:
+Each AWS resource should be tagged using the following keys:
 
-- 🔍 **Visibility**: Understand what resources belong to which project or team
-- 💰 **Cost Allocation**: Break down AWS billing by project and environment
-- 🛠 **Manageability**: Quickly filter and manage resources using the Tag Editor
-- ✅ **Automation & Compliance**: Tags can be used in IAM policies, backup scripts, CI/CD tools, and auditing tools
+| Tag Key | Example Values | Description |
+|--------|----------------|-------------|
+| `Name` | `p1-ecs-service`, `cebuana-rds-db` | Human-readable resource name |
+| `Project` | `p1`, `Cebuana`, `Datadog`, `Prosperna NAT Gateway-az1`, `Prosperna Wordpress` | Associated project or initiative |
+| `Environment` | `Development`, `Staging`, `Production` | Identifies the lifecycle stage |
 
----
-
-## 🏷 Required Tag Keys and Format
-
-All tagged resources must follow this standard:
-
-| Tag Key     | Example Value                       | Description                                   |
-|-------------|--------------------------------------|-----------------------------------------------|
-| `Name`      | `prosperna1-prod-alb`                   | A clear name of the resource                  |
-| `Project`   | `p1`, `Cebuana`, `Datadog`, `Prosperna Wordpress` | The project or service name that owns the resource |
-| `Environment` | `Development`, `Staging`, `Production` | The environment the resource belongs to |
-
-### ✅ Examples
-
-| Resource Type | Tags |
-|---------------|------|
-| EC2 Instance | Name: `ECS Instance - EC2ContainerService-P1-Micro-Prod-Cluster`  <br> Project: `p1` <br> Environment: `Production` |
-| NAT Gateway | Name: `Prosperna NAT Gateway-az1` <br> Project: `Prosperna NAT Gateway-az1` <br> Environment: `Production` |
-| S3 Bucket | Name: `clj-prod-mediabucket` <br> Project: `Cebuana` <br> Environment: `Staging` |
-| Lambda Function | Name: `custom-domain-handler` <br> Project: `p1` <br> Environment: `Production` |
-| RDS Instance | Name: `prosperna-rds` <br> Project: `Prosperna` <br> Environment: `Staging` |
-
-> 🧠 Tip: Be specific with `Project` to easily filter costs in AWS Cost Explorer.
+> 🧠 These tags help categorize usage in AWS Cost Explorer and facilitate chargebacks per project/environment.
 
 ---
 
-## 🛠 Using the AWS Tag Editor
+## 🛠 Tag Editor (Bulk Tagging)
 
-AWS provides a tool to view and manage tags across all supported resources:
+To bulk tag resources:
 
-👉 [Open AWS Tag Editor](https://ap-southeast-1.console.aws.amazon.com/resource-groups/tag-editor/find-resources?region=ap-southeast-1)
-
-### Step-by-Step:
-
-1. Go to the [Tag Editor](https://ap-southeast-1.console.aws.amazon.com/resource-groups/tag-editor/find-resources?region=ap-southeast-1)
-2. Choose your region (e.g., `Asia Pacific (Singapore)`)
-3. Filter by resource types (EC2, S3, ALB, etc.)
+1. Go to [AWS Tag Editor](https://ap-southeast-1.console.aws.amazon.com/resource-groups/tag-editor/find-resources?region=ap-southeast-1)
+2. Select the region: `ap-southeast-1`
+3. Filter by resource type (e.g. EC2, S3, RDS, Lambda)
 4. Click **Search Resources**
-5. Select the resources you want to tag
-6. Click **Manage tags of selected resources**
-7. Add tags:
+5. Select resources and click **Manage Tags of selected resources**
+6. Add or edit the tag key-value pairs:
    - `Project: Prosperna`
    - `Environment: Staging`
    - `Name: prosperna-wordpress-sg`
-8. Save your changes
+7. Click **Review and Apply**
 
-> 📝 Note: Tags apply across cost reports, automation scripts, and permissions boundaries.
-
----
-
-## 🔁 Tagging Integration With Other Services
-
-- **AWS Cost Explorer**: Group costs by tags to see what each project/environment consumes
-- **Budgets & Alerts**: Set usage or cost thresholds by tag filters
-- **IAM Policies**: Apply conditional access based on tag values
-- **CI/CD Pipelines**: Auto-apply tags using Terraform or AWS SDK
-- **Backup Policies**: Tag-based backup plans using AWS Backup
+> 📌 Ideal for applying consistent tags across multiple resources quickly.
 
 ---
 
-## 💡 Best Practices
+## 📊 Cost Allocation Tag Support
 
-- Use **Title Case** values for readability (e.g., `Production`, not `production`)
-- Always apply tags when provisioning new resources (via console, Terraform, or CloudFormation)
-- Review untagged resources monthly using the Tag Editor
-- Avoid abbreviations that aren’t widely known (e.g., use `Prosperna Wordpress` instead of `PW`)
-- Tag shared resources (e.g., VPC, NAT Gateways) with the correct owning project
+To activate tags for cost tracking:
+
+1. Go to **Billing Console** > **Cost Allocation Tags**
+2. Search for the tag key (e.g., `Project`, `Environment`)
+3. Select and click **Activate**
+
+This enables these tags to appear in **Cost Explorer**, **Budgets**, and **Cost & Usage Reports**.
 
 ---
 
-## 📊 Why This Matters
+## 🔍 Tagging Use Cases
 
-By consistently tagging resources:
+### 🧩 ECS & EC2
+- Tag by service (`Project=p1`, `Name=p1-api-service`)
+- Track instance environments (`Environment=Staging`)
 
-- 💸 We can group AWS costs by project (via Cost Explorer or CUR reports)
-- 🧩 Teams know what they own and manage
-- 🔐 Security and compliance audits become easier
-- 🧹 Helps identify unused/untagged resources during cleanup
+### 📦 S3 Buckets
+- `Project=MediaServer`, `Environment=Production`
+
+### 🔐 Lambda Functions
+- `Project=AutoCertProvisioner`, `Environment=Production`
+
+### 🧠 RDS & DynamoDB
+- Database-specific tags: `Name=p1-prod-db`, `Project=p1`
+
+---
+
+## 🛡 Best Practices
+
+- Use consistent casing (e.g., `Production` not `production`)
+- Avoid spaces in tag keys
+- Always tag shared infrastructure (e.g., NAT Gateways, VPCs)
+- Automate tagging during deployment (e.g., via Terraform, CDK, or GitHub Actions)
+- Use tag policies (via AWS Organizations) to enforce tag compliance
+- Review untagged resources regularly via Tag Editor
+- Be specific with `Project` tag to improve cost filter granularity
+
+---
+
+## 🔗 Integrations
+
+| Tool | Benefit |
+|------|---------|
+| AWS Cost Explorer | Group by project/environment for cost analysis |
+| IAM | Restrict access via tag-based conditions |
+| Budgets | Track project-specific limits |
+| GitHub Actions | Inject tags at provision time |
+| AWS Backup | Create backup plans by tag filters |
+
+---
+
+## 🧪 Sample Tags Table
+
+| Resource | Name | Project | Environment |
+|----------|------|---------|-------------|
+| EC2 Instance | p1-builder-instance | p1 | Production |
+| ECS Service | p1-api-service | p1 | Staging |
+| RDS DB | prosperna-cebuana-db | Cebuana | Production |
+| NAT Gateway | nat-gateway-az1 | Prosperna NAT Gateway-az1 | Production |
+| S3 Bucket | clj-prod-mediabucket | Cebuana | Staging |
+| Lambda Function | custom-domain-handler | p1 | Production |
+
+---
+
+## ✅ Summary
+
+- All AWS resources should follow tagging standards: `Name`, `Project`, `Environment`
+- Tag Editor is the fastest way to bulk manage tags
+- Cost Explorer relies on activated tags for reporting
+- Tags are essential for automation, cost control, and access control
+
+> 🏷 Tag consistently, manage efficiently.
 
 ---
 
 ## 📌 Related Docs
-- [Create Secure IAM Guide](https://pkb.prosperna.ph/docs/engineering/devops/aws-iam)
-- [Cloudflare DNS & SSL](https://pkb.prosperna.ph/docs/engineering/devops/cloudflare)
 - [AWS KMS Usage Guide](https://pkb.prosperna.ph/docs/engineering/devops/aws-kms)
-
+- [Microservice Deployment Guidelines](https://pkb.prosperna.ph/docs/engineering/devops/microservices)
+- [Cloudflare DNS & SSL](https://pkb.prosperna.ph/docs/engineering/devops/cloudflare)
