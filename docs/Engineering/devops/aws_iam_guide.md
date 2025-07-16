@@ -6,11 +6,13 @@ sidebar_label: 🔐 AWS IAM Guide
 
 # Create Secure IAM Guide
 
-This guide provides step-by-step instructions and best practices for managing AWS IAM (Identity and Access Management) securely in Prosperna. It covers how to structure IAM users, groups, policies, access control, auditing, and key rotation.
+This guide provides step-by-step instructions and best practices for managing AWS IAM (Identity and Access Management) securely in Prosperna. It covers how to structure IAM users, groups, policies, access control, auditing, key rotation, and application-level roles.
 
 ## 📌 Overview
 
 At Prosperna, we use AWS IAM to manage user permissions across our infrastructure. Each employee is granted access based on their job role, using IAM groups with role-based policies. We follow the principle of least privilege and regularly audit access.
+
+IAM roles are also used extensively across our infrastructure and services such as ECS, Lambda, and EC2.
 
 ---
 
@@ -33,6 +35,8 @@ At Prosperna, we use AWS IAM to manage user permissions across our infrastructur
    - `devops-intern`
    - `QA`
 8. Click **Next** until **Create user**
+
+> ⚠️ **Note:** By default, new IAM users have no permissions until added to a group or assigned policies.
 
 ### IAM Group Example: Developers
 
@@ -106,6 +110,61 @@ All groups should use **managed policies** with restricted, specific permissions
 
 ---
 
+## 🧪 IAM Roles for Application & Infrastructure
+
+At Prosperna, we use IAM roles to grant permissions to services securely without long-term credentials.
+
+### Common Roles in Use:
+
+| Role Name                   | Service   | Purpose                                            |
+| --------------------------- | --------- | -------------------------------------------------- |
+| `ecsInstanceRole`           | EC2       | Grants ECS instances access to pull images, logs   |
+| `ecsServiceRole`            | ECS       | Allows ECS service to interact with load balancers |
+| `ECSStopServicesLambdaRole` | Lambda    | Grants permission to stop ECS services via Lambda  |
+| `ecsTaskExecutionRole`      | ECS Tasks | Allows ECS tasks to pull secrets, images, logs     |
+
+### How to Create a New Role (e.g., App or Infra)
+
+1. Go to IAM Console > **Roles** > **Create role**
+2. Select trusted entity:
+   - For ECS Task: `AWS service` > `ECS`
+   - For Lambda: `AWS service` > `Lambda`
+3. Attach necessary policies (e.g., `SecretsManagerReadWrite`, custom S3/DynamoDB)
+4. Name the role using format: `project-env-role-purpose` (e.g., `p1-prod-task-s3access`)
+5. Add appropriate tags for tracking
+6. Save and attach role to the resource (e.g., task definition)
+
+> ℹ️ Roles should follow least privilege and be scoped to specific resources.
+
+---
+
+## 🛠️ Creating IAM Admin User
+
+1. Add new user: `admin.user@prosperna.com`
+2. Grant **Programmatic access** and/or **Console access**
+3. Skip group assignment
+4. Attach policy: `AdministratorAccess`
+5. Require password reset on first login
+6. Enable MFA
+
+> ⚠️ Use with caution. Admin users have full access to all AWS services.
+
+---
+
+## 🔎 Default IAM Status on New AWS Accounts
+
+When a new AWS account is created:
+
+- The **root user** is the only identity with full access.
+- No IAM users, groups, or roles are preconfigured.
+- **MFA is disabled** by default and must be manually enabled.
+- **IAM Access Analyzer** and **CloudTrail** are disabled by default — enable them for auditing.
+- Default password policies are weak (e.g., 6-character minimum, no complexity) — update immediately.
+
+> 🔐 Always start by creating an IAM Admin user and locking away the root credentials.
+
+---
+
 ## 🧪 Example Use Case: New DevOps Engineer
 
 > Scenario: A new DevOps Engineer joins Prosperna
@@ -128,6 +187,7 @@ IAM is the backbone of security in AWS. At Prosperna, we:
 - Use role-based IAM groups
 - Enforce least privilege
 - Rotate keys
+- Use roles for infrastructure
 - Audit regularly
 
 > 🔐 Always treat IAM like production infrastructure — version-controlled, monitored, and locked down by default.
@@ -139,4 +199,3 @@ IAM is the backbone of security in AWS. At Prosperna, we:
 - [AWS IAM Best Practices](https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html)
 - [IAM Policy Simulator](https://policysim.aws.amazon.com/)
 - [Prosperna DevOps Onboarding Checklist (internal)](https://pkb.prosperna.ph/docs/engineering/devops/onboarding)
-
