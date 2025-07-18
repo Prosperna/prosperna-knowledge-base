@@ -149,5 +149,4 @@ Use the resulting image URI (e.g. `358132463944.dkr.ecr.ap-southeast-1.amazonaws
 
 ## 🔗 Related Docs
 
-- [📘 ECS Cluster & Service Deployment](./ecs-cluster)
-- [📊 Read & Interpret Datadog Metrics](./datadog-insights)
+- [📘 ECS Cluster & Service Deployment](https://pkb.prosperna.ph/docs/Engineering/devops/ecs-cluster)
