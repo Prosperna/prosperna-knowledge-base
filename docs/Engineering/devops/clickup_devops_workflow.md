@@ -1,20 +1,20 @@
 ---
 id: clickup-workflow-devops
 title: ClickUp Workflows for DevOps
-sidebar_label: ✅ ClickUp Workflow for DevOps
+sidebar_label: ClickUp Workflow for DevOps
 ---
 
-# 🧩 ClickUp Workflow for DevOps
+# ClickUp Workflow for DevOps
 
 This document outlines how our DevOps and Engineering teams use **ClickUp** to manage tasks, prioritize work, and streamline releases. It also explains how automated test coverage notifications are delivered to ClickUp from GitHub Actions.
 
 ---
 
-## 🧪 ClickUp Status Workflow
+## ClickUp Status Workflow
 
 We use a standardized set of ClickUp statuses to track tickets from planning to deployment.
 
-### ✅ Ready for Development
+### Ready for Development
 
 - **Definition:** Task has been fully analyzed and approved.
 - **Includes:**
@@ -23,46 +23,46 @@ We use a standardized set of ClickUp statuses to track tickets from planning to 
   - Internal support issues
 - Tasks enter here after validation.
 
-### 🟡 Ready Priority
+### Ready Priority
 
 - **Definition:** Product Managers prioritize tasks here.
 - **Developers pull** from this queue for development.
 
-### 🔴 Priority Development
+### Priority Development
 
 - **Definition:** High-priority tasks and epics enter early work/planning.
 - **Tracking:**
   - Epic-level tracking
   - Subtasks often break off into "In Development"
 
-### 🧑‍💻 In Development
+### In Development
 
 - **Definition:** Developer is actively working on the task.
 - **Tracked:**
   - Implementation progress
   - PRs or commits linked
 
-### 🧪 Ready for Testing
+### Ready for Testing
 
 - Task is complete and handed off to QA.
 
-### 🧪 In Testing
+### In Testing
 
 - QA team verifies features, performs manual and automated testing.
 
-### ✅ Pass Testing
+### Pass Testing
 
 - Task is approved by QA.
 - Ready for deployment.
 
-### 🚀 Ready for Deployment
+### Ready for Deployment
 
 - QA-approved and waiting for:
   - Environment readiness
   - Final review by PMs
   - Deployment plan
 
-### 🟢 Deployed to Prod
+### Deployed to Prod
 
 - Task is now live in production.
 - PM or DevOps team performs:
@@ -71,7 +71,7 @@ We use a standardized set of ClickUp statuses to track tickets from planning to 
 
 ---
 
-## 🔁 Recurring Tasks
+## Recurring Tasks
 
 Recurring tasks such as:
 
@@ -84,11 +84,11 @@ Recurring tasks such as:
 
 ---
 
-## 📊 Unit Testing Coverage Notification via ClickUp
+## Unit Testing Coverage Notification via ClickUp
 
 Every month, we automatically send **unit test coverage reports** to a ClickUp task using GitHub Actions. This ensures engineering accountability and visibility into test coverage trends.
 
-### 📤 How It Works:
+### How It Works:
 
 - GitHub Actions workflow runs monthly via `cron`.
 - The workflow runs the test suite and generates coverage summary.
@@ -96,24 +96,24 @@ Every month, we automatically send **unit test coverage reports** to a ClickUp t
 
 ---
 
-## 🛠️ Setup: ClickUp Notifications via GitHub Actions
+## Setup: ClickUp Notifications via GitHub Actions
 
 > This setup pushes a comment to a ClickUp task with the latest test coverage metrics.
 
-### 1. 🔐 Get Your ClickUp API Token
+### 1. Get Your ClickUp API Token
 
 - Log into [ClickUp](https://app.clickup.com/).
 - Go to **Settings > Apps > API**.
 - Copy your **personal API token**.
 
-### 2. 🔑 Add GitHub Secret
+### 2. Add GitHub Secret
 
 - In your GitHub repo, go to **Settings > Secrets and variables > Actions**.
 - Add a new secret:
   - Name: `CLICKUP_API_TOKEN`
   - Value: (your token)
 
-### 3. 🧪 Sample GitHub Action Workflow
+### 3. Sample GitHub Action Workflow
 
 ````yaml
 name: Monthly Unit Test Coverage Notification

@@ -1,7 +1,7 @@
 ---
 id: mobile-app-release
 title: Mobile App Release Process
-sidebar_label: 📱 Mobile App Release
+sidebar_label: Mobile App Release
 ---
 
 # Mobile App Release Process
@@ -10,7 +10,7 @@ This guide outlines how we build, test, and release the **Prosperna Mobile App**
 
 ---
 
-## 🔍 Observability with Datadog RUM
+## Observability with Datadog RUM
 
 We use [Datadog Real User Monitoring (RUM)](https://www.datadoghq.com/product/rum/) to monitor frontend performance and user behavior across all mobile environments:
 
@@ -22,11 +22,11 @@ Ensure RUM tokens are correctly injected via environment variables or secrets in
 
 ---
 
-## 🤖 Android Deployment (Play Store)
+## Android Deployment (Play Store)
 
 We use **GitHub Actions** to automate Android deployments via separate workflows for each environment:
 
-### 📌 Branch-to-Track Mapping
+### Branch-to-Track Mapping
 
 | Branch    | Play Store Track |
 | --------- | ---------------- |
@@ -36,7 +36,7 @@ We use **GitHub Actions** to automate Android deployments via separate workflows
 
 > Each branch has its own dedicated GitHub Actions workflow file.
 
-### 🚀 Dev Branch CI/CD Highlights
+### Dev Branch CI/CD Highlights
 
 - Triggers on push to `dev`
 - Runs unit, widget, integration tests
@@ -49,13 +49,13 @@ We use **GitHub Actions** to automate Android deployments via separate workflows
 
 📦 Refer to the GitHub repo: [p1-mobile-app](https://github.com/Prosperna/p1-mobile-app)
 
-### 🔎 Production Release Reminder
+### Production Release Reminder
 
 When releasing to the **Production track**, always review the [Play Store Publishing Overview](https://play.google.com/console/u/0/developers/4827462962886244684/app/4974541765238292064/publishing) for any pending issues or approvals. Publishing can take time due to Google’s review process.
 
 ---
 
-## 🍎 iOS Deployment (App Store)
+## iOS Deployment (App Store)
 
 Currently, iOS deployment is **manual** via Xcode but follows structured environments:
 
@@ -65,7 +65,7 @@ Currently, iOS deployment is **manual** via Xcode but follows structured environ
 | `staging-ios` | Staging     |
 | `main-ios`    | Production  |
 
-### 🧰 Manual Deployment Steps
+### Manual Deployment Steps
 
 1. Clone repo: `git clone git@github.com:Prosperna/p1-mobile-app.git`
 2. Checkout appropriate branch: `git checkout main-ios`
@@ -85,19 +85,19 @@ Currently, iOS deployment is **manual** via Xcode but follows structured environ
 13. Confirm availability in App Store Connect
 14. Assign testers (internal/external)
 
-### 🔐 Apple Developer Access
+### Apple Developer Access
 
 We have only **one Apple Developer account**. If you need 2FA or OTP for login, please contact **Boss Dennis Velasco**.
 
-### 🔎 App Review Reminder
+### App Review Reminder
 
 For App Store deployments, always check the **App Review** status in App Store Connect. Apple reviews take time and may delay availability.
 
 ---
 
-## 🧪 Prosperna App Testing Instructions
+## Prosperna App Testing Instructions
 
-### 🔐 Closed Alpha Track
+### Closed Alpha Track
 
 **Join Instructions:**
 
@@ -112,7 +112,7 @@ For App Store deployments, always check the **App Review** status in App Store C
 
 > Ensure that you are logged in with your **prosperna.com** email address to access the Alpha track.
 
-### 🛠️ Internal Testing Track
+### Internal Testing Track
 
 **Join Instructions:**
 
@@ -122,11 +122,11 @@ For App Store deployments, always check the **App Review** status in App Store C
 
 > Ensure that you are logged in with your **prosperna.com** email address to access the Internal track.
 
-### 📉 Production Release Access
+### Production Release Access
 
 **Recommendation:** Use your **personal email address** to access the Play Store production release. This avoids conflicts with internal testing accounts.
 
-### 📀 Uninstall Instructions (Before Switching Tracks)
+### Uninstall Instructions (Before Switching Tracks)
 
 Before installing the Prosperna app for a different track:
 
@@ -137,9 +137,9 @@ Before installing the Prosperna app for a different track:
 
 ---
 
-## 🥪 Versioning, Release Notes & Rollbacks
+## Versioning, Release Notes & Rollbacks
 
-### 📦 Versioning
+### Versioning
 
 We manage app versions using `version.json` stored in S3:
 
@@ -154,7 +154,7 @@ We manage app versions using `version.json` stored in S3:
 - `versionName` comes from latest GitHub release tag
 - Versions are injected into `build.gradle` and App Store metadata
 
-### 📝 Release Notes
+### Release Notes
 
 - Each release must be tagged on GitHub with detailed notes
 - Play Store release notes are uploaded via GitHub Action
@@ -169,7 +169,7 @@ We manage app versions using `version.json` stored in S3:
 
 ---
 
-## 🛠️ Future: App Store CI/CD Plan
+## Future: App Store CI/CD Plan
 
 We plan to implement GitHub Actions for iOS CI/CD. Goals include:
 

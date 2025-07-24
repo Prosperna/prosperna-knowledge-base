@@ -1,22 +1,22 @@
 ---
 id: ecs-cluster
 title: ECS Cluster & Service Deployment
-sidebar_label: 📘 ECS Cluster & Service Deployment Guide
+sidebar_label: ECS Cluster & Service Deployment Guide
 ---
 
-# 📘 ECS Cluster & Service Deployment Guide (Prosperna)
+# ECS Cluster & Service Deployment Guide (Prosperna)
 
 This guide outlines the setup, configuration, deployment, and logging of ECS Clusters and Services (both EC2 and Fargate) for Prosperna’s e-commerce platform.
 
 ---
 
-## 🚀 Overview
+## Overview
 
 We use two types of ECS:
 - **Fargate** for Frontend (React and NextJS)
 - **EC2** for Backend Microservices (16 services per instance)
 
-### 🔁 ECS Clusters in Use
+### ECS Clusters in Use
 
 | Cluster | Type | Purpose |
 |--------|------|---------|
@@ -36,7 +36,7 @@ We use two types of ECS:
 
 ---
 
-## 🛠️ Provisioning a New ECS Cluster
+## Provisioning a New ECS Cluster
 
 ### Fargate (Frontend)
 
@@ -70,7 +70,7 @@ We use two types of ECS:
 
 ---
 
-## 🧩 Creating a New ECS Service
+## Creating a New ECS Service
 
 ### Fargate Frontend Sample: `P1-Dev-Service`
 
@@ -102,7 +102,7 @@ We use two types of ECS:
 
 ---
 
-## 🐳 Docker Images & Tags
+## Docker Images & Tags
 
 ### Frontend
 - Repository: `358132463944.dkr.ecr.ap-southeast-1.amazonaws.com/prodev-image`
@@ -114,7 +114,7 @@ We use two types of ECS:
 
 ---
 
-## 📜 CloudWatch Logs
+## CloudWatch Logs
 
 ### awslogs Driver Configuration
 - **Frontend Log Group**: `/ecs/prodev-task`
@@ -124,7 +124,7 @@ We use two types of ECS:
 
 ---
 
-## 🔄 CI/CD Workflow
+## CI/CD Workflow
 
 - Triggered on merge to: `dev`, `staging`, or `main`
 - **Steps**:
@@ -135,7 +135,7 @@ We use two types of ECS:
 
 ---
 
-## 📚 AWS Terms Glossary
+## AWS Terms Glossary
 
 - **ECS (Elastic Container Service)**: A container orchestration service
 - **Fargate**: Serverless compute engine for containers

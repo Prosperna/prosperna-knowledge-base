@@ -1,7 +1,7 @@
 ---
 id: mongodb-atlas
 title: MongoDB Atlas Usage Guide
-sidebar_label: 📘 MongoDB Atlas Usage Guide
+sidebar_label: MongoDB Atlas Usage Guide
 ---
 
 # 📘 MongoDB Atlas Usage Guide
@@ -10,7 +10,7 @@ This guide covers how to interact with our MongoDB Atlas environment, including 
 
 ---
 
-## 🗂️ Clusters Overview
+## Clusters Overview
 
 We currently use the following MongoDB Atlas clusters:
 
@@ -22,16 +22,16 @@ We currently use the following MongoDB Atlas clusters:
 
 ---
 
-## 🔌 How to Connect to MongoDB Atlas
+## How to Connect to MongoDB Atlas
 
-### 📟 Option 1: Using MongoDB Compass
+### Option 1: Using MongoDB Compass
 
 1. Open **MongoDB Compass**.
 2. Get the **connection string** from the DevOps team (format typically looks like: `mongodb+srv://<user>:<password>@prospernaone-cluster-prod.mongodb.net/?retryWrites=true&w=majority`).
 3. Paste the connection string into the connection field.
 4. Click **Connect**.
 
-### 💻 Option 2: Using the MongoDB CLI
+### Option 2: Using the MongoDB CLI
 
 1. Install the [MongoDB Shell (mongosh)](https://www.mongodb.com/try/download/shell).
 2. Use the connection string to connect:
@@ -42,7 +42,7 @@ We currently use the following MongoDB Atlas clusters:
 
 ---
 
-## 🛡️ Backup Policy
+## Backup Policy
 
 | Snapshot Type | Frequency         | Retention | Time (UTC) |
 | ------------- | ----------------- | --------- | ---------- |
@@ -51,25 +51,25 @@ We currently use the following MongoDB Atlas clusters:
 | Weekly        | Saturday          | 4 weeks   | 07:00      |
 | Monthly       | Last day of month | 12 months | 07:00      |
 
-### 🔁 Point-In-Time Restore (PITR)
+### Point-In-Time Restore (PITR)
 
 - **Restore Window:** 7 days
 - Useful for recovering from accidental deletions or data corruption.
 
 ---
 
-## 🔍 Query Optimization Using Query Profiler
+## Query Optimization Using Query Profiler
 
 MongoDB Atlas provides a **Query Profiler** to monitor slow or inefficient queries.
 
-### 📊 How to Use Query Profiler:
+### How to Use Query Profiler:
 
 1. Navigate to your desired cluster in MongoDB Atlas.
 2. Go to **Performance Advisor** > **Query Profiler**.
 3. Filter by database or collection, e.g., `analyticsdb.productvisitors`.
 4. View recent slow queries and examine their metrics.
 
-### 📝 Sample Query Detail
+### Sample Query Detail
 
 - **Namespace:** `analyticsdb.productvisitors`
 - **Timestamp:** Mon 07/21/25 at 00:06:01.815
@@ -86,7 +86,7 @@ MongoDB Atlas provides a **Query Profiler** to monitor slow or inefficient queri
 - **No index coverage** + **has sort stage** = full collection scan.
 - 322,948 documents examined and 0 returned → wasted compute.
 
-### 💡 Optimization Steps
+### Optimization Steps
 
 1. **Create an Index** on the queried fields (especially the filter and sort fields).
 2. Avoid unnecessary sorting on large datasets.

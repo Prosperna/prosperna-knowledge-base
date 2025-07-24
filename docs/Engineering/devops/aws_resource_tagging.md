@@ -1,7 +1,7 @@
 ---
 id: aws-resource-tagging
 title: AWS Resource Tagging Standards
-sidebar_label: 🏷 AWS Tagging
+sidebar_label: AWS Tagging
 ---
 
 # AWS Resource Tagging Standards
@@ -10,7 +10,7 @@ This guide explains how Prosperna applies consistent tagging across all AWS reso
 
 ---
 
-## 📟 Tagging Format
+## Tagging Format
 
 Each AWS resource should be tagged using the following keys:
 
@@ -24,7 +24,7 @@ Each AWS resource should be tagged using the following keys:
 
 ---
 
-## 🛠 Tag Editor (Bulk Tagging)
+## Tag Editor (Bulk Tagging)
 
 To bulk tag resources:
 
@@ -57,22 +57,22 @@ This enables these tags to appear in **Cost Explorer**, **Budgets**, and **Cost 
 
 ## 🔍 Tagging Use Cases
 
-### 🧩 ECS & EC2
+### ECS & EC2
 - Tag by service (`Project=p1`, `Name=p1-api-service`)
 - Track instance environments (`Environment=Staging`)
 
-### 📦 S3 Buckets
+### S3 Buckets
 - `Project=MediaServer`, `Environment=Production`
 
-### 🔐 Lambda Functions
+### Lambda Functions
 - `Project=AutoCertProvisioner`, `Environment=Production`
 
-### 🧠 RDS & DynamoDB
+### RDS & DynamoDB
 - Database-specific tags: `Name=p1-prod-db`, `Project=p1`
 
 ---
 
-## 🛡 Best Practices
+## Best Practices
 
 - Use consistent casing (e.g., `Production` not `production`)
 - Avoid spaces in tag keys
@@ -84,7 +84,7 @@ This enables these tags to appear in **Cost Explorer**, **Budgets**, and **Cost 
 
 ---
 
-## 🔗 Integrations
+## Integrations
 
 | Tool | Benefit |
 |------|---------|
@@ -96,7 +96,7 @@ This enables these tags to appear in **Cost Explorer**, **Budgets**, and **Cost 
 
 ---
 
-## 🧪 Sample Tags Table
+## Sample Tags Table
 
 | Resource | Name | Project | Environment |
 |----------|------|---------|-------------|

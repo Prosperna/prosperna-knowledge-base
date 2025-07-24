@@ -1,7 +1,7 @@
 ---
 id: aws-iam
 title: Create Secure IAM Guide
-sidebar_label: 🔐 AWS IAM Guide
+sidebar_label: AWS IAM Guide
 ---
 
 # Create Secure IAM Guide
@@ -48,7 +48,7 @@ IAM roles are also used extensively across our infrastructure and services such 
 
 ---
 
-## 🔐 IAM Policy Structure
+## IAM Policy Structure
 
 All groups should use **managed policies** with restricted, specific permissions.
 
@@ -88,7 +88,7 @@ All groups should use **managed policies** with restricted, specific permissions
 
 ---
 
-## 🔁 Key Rotation & Auditing
+## Key Rotation & Auditing
 
 ### Key Rotation
 
@@ -110,7 +110,7 @@ All groups should use **managed policies** with restricted, specific permissions
 
 ---
 
-## 🧪 IAM Roles for Application & Infrastructure
+## IAM Roles for Application & Infrastructure
 
 At Prosperna, we use IAM roles to grant permissions to services securely without long-term credentials.
 
@@ -165,7 +165,7 @@ When a new AWS account is created:
 
 ---
 
-## 🧪 Example Use Case: New DevOps Engineer
+## Example Use Case: New DevOps Engineer
 
 > Scenario: A new DevOps Engineer joins Prosperna
 
@@ -194,7 +194,7 @@ IAM is the backbone of security in AWS. At Prosperna, we:
 
 ---
 
-## 📝 References
+## References
 
 - [AWS IAM Best Practices](https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html)
 - [IAM Policy Simulator](https://policysim.aws.amazon.com/)

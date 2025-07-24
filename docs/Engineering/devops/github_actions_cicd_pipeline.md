@@ -2,7 +2,7 @@
 
 id: github-actions-cicd-pipeline
 title: GitHub Actions CI/CD Pipeline
-sidebar_label: "🚀 GitHub Actions CI/CD Pipeline"
+sidebar_label: "GitHub Actions CI/CD Pipeline"
 
 ---
 
@@ -10,7 +10,7 @@ At Prosperna, we use GitHub Actions to automate our Continuous Integration and C
 
 Our approach to CI/CD is designed for microservices deployed on Amazon ECS (Elastic Container Service). The following documentation details the workflows we use for our development environment, which serves as a testing ground before code is promoted to staging and production.
 
-## 🌟 The BODA Philosophy
+## The BODA Philosophy
 
 We're in the process of rolling out a new CI/CD philosophy we call **BODA**, which stands for **"Build Once, Deploy Anywhere"**.
 
@@ -18,25 +18,25 @@ Currently, we build separate Docker images for each environment. However, with B
 
 ---
 
-## 🚀 Frontend CI/CD Pipeline (`P1-dev-action.yml`)
+## Frontend CI/CD Pipeline (`P1-dev-action.yml`)
 
 The frontend CI/CD pipeline for the `dev` branch automates a series of checks and deployment steps every time code is pushed to the `dev` branch.
 
-### 📄 Workflow Breakdown
+### Workflow Breakdown
 
-- 🧹 **lint-test**: Runs a linter to catch style guide violations and programming bugs.
-- 📦 **dependency-check**: Checks for outdated npm dependencies and open Dependabot PRs.
-- 🔐 **vulnerability-check**: Runs `npm audit` to detect known security vulnerabilities.
-- 🧪 **sasts-scan**: Placeholder for future Static Application Security Testing (SAST).
-- ☁️ **upload-s3-assets**: Syncs local `src/assets` to Amazon S3.
-- 🤖 **code-review**: Placeholder for an automated code review tool.
-- ✅ **unit-test**: Runs unit tests and sends results to ClickUp.
-- 🔗 **api-test**: Placeholder to test frontend-backend API integration.
-- 🧬 **integration-test**: Placeholder to verify system component interactions.
-- 🛠️ **build**: Builds and pushes the Docker image to ECR.
-- 📁 **artifact**: Placeholder for uploading build artifacts to S3.
-- 🚀 **deploy**: Updates the ECS task definition and deploys the new version.
-- 🧭 **e2e-testing**: Triggers end-to-end (E2E) tests via HyperExecute.
+- **lint-test**: Runs a linter to catch style guide violations and programming bugs.
+- **dependency-check**: Checks for outdated npm dependencies and open Dependabot PRs.
+- **vulnerability-check**: Runs `npm audit` to detect known security vulnerabilities.
+- **sasts-scan**: Placeholder for future Static Application Security Testing (SAST).
+- **upload-s3-assets**: Syncs local `src/assets` to Amazon S3.
+- **code-review**: Placeholder for an automated code review tool.
+- **unit-test**: Runs unit tests and sends results to ClickUp.
+- **api-test**: Placeholder to test frontend-backend API integration.
+- **integration-test**: Placeholder to verify system component interactions.
+- **build**: Builds and pushes the Docker image to ECR.
+- **artifact**: Placeholder for uploading build artifacts to S3.
+- **deploy**: Updates the ECS task definition and deploys the new version.
+- **e2e-testing**: Triggers end-to-end (E2E) tests via HyperExecute.
 
 ```yaml
 name: P1 - FEND Development CI/CD
@@ -363,23 +363,23 @@ jobs:
 
 ---
 
-## 🐙 Backend CI/CD Pipeline (`orders-dev-action.yml`)
+## Backend CI/CD Pipeline (`orders-dev-action.yml`)
 
 The backend CI/CD pipeline for the `dev` branch is similar to the frontend but tailored for our microservices. This example is for the **Orders** service.
 
-### 📄 Workflow Breakdown
+### Workflow Breakdown
 
-- 🧹 **lint-test**: Static code analysis for coding standards and errors.
-- 📦 **dependency-check**: Detects outdated dependencies and major version changes.
-- 🔐 **vulnerability-check**: Runs `npm audit` to detect high and critical issues.
-- 🧪 **sasts-scan**: Placeholder for future SAST implementation.
-- 🤖 **code-review**: Placeholder for automated code review.
-- ✅ **unit-test**: Executes backend unit tests and sends results to ClickUp.
-- 🔗 **api-test**: Placeholder for validating backend endpoints.
-- 🧬 **integration-test**: Placeholder for testing service integration.
-- 🛠️ **build**: Builds and tags Docker image with SHA and `dev-lts`, pushes to ECR.
-- 📁 **artifact**: Placeholder for uploading build artifacts to S3.
-- 🚀 **deploy**: Retrieves latest image, updates ECS task definition with Datadog version tagging, and deploys the updated task to ECS.
+- **lint-test**: Static code analysis for coding standards and errors.
+- **dependency-check**: Detects outdated dependencies and major version changes.
+- **vulnerability-check**: Runs `npm audit` to detect high and critical issues.
+- **sasts-scan**: Placeholder for future SAST implementation.
+- **code-review**: Placeholder for automated code review.
+- **unit-test**: Executes backend unit tests and sends results to ClickUp.
+- **api-test**: Placeholder for validating backend endpoints.
+- **integration-test**: Placeholder for testing service integration.
+- **build**: Builds and tags Docker image with SHA and `dev-lts`, pushes to ECR.
+- **artifact**: Placeholder for uploading build artifacts to S3.
+- **deploy**: Retrieves latest image, updates ECS task definition with Datadog version tagging, and deploys the updated task to ECS.
 
 ```yaml
 name: Order Service API Development CI/CD
@@ -664,7 +664,7 @@ jobs:
 
 ---
 
-## 🧾 Summary
+## Summary
 
 Prosperna's GitHub Actions CI/CD pipelines aim to streamline the entire development and deployment lifecycle across our frontend and backend microservices. By enforcing checks at every stage—from linting to deployment—we ensure high-quality, secure, and consistent delivery of features across all environments.
 
