@@ -1,7 +1,7 @@
 ---
 id: microservice-deployment-guidelines
 title: Microservice Deployment Guidelines
-sidebar_label: 🧭 Microservice Deployment Guidelines
+sidebar_label: Microservice Deployment Guidelines
 ---
 
 ## Overview
@@ -10,7 +10,7 @@ This document outlines Prosperna's conventions for deploying microservices, incl
 
 ---
 
-## 🏷️ Naming Conventions
+## Naming Conventions
 
 | Component         | Format                                | Example                         |
 |------------------|---------------------------------------|---------------------------------|
@@ -22,7 +22,7 @@ This document outlines Prosperna's conventions for deploying microservices, incl
 
 ---
 
-## 🧩 Microservice Patterns
+## Microservice Patterns
 
 - **Stateless Design**: All services must be stateless to support container scalability.
 - **API Gateway**: Entry point for client-facing APIs (API Aggregator).
@@ -32,7 +32,7 @@ This document outlines Prosperna's conventions for deploying microservices, incl
 
 ---
 
-## 🔌 Communication Patterns
+## Communication Patterns
 
 - **Internal Services** use service discovery via ECS DNS.
 - All backend services communicate over **HTTPS** via the Application Load Balancer.
@@ -41,7 +41,7 @@ This document outlines Prosperna's conventions for deploying microservices, incl
 
 ---
 
-## ⚙️ Configuration Conventions
+## Configuration Conventions
 
 - Use `.env.production`, `.env.staging`, etc., for each environment.
 - All container ports are explicitly declared in the task definition.
@@ -82,7 +82,7 @@ This document outlines Prosperna's conventions for deploying microservices, incl
 
 ---
 
-## 📦 Deployment Checklist
+## Deployment Checklist
 
 | Task | Description | Done |
 |------|-------------|------|
@@ -96,7 +96,7 @@ This document outlines Prosperna's conventions for deploying microservices, incl
 
 ---
 
-## 🐳 Manually Uploading Docker Image to ECR
+## Manually Uploading Docker Image to ECR
 
 Use `orders-service-api` as an example (using `dev` branch).
 

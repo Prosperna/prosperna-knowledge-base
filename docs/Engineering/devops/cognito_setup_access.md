@@ -1,7 +1,7 @@
 ---
 id: cognito-setup
 title: Cognito Setup and Access
-sidebar_label: 🔐 Cognito Setup and Access
+sidebar_label: Cognito Setup and Access
 ---
 
 # Cognito Setup and Access
