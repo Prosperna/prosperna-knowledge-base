@@ -1,5 +1,5 @@
 ---
-id: microservice-deployment-guidelines
+id: microservices
 title: Microservice Deployment Guidelines
 sidebar_label: Microservice Deployment Guidelines
 ---

@@ -1,5 +1,5 @@
 ---
-id: ecs-cluster
+id: aws-ecs
 title: ECS Cluster & Service Deployment
 sidebar_label: ECS Cluster & Service Deployment Guide
 ---

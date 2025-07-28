@@ -1,5 +1,5 @@
 ---
-id: cognito-setup
+id: aws-cognito
 title: Cognito Setup and Access
 sidebar_label: Cognito Setup and Access
 ---
