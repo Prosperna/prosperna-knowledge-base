@@ -1,7 +1,7 @@
 ---
 id: aws-iam
 title: Create Secure IAM Guide
-sidebar_label: AWS IAM Guide
+sidebar_label: Create Secure IAM Guide
 ---
 
 # Create Secure IAM Guide

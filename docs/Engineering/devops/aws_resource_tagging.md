@@ -1,7 +1,7 @@
 ---
 id: aws-tagging
 title: AWS Resource Tagging Standards
-sidebar_label: AWS Tagging
+sidebar_label: AWS Resource Tagging Standards
 ---
 
 # AWS Resource Tagging Standards
