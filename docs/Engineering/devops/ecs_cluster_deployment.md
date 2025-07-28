@@ -1,7 +1,7 @@
 ---
 id: aws-ecs
 title: ECS Cluster & Service Deployment
-sidebar_label: ECS Cluster & Service Deployment Guide
+sidebar_label: ECS Cluster & Service Deployment
 ---
 
 # ECS Cluster & Service Deployment Guide (Prosperna)

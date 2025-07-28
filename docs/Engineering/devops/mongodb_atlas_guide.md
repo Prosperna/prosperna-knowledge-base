@@ -4,7 +4,7 @@ title: MongoDB Atlas Usage Guide
 sidebar_label: MongoDB Atlas Usage Guide
 ---
 
-# 📘 MongoDB Atlas Usage Guide
+# MongoDB Atlas Usage Guide
 
 This guide covers how to interact with our MongoDB Atlas environment, including connecting to clusters, managing backups, and optimizing queries using the Query Profiler.
 
@@ -18,7 +18,7 @@ We currently use the following MongoDB Atlas clusters:
 - `prospernaone-cluster-dev` → **Development**
 - `prospernaone-cluster-staging` → **Staging**
 
-> 🔐 **Note:** You need the appropriate connection string from the DevOps team to access any cluster.
+> **Note:** You need the appropriate connection string from the DevOps team to access any cluster.
 
 ---
 

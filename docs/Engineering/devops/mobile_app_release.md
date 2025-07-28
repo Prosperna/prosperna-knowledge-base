@@ -1,7 +1,7 @@
 ---
 id: mobile-release
 title: Mobile App Release Process
-sidebar_label: Mobile App Release
+sidebar_label: Mobile App Release Process
 ---
 
 # Mobile App Release Process
