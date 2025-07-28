@@ -1,5 +1,5 @@
 ---
-id: mongodb-atlas
+id: mongodb
 title: MongoDB Atlas Usage Guide
 sidebar_label: MongoDB Atlas Usage Guide
 ---

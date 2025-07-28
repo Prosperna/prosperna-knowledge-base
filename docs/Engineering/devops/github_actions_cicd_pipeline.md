@@ -1,6 +1,6 @@
 ---
 
-id: github-actions-cicd-pipeline
+id: github-actions
 title: GitHub Actions CI/CD Pipeline
 sidebar_label: "GitHub Actions CI/CD Pipeline"
 

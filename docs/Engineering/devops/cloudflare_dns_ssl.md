@@ -1,5 +1,5 @@
 ---
-id: cloudflare-dns-ssl
+id: cloudflare
 title: Cloudflare DNS & SSL
 sidebar_label: Cloudflare DNS & SSL
 ---

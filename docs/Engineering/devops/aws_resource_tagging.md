@@ -1,5 +1,5 @@
 ---
-id: aws-resource-tagging
+id: aws-tagging
 title: AWS Resource Tagging Standards
 sidebar_label: AWS Tagging
 ---

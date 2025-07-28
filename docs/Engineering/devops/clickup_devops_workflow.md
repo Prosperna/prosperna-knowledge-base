@@ -1,5 +1,5 @@
 ---
-id: clickup-workflow-devops
+id: clickup
 title: ClickUp Workflows for DevOps
 sidebar_label: ClickUp Workflow for DevOps
 ---
