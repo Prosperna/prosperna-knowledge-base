@@ -1,5 +1,9 @@
 ---
 id: creating-first-repo
+slug: /tutorial-extras/git/creating-first-repo
+sidebar_position: 4
+tags: [git, github, repository, version control]
+keywords: [Git, GitHub, repository, version control, collaboration, software development]
 title: Creating Your First Git Repository
 sidebar_label: Creating First Repo
 description: Step-by-step guide to creating your first Git repository, adding files, and pushing them to GitHub.

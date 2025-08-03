@@ -1,5 +1,9 @@
 ---
 id: collaboration-workflow-github
+slug: /tutorial-extras/git/collaboration-workflow-github
+sidebar_position: 5
+tags: [git, github, collaboration, workflow]
+keywords: [Git, GitHub, collaboration, workflow, version control, software development]
 title: Collaboration Workflow with GitHub
 sidebar_label: Collaboration Workflow
 description: Learn how to collaborate effectively using GitHub, including branching, pull requests, reviews, and merging best practices.

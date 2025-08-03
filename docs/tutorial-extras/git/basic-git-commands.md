@@ -1,5 +1,9 @@
 ---
 id: basic-git-commands
+slug: /tutorial-extras/git/basic-git-commands
+sidebar_position: 3
+tags: [git, github, commands, version control]
+keywords: [Git, GitHub, commands, version control, collaboration, software development]
 title: Basic Git Commands
 sidebar_label: Basic Git Commands
 description: Learn the essential Git commands to initialize repositories, track changes, work with branches, and merge updates.

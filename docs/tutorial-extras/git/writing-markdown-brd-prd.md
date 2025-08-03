@@ -1,5 +1,9 @@
 ---
 id: writing-markdown-brd-prd
+slug: /tutorial-extras/git/writing-markdown-brd-prd
+sidebar_position: 6
+tags: [git, github, markdown, documentation]
+keywords: [Git, GitHub, Markdown, BRD, PRD, documentation, version control, software development]
 title: Writing in Markdown for BRD/PRD
 sidebar_label: Writing in Markdown
 description: Learn how to write Business Requirement Documents (BRD) and Product Requirement Documents (PRD) using Markdown syntax for clean and structured documentation.
