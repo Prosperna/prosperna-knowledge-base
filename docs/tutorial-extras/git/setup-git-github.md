@@ -1,5 +1,9 @@
 ---
 id: setup-git-github
+slug: /tutorial-extras/git/setup-git-github
+sidebar_position: 2
+tags: [git, github, setup, version control]
+keywords: [Git, GitHub, setup, version control, collaboration, software development]
 title: Setting Up Git & GitHub
 sidebar_label: Setup Git & GitHub
 description: Step-by-step guide to setting up Git and GitHub, including account creation, installation, configuration, and SSH key setup.

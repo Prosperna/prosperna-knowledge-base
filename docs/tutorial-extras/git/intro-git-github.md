@@ -1,5 +1,9 @@
 ---
 id: intro-git-github
+slug: /tutorial-extras/git/intro-git-github
+sidebar_position: 1
+tags: [git, github, version control, collaboration]
+keywords: [Git, GitHub, version control, collaboration, software development, project management]
 title: Introduction to Git & GitHub
 sidebar_label: Introduction to Git & GitHub
 description: Learn what Git and GitHub are, how they work, and why they are essential for version control and collaboration in any project.

@@ -1,5 +1,9 @@
 ---
 id: advanced-git-commands
+slug: /tutorial-extras/git/advanced-git-commands
+sidebar_position: 4
+tags: [git, github, advanced commands, version control]
+keywords: [Git, GitHub, advanced commands, version control, collaboration, software development]
 title: Advanced Git Commands
 sidebar_label: Advanced Git Commands
 description: Learn advanced Git commands such as cloning, pulling, viewing logs, stashing changes, and handling conflicts.
