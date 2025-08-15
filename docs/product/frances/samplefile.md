@@ -36,4 +36,7 @@ Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula 
 | 1 | requirements gathering | priority 1 |
 | 2 | research | priority 2 |
 
-![this is an image](./img/docusaurus.png)
+![Docusaurus logo](./img/docusaurus.png)
+:::tip[my tip]
+this is my tip
+:::
