@@ -1,6 +1,6 @@
 ---
-id: frd
-title: Frd
+id: sample-file
+title: Sample File Frances
 sidebar_position: 2
 ---
 
