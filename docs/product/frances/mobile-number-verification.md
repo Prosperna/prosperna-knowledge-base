@@ -122,16 +122,16 @@ Currently, consumers can store mobile numbers without verification, which poses 
 | Consumer My Account |
 | **UC 01** | Consumer | Verify Mobile Number in Consumer My Account | To allow a Prosperna One Consumer to add their mobile number to their account and verify it via OTP. | **HIGH** |
 | **UC 02** | System | Display Countdown Timer for Verification Code Validity | To allow a Prosperna One Consumer to add their mobile number to their account and verify it via OTP. | **HIGH** |
-| **UC 03** | System | Resend OTP Verification Code in Consumer My Account<br> | To display a "Verified" tag beside the mobile number of a Prosperna One Consumer in the My Account page when the number has been successfully verified. | **HIGH** |
-| **UC 04** | System | Display Verified Tag for Consumer's Mobile Number<br> | To display a "Verified" tag beside the mobile number of a Prosperna One Consumer in the My Account page when the number has been successfully verified. | **HIGH** |
+| **UC 03** | System | Resend OTP Verification Code in Consumer My Account | To display a "Verified" tag beside the mobile number of a Prosperna One Consumer in the My Account page when the number has been successfully verified. | **HIGH** |
+| **UC 04** | System | Display Verified Tag for Consumer's Mobile Number | To display a "Verified" tag beside the mobile number of a Prosperna One Consumer in the My Account page when the number has been successfully verified. | **HIGH** |
 | Merchant My Account |
-| **UC 05** | Merchant | Verify Mobile Number in Merchant My Account<br> | To allow a merchant to update and verify their mobile number in the My Account page. | **HIGH** |
-| **UC 06** | System | Display Countdown Timer for Verification Code Validity | Display Countdown Timer for Verification Code Validity<br> | **HIGH** |
-| **UC 07** | Merchant | Resend OTP Verification Code in Merchant My Account<br> | To allow the Prosperna One Merchant to resend the OTP verification code for mobile number verification. | **HIGH** |
-| **UC 08** | System | Display Verified Tag for Merchant's Mobile Number<br> | To display a "Verified" tag beside the mobile number of a Prosperna One Merchant in the My Account page when the number has been successfully verified. | **HIGH** |
+| **UC 05** | Merchant | Verify Mobile Number in Merchant My Account | To allow a merchant to update and verify their mobile number in the My Account page. | **HIGH** |
+| **UC 06** | System | Display Countdown Timer for Verification Code Validity | Display Countdown Timer for Verification Code Validity | **HIGH** |
+| **UC 07** | Merchant | Resend OTP Verification Code in Merchant My Account | To allow the Prosperna One Merchant to resend the OTP verification code for mobile number verification. | **HIGH** |
+| **UC 08** | System | Display Verified Tag for Merchant's Mobile Number | To display a "Verified" tag beside the mobile number of a Prosperna One Merchant in the My Account page when the number has been successfully verified. | **HIGH** |
 | Consumer Checkout |
 | **UC 09** | Merchant | Enable/Disable Mobile Number Verification in Guest Checkout Mode | To allow the merchant to enable or disable mobile number verification during guest checkout, with visibility rules based on the Guest Checkout setting | **HIGH** |
-| **UC 10** | Consumer | Verify Mobile Number during Guest Checkout Mode<br> | To verify the consumer’s mobile number during guest checkout when Guest Checkout Verification is enabled | **HIGH** |
+| **UC 10** | Consumer | Verify Mobile Number during Guest Checkout Mode | To verify the consumer’s mobile number during guest checkout when Guest Checkout Verification is enabled | **HIGH** |
 
 ### Consumer My Account
 ![](https://t7537039.p.clickup-attachments.com/t7537039/a48b9713-d343-4ff5-9f67-1af1179505c8/Flowchart%20(7).jpg)
