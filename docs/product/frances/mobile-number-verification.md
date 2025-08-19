@@ -155,7 +155,7 @@ Currently, consumers can store mobile numbers without verification, which poses 
 
 | **Business Rules/Desired Behavior** |
 | --- |
-| Desired behavior for the feature<br />Mobile number should be:<br />Numbers with 10 characters<br />+63 (default)<br />format: xxx xxxx xxx<br />OTP Code is valid for 2 minutes<br />Identify impacted modules (amend if there is something missing)<br />My Account<br />SMS<br /> |
+| Desired behavior for the feature<br />\- Mobile number should be:<br />     - Numbers with 10 characters<br />     - +63 (default)<br />     - format: xxx xxxx xxx<br />\- OTP Code is valid for 2 minutes<br />Identify impacted modules (amend if there is something missing)<br />\- My Account<br />\- SMS<br /> |
 
 ####   
 
@@ -176,6 +176,10 @@ Currently, consumers can store mobile numbers without verification, which poses 
 | **Acceptance Criteria** | \- Countdown timer is visible immediately after OTP is sent.<br />\- Timer counts down from 2 minutes to 0.<br />\- Once expired, OTP cannot be validated.<br />\- Resend Code button resets timer to 2 minutes with a new OTP. |
 | **Estimates** | To be determined by development team. |
 | **Error Messages** | \- _"OTP Code is expired. Click Resend Code and try again."_ |
+
+| **Business Rules/Desired Behavior** |
+| --- |
+| Identify impacted modules (amend if there is something missing)<br />\- My Account<br />\- SMS<br /> |
 
 ####   
 
@@ -199,7 +203,7 @@ Currently, consumers can store mobile numbers without verification, which poses 
 
 | **Business Rules/Desired Behavior** |
 | --- |
-| Desired behavior for the feature<br />Identify impacted modules (amend if there is something missing)<br />My Account<br />SMS<br /> |
+| Identify impacted modules (amend if there is something missing)<br />\- My Account<br />\- SMS<br /> |
 
 #### UC 04 | Display Verified Tag for Consumer's Mobile Number
 
@@ -221,7 +225,7 @@ Currently, consumers can store mobile numbers without verification, which poses 
 
 | **Business Rules/Desired Behavior** |
 | --- |
-| Desired behavior for the feature<br />Identify impacted modules (amend if there is something missing)<br />My Account<br />SMS<br /> |
+| Identify impacted modules (amend if there is something missing)<br />\- My Account<br />\- SMS<br /> |
 
 ### Merchant My Account
 ![](blob:https://app.clickup.com/13bd9a7e-06b9-4805-a983-c6c87cac4eb4)
@@ -246,7 +250,7 @@ Currently, consumers can store mobile numbers without verification, which poses 
 
 | **Business Rules/Desired Behavior** |
 | --- |
-| Desired behavior for the feature<br />Identify impacted modules (amend if there is something missing)<br />My Account<br />SMS<br /> |
+| Identify impacted modules (amend if there is something missing)<br />\- My Account<br />\- SMS<br /> |
 
 #### UC 06 | Display Countdown Timer for Verification Code Validity
 
@@ -268,7 +272,7 @@ Currently, consumers can store mobile numbers without verification, which poses 
 
 | **Business Rules/Desired Behavior** |
 | --- |
-| Desired behavior for the feature<br />Identify impacted modules (amend if there is something missing)<br />My Account<br />SMS<br /> |
+| Identify impacted modules (amend if there is something missing)<br />\- My Account<br />\- SMS<br /> |
 
 ####   
 
@@ -292,7 +296,7 @@ Currently, consumers can store mobile numbers without verification, which poses 
 
 | **Business Rules/Desired Behavior** |
 | --- |
-| Desired behavior for the feature<br />Identify impacted modules (amend if there is something missing)<br />My Account<br />SMS<br /> |
+| Identify impacted modules (amend if there is something missing)<br />\- My Account<br />\- SMS<br /> |
 
 #### UC 08 | Display Verified Tag for Merchant's Mobile Number
 
@@ -314,7 +318,7 @@ Currently, consumers can store mobile numbers without verification, which poses 
 
 | **Business Rules/Desired Behavior** |
 | --- |
-| Desired behavior for the feature<br />Identify impacted modules (amend if there is something missing)<br />My Account<br />SMS<br /> |
+| Identify impacted modules (amend if there is something missing)<br />\- My Account<br />\- SMS<br /> |
 
 ### Consumer Checkout
 ![](https://t7537039.p.clickup-attachments.com/t7537039/8574c5c3-5c38-43bd-ad36-18fb6f0f338b/Flowchart%20(9).jpg)
@@ -339,7 +343,7 @@ Currently, consumers can store mobile numbers without verification, which poses 
 
 | **Business Rules/Desired Behavior** |
 | --- |
-| Desired behavior for the feature<br />Identify impacted modules (amend if there is something missing)<br />Checkout<br />Shipping<br />SMS<br /> |
+| Identify impacted modules (amend if there is something missing)<br /> \- Checkout<br /> \- Shipping<br /> \- SMS<br /> |
 
 #### UC 10 | Verify Mobile Number during Guest Checkout Mode
 
@@ -361,7 +365,7 @@ Currently, consumers can store mobile numbers without verification, which poses 
 
 | **Business Rules/Desired Behavior** |
 | --- |
-| Desired behavior for the feature<br />Identify impacted modules (amend if there is something missing)<br />Checkout<br />Shipping<br />SMS<br /> |
+| Identify impacted modules (amend if there is something missing)<br /> \- Checkout<br /> \- Shipping<br /> \- SMS<br /> |
 
 ## **Nonfunctional Requirements**
 
@@ -451,9 +455,9 @@ Prototype: [https://www.figma.com/proto/JWhZF9UHb30MheP34cNAJs/Mobile-Number-Ver
 | Display success toast message when mobile number has been verified | ![](https://t7537039.p.clickup-attachments.com/t7537039/9965f746-8860-42cf-9238-36c3cb50450a/image.png) |
 
 ## **Clickup Task**
-Consumer My Account (UC 01-04): Private ([https://app.clickup.com/t/865buut3y](https://app.clickup.com/t/865buut3y))
-Merchant My Account (UC 05-08): Private ([https://app.clickup.com/t/865buuqgr](https://app.clickup.com/t/865buuqgr))
-Consumer Checkout (UC 09-10): Private ([https://app.clickup.com/t/865butynz](https://app.clickup.com/t/865butynz))
+[Consumer My Account (UC 01-04)](https://app.clickup.com/t/865buut3y)
+[Merchant My Account (UC 05-08)](https://app.clickup.com/t/865buuqgr)
+[Consumer Checkout (UC 09-10)](https://app.clickup.com/t/865butynz)
 ## Signed off
 
 | **Stakeholder** | **Role** | **Status** | **Date** |
@@ -462,51 +466,10 @@ Consumer Checkout (UC 09-10): Private ([https://app.clickup.com/t/865butynz](htt
 | Ruel | HoE |  |  |
 | Frances Ramos | BA | Completed | August 15, 2025 |
 |  | QA |  |  |
-| Christian | PM |  |  |
+|  | PM |  |  |
 
 ## Change Logs
 
 | **Change Request ID** | **Date Requested** | **Requested By** | **Description** | **Business Justification** | **Impact Analysis** | **Priority** | **Status**<br /> | **Clickup** |
 | ---| ---| ---| ---| ---| ---| ---| ---| --- |
 |  |  |  |  |  |  |  |  |  |
-
-## Deprecated
-
-| **Title** | **Design** |
-| ---| --- |
-| [Consumer My Account](https://www.figma.com/design/OGFDstVvBL0Ax426SC8OPe/myChat-Web?node-id=12292-11195&t=w8TU6ELc6EUuZjVT-4) |
-| Display OTP Timer<br />Resend OTP<br />Display Success and Error Toast Messages<br /> | ![](https://t7537039.p.clickup-attachments.com/t7537039/0980a37a-d75b-4897-a1d4-ec2d63024859/image.png) |
-| Add "Verified" Tag to mobile number | ![](https://t7537039.p.clickup-attachments.com/t7537039/58dca006-275a-4fdc-986a-13471e5905dd/image.png) |
-| [Merchant My Account](https://www.figma.com/design/OGFDstVvBL0Ax426SC8OPe/myChat-Web?node-id=5942-5544&t=bmL1IfCMsIl7q7la-4) |
-| Display OTP Timer<br />Resend OTP<br />Display Success and Error Toast Messages<br /> | ![](https://t7537039.p.clickup-attachments.com/t7537039/0cd3f8e9-1a51-46fc-ae7d-34d71761bc55/image.png) |
-| Add "Verified" Tag to mobile number | ![](blob:https://app.clickup.com/bf6e6015-e47f-4181-ad23-65f9469a3871) |
-| Consumer Checkout |
-| [Shipping- Enable/Disable Mobile Verification (Guest Checkout Verification)](https://www.figma.com/design/OGFDstVvBL0Ax426SC8OPe/myChat-Web?node-id=5524-5114&t=bre78XpdryYVi9Ce-4) | ![](https://t7537039.p.clickup-attachments.com/t7537039/75e96c3f-1116-49fa-9f7d-bed66ab176e0/image.png) |
-| [Checkout - Verify Mobile Number](https://www.figma.com/design/OGFDstVvBL0Ax426SC8OPe/myChat-Web?node-id=19033-27619&t=rwEucktQvzZ0osaw-4) | ![](blob:https://app.clickup.com/3c0a38b8-137f-4410-8a87-2a2372692b40) |
-
-# Research
-
-# Mobile Verification at Guest Checkout Mode
-## 1\. Shopify
-*       *       *   **Via Third-party apps:**
-            *   Shopify allows merchant control over whether a phone number field appears at checkout (e.g., phone—or both phone and email, or email only) . You can also enable SMS marketing opt-in via settings.
-            *   Verification by default? No. Shopify does not natively enforce mobile verification (OTP) before payment.
-*       *       *   **Third-party apps**:
-            *   **SealSafe Checkout Phone Verify**: verifies phone via SMS during checkout and blocks payment if not verified.
-            *   **OTP on Cart**, **Cart Verification – Mobile OTP**, **FraudLabs Pro SMS Verification**, **Squadkin – Cart OTP**: prompt for OTP before proceeding to checkout.
-            *   **Releasit COD Form & Upsells**: allows phone-via-OTP in custom forms, including during COD flows.
-**Verdict**: Shopify supports toggle for phone field, but mobile verification must be added via apps.
-![](https://t7537039.p.clickup-attachments.com/t7537039/f03fca34-7c55-44ba-a37b-07d5d18fd438/image.png)
-References: [Shopify Help Center](https://help.shopify.com/en/manual/fulfillment/setup/notifications/sms-notifications?utm_source=chatgpt.com), [Fera Help Center](https://help.fera.ai/en/articles/11062122-how-to-enable-phone-number-collection-on-shopify?utm_source=chatgpt.com), [Blaze SMS](https://blazesms.com/docs/enable-sms-checkout?utm_source=chatgpt.com)
-## 2\. Wix
-*       *       *   Wix allows you to **make phone number field optional or mandatory** in checkout settings.
-        *   **No native OTP verification.**
-
-References: [Reddit](https://www.reddit.com/r/WixHelp/comments/k5lx23?utm_source=chatgpt.com), [Requiring a Customer Phone Number When Checking Out with PayPal](https://support.wix.com/en/article/requiring-a-customer-phone-number-when-checking-out-with-paypal),
-## 3\. Foodpanda
-*       *       *   Customers are required to verify their mobile number
-![](https://t7537039.p.clickup-attachments.com/t7537039/051a1217-019b-47ca-b207-f0ee8c322938/image.png)
-References: [Reddit](https://www.reddit.com/r/Philippines_Expats/comments/1k808t9/foodpanda/)
-## 4\. Grabfood
-*       *       *   Customers are required to verify their mobile number
-![](https://t7537039.p.clickup-attachments.com/t7537039/8e4fa979-9a54-4f02-882e-968666b32a4e/image.png)
