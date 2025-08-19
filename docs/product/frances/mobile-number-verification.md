@@ -1,13 +1,12 @@
 ---
 id: mobile_number_verification
 title: Mobile Number Verification
-sidebar_position: 2
+sidebar_position: 1
 ---
 
 # Merchant & Consumer | Mobile Number Verification
 
-This is a revision for the following Lark Docs: see [Research](https://app.clickup.com/7537039/docs/760cf-66158/760cf-30518?block=block-54a8c5c3-a2f8-43c8-8fa7-8666e2eb2e3e)
-## Executive **Summary**
+## **Executive Summary**
 This BRD defines the requirements for mobile number verification across the **Prosperna One Consumer My Account**, **Merchant Dashboard My Account**, and **Checkout.**
 The goal is to allow both merchants and consumers to securely store and verify mobile numbers through an OTP sent via SMS, improve communication, and add a merchant-configurable verification requirement for guest checkout mode.
 ## Background
@@ -93,26 +92,6 @@ Currently, consumers can store mobile numbers without verification, which poses 
 | BR-G08 | Guest Checkout | Resend OTP resets countdown to 2 minutes. |
 | BR-G09 | Guest Checkout | Show “Verified” tag after successful OTP verification. |
 | BR-G10 | Guest Checkout | Display toast messages for OTP events (sent, verified, failed). |
-
-## Research
-[Competitor Research](https://app.clickup.com/7537039/docs/760cf-66158/760cf-30538)
-[Single Page Checkout](https://app.clickup.com/t/86enrw13q)
-### Lark Docs
-[Prosperna 1 | Customer Profile](https://prosperna.sg.larksuite.com/docx/X6H4dGFdyobH8KxKiuOu2j92s3g)
-
-[Prosperna 1 \_ Customer Profile (1).pdf](https://t7537039.p.clickup-attachments.com/t7537039/9347bd05-de67-458d-a7c8-773f87daede9/Prosperna%201%20_%20Customer%20Profile%20(1).pdf)
-
-[My Account](https://prosperna.sg.larksuite.com/docx/doxusRHktrq2ZZg1D0Zv6khFOMg)
-
-[My Account.pdf](https://t7537039.p.clickup-attachments.com/t7537039/503cdf11-9573-4f8b-9812-22987299e73f/My%20Account.pdf)
-
-[Shipping Module](https://prosperna.sg.larksuite.com/docx/doxuswyc6KCikLEN2OLWMXVW9Ab)
-
-[Shipping Module - Lark Docs.pdf](https://t7537039.p.clickup-attachments.com/t7537039/252966d1-efe0-4008-99cb-ca87cc90d943/Shipping%20Module%20-%20Lark%20Docs.pdf)
-
-[Customer Views\_Checkout](https://prosperna.sg.larksuite.com/docx/doxusIx8162n45N07f1TmGgCHBc)
-
-[Customer Views\_Checkout - Lark Docs.pdf](https://t7537039.p.clickup-attachments.com/t7537039/05518eb2-7120-40ec-bf40-4d39705d0715/Customer%20Views_Checkout%20-%20Lark%20Docs.pdf)
 
 ## **Functional Requirements**
 ### **Use Case Description Tables**
@@ -228,7 +207,7 @@ Currently, consumers can store mobile numbers without verification, which poses 
 | Identify impacted modules (amend if there is something missing)<br />\- My Account<br />\- SMS<br /> |
 
 ### Merchant My Account
-![](blob:https://app.clickup.com/13bd9a7e-06b9-4805-a983-c6c87cac4eb4)
+![](https://t7537039.p.clickup-attachments.com/t7537039/a48b9713-d343-4ff5-9f67-1af1179505c8/Flowchart%20(7).jpg)
 
 #### UC 05 | Verify Mobile Number in Merchant My Account
 
@@ -241,7 +220,7 @@ Currently, consumers can store mobile numbers without verification, which poses 
 | **Actor** | Merchant |
 | **Preconditions** | \- Merchant is logged in to the dashboard.<br />\- Merchant has access to My Account page.<br />\- Merchant’s mobile number is not yet verified or needs to be updated. |
 | **Conditions** | \- Condition 1: Merchant enters valid and unique mobile number.<br />\- Condition 2: Merchant enters an invalid mobile number format.<br />\- Condition 3: Merchant enters a mobile number that is already registered.<br />\- Condition 4: Merchant enters incorrect or expired OTP code. |
-| **Steps** | **Condition 1: Valid & Unique Number**<br />1\. Merchant logs in<br />Merchant clicks Profile Icon at the navigation bar<br />System loads the dropdown menu with options: My Account, Billing, Refer & Earn, Get Help, "Get it on Google Play" button, Log Out.<br />2\. Merchant clicks **My Account**.<br />3\. System loads account page showing:<br />Profile Pic<br />Edit<br />Personal Information tab (default)<br />Name<br />Email<br />**Mobile Number**<br />Legal<br />Terms of Service<br />Privacy Policy<br />Delete Account<br />My Author Profile tab<br />4\. Merchant clicks **Edit** button beside **Mobile Number**.<br />5\. System displays modal with fields:<br />Mobile Number\*<br />Cancel button<br />Save button<br />6\. System displays default country code based on merchant's store location address (e.g. if shipping address is in Philippines, system displays Philippine flag in country code selector)<br />7\. Merchant inputs a new number or edits their existing one<br />If mobile number is invalid, system displays error message in red font color below the mobile number field: **_"_****Invalid phone format for this country.****_"_**<br />Merchant clicks **Save**.<br />8\. System validates format, uniqueness, and that number is not already registered.<br />If mobile number is already used, system displays error toast message: **"Mobile number is already used and registered."**<br />If valid and unique, system proceeds to send verification code via SMS.<br />9\. System sends verification SMS from sender **"Prosperna"** with message: **"Your Prosperna verification code is: \_\_\_".**<br />10\. System displays the following fields:<br />Confirmation Code\* text box<br />Resend Code button (disabled)<br />OTP timer (2 minutes)<br />Cancel button<br />Save button<br />11\. System displays success toast message: **"Enter the confirmation code that we sent to your mobile number."**<br />12\. Merchant enters OTP and clicks **Save**.<br />13\. System validates OTP and updates mobile number if correct.<br />14\. System displays success message: **"Successfully verified mobile number."** and shows **Verified** tag beside number.<br /><br />**Condition 2: Invalid Number Format**<br />1\. Merchant enters mobile number in incorrect format.<br />2\. System displays error: _"Invalid phone format for this country."_<br /><br />**Condition 3: Number Already Registered**<br />1\. Merchant enters mobile number that exists in system.<br />2\. System displays error: _"Mobile number is already used and registered."_<br /><br />**Condition 4: Incorrect or Expired OTP**<br />1\. Merchant enters incorrect OTP.<br />2\. System displays error: **"Invalid code provided. Enter the confirmation code that we sent to your mobile number."**<br />3\. If OTP is expired, system displays: **"OTP Code is expired. Click Resend Code and try again."**<br />4\. Merchant clicks **Resend Code** and system sends new OTP, resets timer, and displays pop-up notification. |
+| **Steps** | **Condition 1: Valid & Unique Number**<br />1\. Merchant logs in<br />   - Merchant clicks Profile Icon at the navigation bar<br />   - System loads the dropdown menu with options: My Account, Billing, Refer & Earn, Get Help, "Get it on Google Play" button, Log Out.<br />2\. Merchant clicks **My Account**.<br />3\. System loads account page showing:<br />   - Profile Pic<br />       - Edit<br />   - Personal Information tab (default)<br />       - Name<br />       - Email<br />       - **Mobile Number**<br />       - Legal<br />       - Terms of Service<br />       - Privacy Policy<br />       - Delete Account<br />   - My Author Profile tab<br />4\. Merchant clicks **Edit** button beside **Mobile Number**.<br />5\. System displays modal with fields:<br />   - Mobile Number\*<br />   - Cancel button<br />   - Save button<br />6\. System displays default country code based on merchant's store location address (e.g. if shipping address is in Philippines, system displays Philippine flag in country code selector)<br />7\. Merchant inputs a new number or edits their existing one<br />   - If mobile number is invalid, system displays error message in red font color below the mobile number field: **_"_****Invalid phone format for this country.****_"_**<br />   - Merchant clicks **Save**.<br />8\. System validates format, uniqueness, and that number is not already registered.<br />If mobile number is already used, system displays error toast message: **"Mobile number is already used and registered."**<br />If valid and unique, system proceeds to send verification code via SMS.<br />9\. System sends verification SMS from sender **"Prosperna"** with message: **"Your Prosperna verification code is: \_\_\_".**<br />10\. System displays the following fields:<br />   - Confirmation Code\* text box<br />   - Resend Code button (disabled)<br />   - OTP timer (2 minutes)<br />   - Cancel button<br />   - Save button<br />11\. System displays success toast message: **"Enter the confirmation code that we sent to your mobile number."**<br />12\. Merchant enters OTP and clicks **Save**.<br />13\. System validates OTP and updates mobile number if correct.<br />14\. System displays success message: **"Successfully verified mobile number."** and shows **Verified** tag beside number.<br /><br />**Condition 2: Invalid Number Format**<br />1\. Merchant enters mobile number in incorrect format.<br />2\. System displays error: _"Invalid phone format for this country."_<br /><br />**Condition 3: Number Already Registered**<br />1\. Merchant enters mobile number that exists in system.<br />2\. System displays error: _"Mobile number is already used and registered."_<br /><br />**Condition 4: Incorrect or Expired OTP**<br />1\. Merchant enters incorrect OTP.<br />2\. System displays error: **"Invalid code provided. Enter the confirmation code that we sent to your mobile number."**<br />3\. If OTP is expired, system displays: **"OTP Code is expired. Click Resend Code and try again."**<br />4\. Merchant clicks **Resend Code** and system sends new OTP, resets timer, and displays pop-up notification. |
 | **Postconditions** | \- Merchant’s mobile number is updated and verified.<br />\- **Verified** tag is shown beside mobile number in My Account. |
 | **Business Trigger** | Merchant wants to edit and verify their mobile number. |
 | **Acceptance Criteria** | \- Merchant can update mobile number only if format is valid.<br />\- Mobile number must be unique in the system.<br />\- OTP verification is required before saving.<br />\- Verified tag is shown once verification is successful. |
@@ -427,37 +406,38 @@ Currently, consumers can store mobile numbers without verification, which poses 
 | AC-G10 | Guest Checkout | Error toast shown for expired/invalid OTP. |
 
 ## **Wireframes**
-[https://www.figma.com/design/YBhF7WvFuormZFkhpVfsuU/P1-Initial-Wireframe-Frances?node-id=14977-23035&t=orIXDTeSuPUmXnNL-4](https://www.figma.com/design/YBhF7WvFuormZFkhpVfsuU/P1-Initial-Wireframe-Frances?node-id=14977-23035&t=orIXDTeSuPUmXnNL-4)
+[Figma file](https://www.figma.com/design/YBhF7WvFuormZFkhpVfsuU/P1-Initial-Wireframe-Frances?node-id=14977-23035&t=orIXDTeSuPUmXnNL-4)
 ## **Figma Design File ℅ UX UI Designer**
-Prototype: [https://www.figma.com/proto/JWhZF9UHb30MheP34cNAJs/Mobile-Number-Verification-v2?page-id=9%3A2415&node-id=22-5035&viewport=393%2C146%2C0.03&t=83LulSFTdVN5O18Y-1&scaling=min-zoom&content-scaling=fixed&starting-point-node-id=21%3A2171&show-proto-sidebar=1](https://www.figma.com/proto/JWhZF9UHb30MheP34cNAJs/Mobile-Number-Verification-v2?page-id=9%3A2415&node-id=22-5035&viewport=393%2C146%2C0.03&t=83LulSFTdVN5O18Y-1&scaling=min-zoom&content-scaling=fixed&starting-point-node-id=21%3A2171&show-proto-sidebar=1)
+Prototype: [Prototype file](https://www.figma.com/proto/JWhZF9UHb30MheP34cNAJs/Mobile-Number-Verification-v2?page-id=9%3A2415&node-id=22-5035&viewport=393%2C146%2C0.03&t=83LulSFTdVN5O18Y-1&scaling=min-zoom&content-scaling=fixed&starting-point-node-id=21%3A2171&show-proto-sidebar=1)<br />
+Design: [Figma file](https://www.figma.com/design/JWhZF9UHb30MheP34cNAJs/Mobile-Number-Verification-v2?node-id=1-2&p=f&t=8cTXDlFcgPlSX2Qo-0)
 
 | **Title** | **Design** |
 | ---| --- |
-| Consumer My Account |
+| **Consumer My Account** |
 | Display send verification code button | ![](https://t7537039.p.clickup-attachments.com/t7537039/65585304-f6f6-4105-957b-f8af4c11f297/image.png) |
 | Display error toast message when mobile number is already registered | ![](https://t7537039.p.clickup-attachments.com/t7537039/6c12d8db-3c35-4d7d-bd74-d651f6d388e6/image.png) |
 | Display code text box, OTP timer, resend code button, verify button<br />Display success toast message when verification code has been successfully sent to mobile number<br /><br /> | ![](https://t7537039.p.clickup-attachments.com/t7537039/54d35bbd-500e-43f3-ac4b-8c316062a782/image.png) |
-| Display error toast message when code is invalid | ![](blob:https://app.clickup.com/f762350d-e9b4-4bca-a866-8f45967d4c97) |
+| Display error toast message when code is invalid | ![](https://t7537039.p.clickup-attachments.com/t7537039/90ec1e95-d607-4d9a-924c-fa790454df1f/image.png) |
 | Display success toast message when mobile number has been verified | ![](https://t7537039.p.clickup-attachments.com/t7537039/64bac5d9-1f5b-4adf-8eee-2ca73dd8f951/image.png) |
 | Add "Verified" tag to mobile number | ![](https://t7537039.p.clickup-attachments.com/t7537039/01adab03-433b-412d-bd32-980812c8f0fc/image.png) |
-| Merchant My Account |
+| **Merchant My Account** |
 | Display error toast message when mobile number is already registered | ![](https://t7537039.p.clickup-attachments.com/t7537039/831c1a3c-f78f-4276-ad36-ee6b0facbef8/image.png) |
 | Display code text box, OTP timer, resend code button, verify button<br />Display success toast message when verification code has been successfully sent to mobile number<br /> | ![](https://t7537039.p.clickup-attachments.com/t7537039/47f9ef4c-c4f5-4aee-bccb-f933593a39c5/image.png) |
 | Display error toast message when code is invalid | ![](https://t7537039.p.clickup-attachments.com/t7537039/d1e8ce24-0c42-4515-85a2-4dde67f9ed73/image.png) |
-| Display error toast message when code is expired | ![](blob:https://app.clickup.com/8fdd0c0a-fea6-4adb-b38d-d52cbf6b1158) |
+| Display error toast message when code is expired | ![](https://t7537039.p.clickup-attachments.com/t7537039/e0fcb131-e7a6-4371-8858-985df466cf88/image.png) |
 | Display success toast message when mobile number has been verified | ![](https://t7537039.p.clickup-attachments.com/t7537039/15aa14a0-bf75-450c-829e-e6b076a787ec/image.png) |
 | Add "Verified" tag to mobile number | ![](https://t7537039.p.clickup-attachments.com/t7537039/327580f1-d595-4e3f-99c8-8165770eb721/image.png) |
-| Consumer Checkout |
-| Display toggle switch to enable/disable mobile number verification in guest checkout mode |  |
+| **Consumer Checkout** |
+| Display toggle switch to enable/disable mobile number verification in guest checkout mode | ![](https://t7537039.p.clickup-attachments.com/t7537039/28bc8a77-fe10-4d7e-bf40-fcbc866416c3/image.png) |
 | Display verify mobile number modal<br />Display success toast message when verification code has been successfully sent to mobile number<br /> | ![](https://t7537039.p.clickup-attachments.com/t7537039/d89c7caa-b065-44c0-b899-1da422e53ea3/image.png) |
 | Display error toast message when code is invalid | ![](https://t7537039.p.clickup-attachments.com/t7537039/3adb60fb-a03b-4e7c-91af-f232ceaa1fb1/image.png) |
 | Display error toast message when code is expired | ![](https://t7537039.p.clickup-attachments.com/t7537039/0acaef64-daa7-48aa-9707-a3a60a42342d/image.png) |
 | Display success toast message when mobile number has been verified | ![](https://t7537039.p.clickup-attachments.com/t7537039/9965f746-8860-42cf-9238-36c3cb50450a/image.png) |
 
 ## **Clickup Task**
-[Consumer My Account (UC 01-04)](https://app.clickup.com/t/865buut3y)
-[Merchant My Account (UC 05-08)](https://app.clickup.com/t/865buuqgr)
-[Consumer Checkout (UC 09-10)](https://app.clickup.com/t/865butynz)
+[Consumer My Account (UC 01-04)](https://app.clickup.com/t/865buut3y)<br />
+[Merchant My Account (UC 05-08)](https://app.clickup.com/t/865buuqgr)<br />
+[Consumer Checkout (UC 09-10)](https://app.clickup.com/t/865butynz)<br />
 ## Signed off
 
 | **Stakeholder** | **Role** | **Status** | **Date** |
