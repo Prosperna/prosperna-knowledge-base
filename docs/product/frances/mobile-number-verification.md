@@ -1,7 +1,7 @@
 ---
 id: mobile_number_verification
 title: Mobile Number Verification
-sidebar_position: 1
+sidebar_position: 2
 ---
 
 # Merchant & Consumer | Mobile Number Verification
