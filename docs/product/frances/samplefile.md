@@ -34,7 +34,7 @@ Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula 
 | id | requirements | priority | 
 |----|--------------|----------|
 | 1 | requirements gathering | priority 1 |
-| 2 | research | priority 2 
+| 2 | research | priority 2 |
 | 3 | [this is a link](https://prosperna.ph) hello world | priority 3 |
 
 ![Docusaurus logo](/img/docusaurus.png)
