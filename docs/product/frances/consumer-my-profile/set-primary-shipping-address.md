@@ -1,6 +1,7 @@
 ---
 id: consumer-set-primary-shipping-address
 title: Set Primary Shipping Address
+sidebar_label: Set Primary Shipping Address
 sidebar_position: 1
 ---
 

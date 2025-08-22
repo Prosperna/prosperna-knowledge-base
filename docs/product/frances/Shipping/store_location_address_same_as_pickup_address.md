@@ -1,7 +1,8 @@
 ---
 id: store-location-address-as-pickup-address
 title: Set Store Address as Pickup Address
-sidebar_position: 2
+sidebar_label: Set Store Address as Pickup Address
+sidebar_position: 1
 ---
 
 # Store Location Address as Business Pickup Address
