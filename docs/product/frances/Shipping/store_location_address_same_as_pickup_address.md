@@ -115,7 +115,7 @@ Currently, merchants must manually input their pickup address, even when it matc
 
 | **Category** | **Requirement Description** | **Priority** |
 | ---| ---| --- |
-| **Performance Requirements** | Sync between store location and pickup address should occur in real-time (<2s). | High |
+| **Performance Requirements** | Sync between store location and pickup address should occur in real-time (less than 2s). | High |
 | **Security Requirements** | Address data must be secured via HTTPS. | High |
 |  | All changes to address data must be logged in an audit trail. | High |
 | **Usability Requirements** | Provide clear UI/UX with toggle options, error messages, and tooltips for guidance. | Medium |
