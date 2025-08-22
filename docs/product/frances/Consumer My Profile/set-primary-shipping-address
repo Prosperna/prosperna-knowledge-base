@@ -1,0 +1,133 @@
+---
+id: consumer-set-primary-shipping-address
+title: Set Primary Shipping Address
+sidebar_position: 1
+---
+
+# Consumer My Profile | Set Primary Shipping Address
+
+## **Executive Summary**
+This feature allows customers to easily set a **primary shipping address** within their account profile. The primary address will be used by default during checkout, ensuring a smoother purchase experience. Clear visual indicators (e.g., "Primary Address" tag) and feedback (success toast) will confirm successful updates.
+## Business Objective
+*   Allow customers to designate one shipping address as their **primary address**.
+*   Provide clear and intuitive UI to manage multiple shipping addresses.
+*   Improve efficiency and reduce errors during checkout by defaulting to the primary address.
+## **Scope of Solution**
+*   Customers can view all their saved addresses in the "Shipping Address" section of their account profile.
+*   Each address is displayed as a card with actions.
+*   A **“Set as Primary Address”** link is shown on all non-primary address cards.
+*   Once selected:
+    *   The chosen address becomes the primary.
+    *   The "Set as Primary Address" link is hidden from the selected card.
+    *   A "Primary Address" tag is displayed.
+    *   A success toast confirms the update.
+*   The system automatically updates the **Primary Address field** with the chosen address name.
+## Business Requirements
+
+| **BR ID** | **Requirement** |
+| ---| --- |
+| BR-PS01 | Display all shipping addresses as cards in customer profile. |
+| BR-PS02 | Provide a “Set as Primary Address” link on all non-primary address cards. |
+| BR-PS03 | Allow customer to select any address as primary. |
+| BR-PS04 | System updates the primary address immediately after selection. |
+| BR-PS05 | Show success toast message: “Successfully updated Primary Address.” |
+| BR-PS06 | Hide “Set as Primary Address” link on the primary address card. |
+| BR-PS07 | Display “Primary Address” tag inside the chosen card. |
+| BR-PS08 | Display the primary address name in the **Primary Address field** on profile. |
+| BR-PS09 | Ensure only one address can be primary at any time. |
+
+## Stakeholder Analysis
+*   **Customers** – Can manage and set their preferred shipping address quickly.
+*   **Merchants** – Benefit from fewer shipping errors at checkout.
+*   **Customer Support** – Reduced tickets for “wrong address used at checkout.”
+*   **Product & Engineering** – Implement UI changes, backend logic, and validations.
+## **User Flow Diagram**
+![](https://t7537039.p.clickup-attachments.com/t7537039/1c6d2d00-e910-411e-9106-4393e466142d/image.png)
+## **Functional Requirement**
+#### UC 01 | Set Primary Shipping Address
+
+| **Column** | Description |
+| ---| --- |
+| **Use Case ID** | 01 |
+| **Prepared By** | Frances Ramos |
+| **Last Updated** | April 22, 2024 |
+| **Objectives** | To enable customers to set their primary shipping address efficiently. |
+| **Actor** | Customer |
+| **Preconditions** | \- The customer is logged in and on their profile page. [https://storename.prosperna.com/account/login](https://storename.prosperna.com/account/login) |
+|  | \- The customer has added one or more shipping addresses. |
+| **Steps** | 1\. Customer navigates to the "Shipping Address" section on the profile page. [https://storename.prosperna.com/account](https://storename.prosperna.com/account) |
+|  | 2\. Customer views the list of shipping addresses, each displayed as a card. |
+|  | 3\. Customer selects the shipping address they want to set as the primary address. |
+|  | 4\. Customer clicks on the "Set as Primary Address" link on the selected address card. [(see wireframe)](https://www.figma.com/file/YBhF7WvFuormZFkhpVfsuU/Prosperna-Wireframe-copy?type=design&node-id=1548-7977&mode=design&t=dgyDygFwuzp3KiLk-4) |
+|  | 5\. System sets the selected address as the primary address. |
+|  | 6\. System displays a success toast message: "Successfully updated Primary Address." |
+|  | 7\. System hides the "Set as Primary Address" link from the primary address card. see user flow |
+|  | 8\. System displays a "Primary Address" tag inside the chosen shipping address card. |
+|  | 9\. System displays the Address Name of the selected primary address in the "Primary Address" field. |
+| **Postconditions** | \- The selected shipping address is successfully set as the primary address. |
+| **Business Trigger** | Customer decides to set a shipping address as the primary address. |
+| **Acceptance Criteria** | \- Customers can efficiently set their primary shipping address. |
+|  | \- Confirmation message and visual cues indicate the successful update of the primary address. |
+| **Estimates** | Time: To be determined by the development team |
+| **Error Messages** | None |
+
+| **Business Rules/Desired Behavior** |
+| --- |
+| Desired behavior<br />- If Primary Address has been deleted,<br />   - System will display "NA" in Primary Address field<br />Impacted modules<br />- My Account<br />- My Profile<br />- Shipping Address<br />- Store Location<br /> |
+
+## **Nonfunctional Requirements**
+
+| **Category** | **Requirement Description** | **Priority** |
+| ---| ---| --- |
+| **Performance Requirements** | Primary address update should complete in less than 2 seconds. | High |
+| **Security Requirements** | Only authenticated customers can make address changes. | High |
+| **Usability Requirements** | Provide clear UI feedback with a success message and visual tag when primary address updates. | Medium |
+| **Reliability Requirements** | Only one address should ever be set as the primary address at any given time. | High |
+| **Scalability Requirements** | Support customers having multiple saved addresses without issues. | High |
+| **Maintenance & Supportability Requirements** | Maintain audit logs for all address changes for traceability. | Medium |
+| **Compatibility Requirements** | Must work consistently on both web and mobile views. | High |
+| **Regulatory & Compliance Requirements** | Ensure address data handling complies with data privacy standards (e.g., GDPR). | High |
+
+## Constraints
+*   Customers must be logged in to update addresses.
+*   Customers must have at least one saved address.
+*   Only one primary address allowed at any given time.
+## Assumptions
+*   Customers often have multiple addresses (home, office, relatives).
+*   Customers expect checkout to default to the primary address.
+*   Deleting an address removes all associated metadata (including primary flag).
+## Acceptance Criteria
+
+| **AC ID** | **Acceptance Criteria** | **Details / Expected Outcome** |
+| ---| ---| --- |
+| AC-PSA-01 | Primary Address Selection | When a customer clicks **“Set as Primary Address”** on a saved address card, that address is marked as the primary address. |
+| AC-PSA-02 | Confirmation Feedback | After setting the primary address, the system displays a success toast message: **“Successfully updated Primary Address.”** |
+| AC-PSA-03 | Primary Address Labeling | The system displays a **“Primary Address” tag** within the chosen address card. |
+| AC-PSA-04 | UI Update – Hide Action | The **“Set as Primary Address”** link is hidden from the card that is already marked as primary. |
+| AC-PSA-05 | UI Update – Non-Primary Addresses | All other address cards continue to show the **“Set as Primary Address”** link. |
+| AC-PSA-06 | Switching Primary Addresses | If another address is selected as primary, it replaces the previously set primary address. |
+| AC-PSA-07 | No Primary Address Case | If no primary address is set, all addresses show the **“Set as Primary Address”** link, and no “Primary Address” tag is displayed. |
+| AC-PSA-08 | Single Address Case | If the customer has only one address, the system automatically marks it as primary and hides the **“Set as Primary Address”** link. |
+| AC-PSA-09 | Persistence | The selected primary address remains stored and is displayed correctly even after page refresh or customer re-login. |
+
+## **Wireframes**
+[Wireframe](https://www.figma.com/design/YBhF7WvFuormZFkhpVfsuU/P1-Initial-Wireframe-Frances?node-id=9995-12927&t=zWPvLslhyoAvtBzi-4)
+## **Figma Design File ℅ UX UI Designer**
+
+## **Clickup Task**
+[Clickup Task Link](https://app.clickup.com/t/860t4x9vp)
+## Signed off
+
+| **Stakeholder** | **Role** | **Status** | **Date** |
+| ---| ---| ---| --- |
+| Dennis | CEO |  |  |
+| Ruel | HoE |  |  |
+| Frances Ramos | BA | Completed | August 19, 2025 |
+|  | QA |  |  |
+|  | PM |  |  |
+
+## Change Logs
+
+| **Change Request ID** | **Date Requested** | **Requested By** | **Description** | **Business Justification** | **Impact Analysis** | **Priority** | **Status**<br /> | **Clickup** |
+| ---| ---| ---| ---| ---| ---| ---| ---| --- |
+|  |  |  |  |  |  |  |  |  |
