@@ -146,7 +146,7 @@ Restore Account
 |  | \- Activity Log<br />\- Billing Verification<br />\- Transactions |
 |  | \- The system transfers the CSV file from the main database to a non-connected database. |
 |  | \- The system changes the merchant's account status to "Deleted". |
-|  | \- System renames the merchant name in the database as: "<Merchant Name> + "No Longer Exists" + <timestamp>" |
+|  | \- System renames the merchant name in the database as: `<Merchant Name> + "No Longer Exists" + <timestamp>` |
 | Postconditions | Merchant's account is successfully scheduled for deletion from the system. |
 | Business Trigger | The 30-day counter for archiving the merchant's account expires. |
 | Acceptance Criteria | \- System properly monitors and executes the deletion process after the specified 30-day period. |
@@ -233,10 +233,10 @@ Restore Account
 |  | 1\. System successfully deletes the merchant account. |
 |  | 2\. The system removes the deleted merchant account from the Billing Verification and Address Verification tables. |
 |  | 3\. The system removes the deleted merchant account from the Rewards module. |
-|  | 4\. In the Accounts module, the system displays the deleted merchant's name as "<Merchant Name> + 'No Longer Exists' + <timestamp>". |
-|  | 5\. In the Merchant Withdrawals and Customer Transactions table, the system displays the deleted merchant's name as "<Merchant Name> + 'No Longer Exists' + <timestamp>". |
-| Acceptance Criteria | \- Admin can view the deleted merchant account in the Accounts module as "<Merchant Name> + 'No Longer Exists' + <timestamp>". |
-|  | \- Admin can view the deleted merchant account in the Merchant Withdrawals and Customer Transactions table as "<Merchant Name> + 'No Longer Exists' + <timestamp>". |
+|  | 4\. In the Accounts module, the system displays the deleted merchant's name as `<Merchant Name> + 'No Longer Exists' + <timestamp>`. |
+|  | 5\. In the Merchant Withdrawals and Customer Transactions table, the system displays the deleted merchant's name as `<Merchant Name> + 'No Longer Exists' + <timestamp>`. |
+| Acceptance Criteria | \- Admin can view the deleted merchant account in the Accounts module as `<Merchant Name> + 'No Longer Exists' + <timestamp>`. |
+|  | \- Admin can view the deleted merchant account in the Merchant Withdrawals and Customer Transactions table as `<Merchant Name> + 'No Longer Exists' + <timestamp>`. |
 |  | \- Admin cannot view the deleted merchant account in the Billing Verification and Address Verification tables. |
 |  | \- Admin cannot view the deleted merchant account in the Rewards module. |
 | Estimates | Implementation time may vary based on system complexity and database size. |
