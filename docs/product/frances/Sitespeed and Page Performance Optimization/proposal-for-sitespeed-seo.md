@@ -52,7 +52,7 @@ As suggested by Devs and QA, here are ways we can move forward:
 | Eliminate **base64** images | - Eliminate base64 images from page builder <br /> - Directly get image from asset (S3)
 | **Image to Background Image** | - Change image type of images in page builder components (products block, hero, categories) to Background Image in div |
 | **Webfont/Sprite** Image | - Convert all image icons (png/svg) into webfont/sprite image using [3rd-party app](https://fontawesome.com/) <br />- Save all icons in one page/folder and they would be loaded faster
-| Apply **first contentfu**l display<br /> | - Only display the first contentful then display the succeeding content once the consumer scrolls down (similar to lazy loading) <br />- Preload images in the <head>
+| Apply **first contentfu**l display<br /> | - Only display the first contentful then display the succeeding content once the consumer scrolls down (similar to lazy loading) <br />- Preload images in the `<head>`
 
 ### 2. Optimize Code 
 
