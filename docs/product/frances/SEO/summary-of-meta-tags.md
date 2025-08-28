@@ -9,7 +9,7 @@ sidebar_position: 2
 
 # Auto-generated vs Manual Input Meta Tags
 ## Auto-Generated Meta Tags
-Meta tags that are automatically added to the <head> of a page.
+Meta tags that are automatically added to the `<head>` of a page.
 ###   
 
 | **Category** | **Meta Tag / Description** | **Blogs** | **Page Builder** | **Products** | **Default Value** |
