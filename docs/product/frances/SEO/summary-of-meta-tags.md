@@ -1,7 +1,7 @@
 ---
-id: seo-settings
-title: Basic vs Advanced SEO Settings
-sidebar_label: Basic vs Advanced SEO Settings
+id: meta-tags
+title: Summary of Meta Tags
+sidebar_label: Summary of Meta Tags
 sidebar_position: 2
 ---
 
