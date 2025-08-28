@@ -2,7 +2,7 @@
 id: dynamic-canonical-tag
 title: Auto-generated Canonical Tags
 sidebar_label: Auto-generated Canonical Tags
-sidebar_position: 1
+sidebar_position: 3
 ---
 # SEO | Dynamic Canonical URL Link
 

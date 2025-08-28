@@ -8,7 +8,7 @@ sidebar_position: 1
 # Page Performance Optimization
 
 # Investigation
-See Investigation doc [here](https://pkb.prosperna.ph/docs/product/frances/Sitespeed-and-Page-Performance-Optimization/proposal-for-sitespeed-seo)
+See Investigation doc [here](https://pkb.prosperna.ph/docs/product/frances/Sitespeed%20and%20Page%20Performance%20Optimization/page-performance-optimization-seo-proposal)
 # PHASES
 ## PHASE 1 (DONE)
 
