@@ -98,7 +98,7 @@ The feature ensures that customers can view their delivery time preferences acro
 |  | 7\. System hides the Delivery Time field |
 |  | 8\. Customer should not be able to view the Delivery |
 |  | Time field |
-| **Steps for All:** | Consumer can view the Invoice via the following:<br>Email Notification<br>Consumer's My Orders Dashboard<br> |
+| **Steps for All:** | Consumer can view the Invoice via the following:<br />Email Notification<br />Consumer's My Orders Dashboard<br /> |
 | **Postconditions** | Delivery time is displayed in the order invoice for |
 |  | the new order |
 | **Business Trigger** | Customer should be able to view the time they want their order to be delivered |
