@@ -1,6 +1,6 @@
 ---
 id: location-popup-selector
-title: View and Select Your Store Location
+title: View and Select Your Store Location via Pop-up
 sidebar_position: 1
 ---
 
