@@ -626,7 +626,7 @@ The option to connect to a **custom domain** (e.g., `awesome`[`courses.com`](htt
 | System Performance | System should be able to generate an output within three (3) seconds | **HIGH** |
 
 ### **Performance**
-*   SEO settings must load in <500ms on modal or page open.
+*   SEO settings must load in `<500ms` on modal or page open.
 *   Auto-generation of fallback values must occur instantly.
 ### **Security**
 *   Prevent unauthorized access to restricted fields through browser inspection or API manipulation.
