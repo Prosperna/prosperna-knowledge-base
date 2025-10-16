@@ -2,9 +2,10 @@
 id: low-stock-notifications
 title: Low Stock Notifications BRD
 sidebar_label: Low Stock Notifications BRD
+sidebar_position: 1
 ---
 
-# P1 | Email Notifications | Low Stock Notifications BRD
+## P1 | Email Notifications | Low Stock Notifications BRD
 
 ### **Executive Summary:**
 
@@ -31,7 +32,7 @@ Prosperna is an eCommerce platform that lets their merchants sell products and s
 
 - Allow merchants (Pro and Premium plans) to enable or disable low-stock notifications in **Settings > Product Settings > Inventory Alerts**.
 - Default threshold value set to **10**, configurable by merchant.
-- Minimum allowed threshold = **0**, negative values not accepted.
+- Minimum allowed threshold = **1**, negative values not accepted.
 - System automatically detects stock changes after checkout events or stock deductions.
 - Email notifications are **batched per minute** with a **24-hour cooldown per variant** to prevent spam.
 - In-app notifications are **per product**, sent in real-time through the **existing WebSocket framework**.
@@ -63,7 +64,7 @@ Prosperna is an eCommerce platform that lets their merchants sell products and s
 - The system must automatically disable this feature upon plan downgrade to Free or Plus, and silently re-enable it upon upgrade if previously active.
 - The system must halt all active email and in-app notifications when the feature is disabled.
 - The feature must maintain consistent functionality across merchants with multiple store locations.
-- Default field behavior: threshold = 10, minimum = 0, negative input disallowed.
+- Default field behavior: threshold = 10, minimum = 1, negative input disallowed.
 
 # System Architecture Diagram
 
@@ -227,12 +228,12 @@ Prosperna is an eCommerce platform that lets their merchants sell products and s
 | Preconditions         | Merchant is logged into P1.                                                                                                                                                                                                                                                                                                                                           |
 |                       | Merchant has enabled the Low Stock Notifications feature.                                                                                                                                                                                                                                                                                                             |
 | Conditions (Optional) | The field defaults to **10** upon implementation or when no previous value is set.                                                                                                                                                                                                                                                                                    |
-|                       | Field accepts only numeric input and enforces a **minimum value of 0**.                                                                                                                                                                                                                                                                                               |
+|                       | Field accepts only numeric input and enforces a **minimum value of 1**.                                                                                                                                                                                                                                                                                               |
 | Steps                 | 1. Merchant navigates to **Settings → Product Settings → Inventory Alerts**.<br />2. Merchant enters a numeric value into the **Notify me when stock quantity reaches** field.<br />3. Merchant clicks **Save**.<br />4. System validates that the field is not empty.<br />5. System saves the configuration and updates the threshold value for the merchant.<br /> |
 | Postconditions        | The system saves and applies the new global threshold value across all products, variants, and locations.                                                                                                                                                                                                                                                             |
 | Business Trigger      | Merchant wants to change or define the stock quantity threshold that triggers Low Stock notifications.                                                                                                                                                                                                                                                                |
 | Acceptance Criteria   | Field accepts only numeric values.                                                                                                                                                                                                                                                                                                                                    |
-|                       | Minimum accepted value is 0 (negative values are disallowed at input level).                                                                                                                                                                                                                                                                                          |
+|                       | Minimum accepted value is 1 (negative values are disallowed at input level).                                                                                                                                                                                                                                                                                          |
 |                       | Default threshold value is 10.                                                                                                                                                                                                                                                                                                                                        |
 |                       | Configuration successfully updates when a valid number is entered.                                                                                                                                                                                                                                                                                                    |
 | Estimates             |                                                                                                                                                                                                                                                                                                                                                                       |
@@ -241,7 +242,7 @@ Prosperna is an eCommerce platform that lets their merchants sell products and s
 
 | **Business Rules/Desired Behavior**                                                                                                                                                                                                                                 |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Desired behavior for the feature<br />- Input type: numeric field with `min=0`<br />- Validation prevents null submission but does not handle negative values (handled by UI constraint).<br />- Stored as `threshold_value` in merchant configuration table.<br /> |
+| Desired behavior for the feature<br />- Input type: numeric field with `min=1`<br />- Validation prevents null submission but does not handle negative values (handled by UI constraint).<br />- Stored as `threshold_value` in merchant configuration table.<br /> |
 
 #### **UC 03 | Error Flow – Null Threshold Field**
 
