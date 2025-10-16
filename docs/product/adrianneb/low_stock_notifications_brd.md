@@ -69,37 +69,6 @@ Prosperna is an eCommerce platform that lets their merchants sell products and s
 
 ![](https://t7537039.p.clickup-attachments.com/t7537039/d84ad75c-6212-437c-b94d-3afbdf34e801/Untitled%20diagram-2025-10-16-004342.png)
 
-#### **Mermaid Chart Code**
-
-**flowchart** LR
-  **subgraph** MerchantSide
-    BROWSER\[Merchant Dashboard - WebSocket client and UI\]
-  **end**
-
-**subgraph** Backend
-    OrderService\[(Order Service)\]
-    InventoryService\[(Inventory Service)\]
-    NotificationAPI\[(Notification Manager API)\]
-    NotificationQueue\[(Notification Queue - Kafka/SQS/RabbitMQ)\]
-    EmailGateway\[(Email Gateway - SES/SendGrid)\]
-    WebSocketLayer\[(WebSocket Layer)\]
-    SubscriptionService\[(Subscription Service)\]
-    NotificationDB\[(Notification DB)\]
-  **end**
-
-BROWSER **\-->**|save settings / toggle| NotificationAPI
-  BROWSER **\-->**|open WS connection| WebSocketLayer
-
-OrderService **\-->**|post-checkout commit| InventoryService
-  InventoryService **\-->**|StockUpdatedEvent| NotificationAPI
-  NotificationAPI **\-->**|validate plan & flags| SubscriptionService
-  NotificationAPI **\-->**|check cooldown & rate-limits| NotificationDB
-  NotificationAPI **\-->**|emit per-product in-app event| WebSocketLayer
-  NotificationAPI **\-->**|enqueue for email batch| NotificationQueue
-  NotificationQueue **\-->**|batch flush per-minute| EmailGateway
-  NotificationAPI **\-->**|persist logs & cooldowns| NotificationDB
-  SubscriptionService **\-->**|plan-change webhook| NotificationAPI
-
 #### **Notes (architecture):**
 
 - `NotificationAPI` is the central controller: validates plan, checks notification flag, checks cooldown and rate-limits, writes to DB, emits WebSocket events, enqueues email batch entries.
@@ -112,38 +81,6 @@ OrderService **\-->**|post-checkout commit| InventoryService
 
 ![](https://t7537039.p.clickup-attachments.com/t7537039/3b0185a0-857a-49ec-a8ac-b77d269937cb/image.png)
 
-#### **Mermaid Chart Code**
-
-sequenceDiagram
-participant Browser
-participant OrderSvc as Order Service
-participant InvSvc as Inventory Service
-participant NotifAPI as Notification Manager
-participant CoolDB as Cooldown DB
-participant WS as WebSocket Layer
-participant Queue as Notification Queue
-participant Email as Email Gateway
-participant Sub as Subscription Service
-participant NotifDB as Notification DB
-
-Browser->>OrderSvc: customer checkout
-OrderSvc->>InvSvc: request commit stock change
-InvSvc-->>NotifAPI: StockUpdatedEvent(productId, qty, merchantId, sourceType)
-NotifAPI->>Sub: validate merchant plan & feature flag
-Sub-->>NotifAPI: plan ok / notifications_enabled?
-NotifAPI->>CoolDB: check 24h cooldown for productVariant
-CoolDB-->>NotifAPI: cooldown status
-alt eligible & not under cooldown
-NotifAPI->>WS: emit in-app per-product notification (payload)
-NotifAPI->>NotifDB: insert notification log
-NotifAPI->>Queue: enqueue for email batch (merchantId, type, product)
-else not eligible or under cooldown
-NotifAPI->>NotifDB: log skipped event
-end
-Note over Queue,Email: After 1-minute window per merchant
-Queue->>Email: batch flush (compile product list)
-Email->>NotifDB: update sentAt
-
 #### **Important sequence rules:**
 
 - `sourceType` prevents merchant-initiated edits from triggering notifications.
@@ -154,70 +91,6 @@ Email->>NotifDB: update sentAt
 
 ![](https://t7537039.p.clickup-attachments.com/t7537039/29fc0378-553c-42d7-8953-f652266f4dad/image.png)
 
-#### **Mermaid Chart Code**
-
-**erDiagram**
-    MERCHANT **{**
-      uuid id PK
-      string plan
-      bool notifications_enabled
-      json last_config
-    **}**
-
-PRODUCT **{**
-      uuid id PK
-      uuid merchantId FK
-      string title
-      string sku
-      int defaultStock
-    **}**
-
-VARIANT **{**
-      uuid id PK
-      uuid productId FK
-      string name
-      int stockQty
-    **}**
-
-NOTIFICATION **{**
-      uuid id PK
-      uuid merchantId FK
-      uuid productId FK
-      uuid variantId FK
-      string notificationType "LOW_STOCK|OUT_OF_STOCK"
-      string channel "EMAIL|IN_APP"
-      int stockQty
-      string status "QUEUED|SENT|FAILED|SKIPPED"
-      datetime createdAt
-      datetime sentAt
-    **}**
-
-EMAILBATCH **{**
-      uuid id PK
-      uuid merchantId FK
-      string notificationType
-      json productList
-      datetime createdAt
-      datetime sentAt
-      string status
-    **}**
-
-COOLDOWN **{**
-      uuid id PK
-      uuid merchantId FK
-      uuid productId FK
-      uuid variantId FK
-      string type "LOW_STOCK|OUT_OF_STOCK"
-      datetime expiresAt
-    **}**
-
-MERCHANT **||--o{** PRODUCT **:** owns
-    PRODUCT **||--o{** VARIANT **:** has
-    MERCHANT **||--o{** NOTIFICATION **:** receives
-    PRODUCT **||--o{** NOTIFICATION **:** triggers
-    NOTIFICATION **||--o{** COOLDOWN **:** writes
-    MERCHANT **||--o{** EMAILBATCH **:** batches
-
 #### **DB notes:**
 
 - `NOTIFICATION` stores every per-product in-app event and email-batch membership logs (channel indicates type).
@@ -227,23 +100,6 @@ MERCHANT **||--o{** PRODUCT **:** owns
 # User Flow Diagram
 
 ![](https://t7537039.p.clickup-attachments.com/t7537039/3537354a-b19b-4768-8e9b-1c1eede701e2/image.png)
-
-#### **Mermaid Chart Code**
-
-**flowchart** TD
-  A\[Merchant\] **\-->** B\[Open Settings > Inventory Alerts\]
-  B **\-->** C\[Toggle: Enable Low Stock / Out-of-Stock Notifications\]
-  C **\-->** D{Plan check}
-  D **\-->**|Pro/Premium| E\[Save settings: notifications_enabled=true\]
-  D **\-->**|Free/Plus| F\[Show Upgrade Now modal\]
-  E **\-->** G\[System monitors orders & inventory\]
-  G **\-->** H\[Customer checkout reduces stock\]
-  H **\-->** I{stock <= threshold?}
-  I **\-->**|No| J\[No notif\]
-  I **\-->**|Yes| K\[Emit in-app notification for each product in notification tray\]
-  K **\-->** L\[Merchant clicks notification -> redirect to /inventory/edit/:productId\]
-  I **\-->**|Yes| M\[Add to email batch queue\]
-  M **\-->** N\[Batch flush and send email\]
 
 #### **UX behavior clarifications:**
 
