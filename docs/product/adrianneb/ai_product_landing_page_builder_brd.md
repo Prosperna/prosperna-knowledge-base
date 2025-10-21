@@ -704,10 +704,6 @@ To follow
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Desired behavior for the feature<br />LLM timeout threshold = 60 seconds.<br />No credit deduction occurs for any failed modification.<br />Chat must always show a helpful, user-friendly error tip.<br />Error messages must not overlap or duplicate across retries.<br />All UI states (blur/loading) must revert within 1 second of failure detection.<br />Retry flow must be accessible without reloading the editor.<br /> |
 
-Things to search and cleanup:
-
-1. add business rules that only main merchant account owners can use this feature
-
 # User Interface (UI) Mockup
 
 AI-Powered Product Landing Page Builder High-Fidelity Wireframe:
