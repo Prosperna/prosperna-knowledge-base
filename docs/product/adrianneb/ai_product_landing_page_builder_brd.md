@@ -23,7 +23,7 @@ To follow
 
 ### **Scope of Solution:**
 
-1. To follow
+1. Only the main user (owner of merchant account) should be able to use the AI-Powered Product Landing Page Builder
 
 ### **Out-of-scope:**
 
@@ -68,9 +68,9 @@ To follow
 | **Success Message**       |                                                                                                                                                                                                                                                                                                                                                                          |
 | **Error Messages**        |                                                                                                                                                                                                                                                                                                                                                                          |
 
-| **Business Rules/Desired Behavior**                                                                                                                                                                                                                                                                                                                                              |
-| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Desired behavior for the feature<br />Only the main user (owner of merchant account) should be able to use the AI-Powered Product Landing Page Builder<br />System must only allow AI page generation for published products without existing landing pages.<br />Page Builder should correctly identify it as a product landing page to activate AI-specific UI elements.<br /> |
+| **Business Rules/Desired Behavior**                                                                                                                                                                                                                        |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Desired behavior for the feature<br />System must only allow AI page generation for published products without existing landing pages.<br />Page Builder should correctly identify it as a product landing page to activate AI-specific UI elements.<br /> |
 
 #### **UC 02 | Prevent Duplicate Product Landing Page Generation (Error Flow)**
 
