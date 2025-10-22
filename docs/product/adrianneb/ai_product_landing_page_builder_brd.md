@@ -7,45 +7,111 @@ sidebar_position: 2
 
 ### **Executive Summary:**
 
-To follow
+The **Product Landing Page Builder with Max AI** empowers Prosperna merchants to instantly create, modify, and optimize high-converting product landing pages through AI-assisted automation. This feature intelligently merges Prosperna’s Page Builder and Max AI capabilities, allowing merchants to generate entire page sections or modify individual components using guided chat, slash commands, or structured prompt builders. By leveraging AI to automate design and content creation, merchants reduce time-to-market, eliminate the need for advanced technical skills, and maintain visually consistent, SEO-optimized product pages across their storefronts.
 
 ### **Background:**
 
-To follow
+Prosperna is an eCommerce platform that lets their merchants sell products and services through their online store website. It recognizes the significance of simplifying content creation and maintaining design consistency across online stores. Merchants often struggle to create visually appealing, well-structured product landing pages due to limited design expertise and time constraints. The **Max AI-enhanced Product Landing Page Builder** addresses this gap by automating section generation, layout configuration, and text styling through an intuitive chat-driven experience—reducing manual work while ensuring every page aligns with the merchant’s brand identity and product focus.
 
-### **Competitor Research:**
+### **Costing and Recommended Pricing:**
 
-To follow
+([https://app.clickup.com/7537039/docs/760cf-57578/760cf-32038](https://app.clickup.com/7537039/docs/760cf-57578/760cf-32038))
 
 ### **Business Objectives:**
 
-1. To follow
+- **Empower non-technical merchants** to create professional, high-converting product landing pages effortlessly through AI-driven automation.
+- **Accelerate page creation time** by minimizing manual editing and leveraging AI to handle layout, design, and content generation in real-time.
+- **Enhance merchant productivity** by integrating all section generation, content refinement, and visual design tasks into a single, guided workflow.
+- **Ensure economic scalability** through AI credit-based usage, aligning feature costs with actual consumption while supporting monetization.
+- **Preserve brand consistency** by providing dynamic section templates and design configuration tools within the guided AI interface.
+- **Improve merchant experience and retention** by integrating intelligent, conversational, and visual editing flows into the Page Builder ecosystem.
 
 ### **Scope of Solution:**
 
-1. Only the main user (owner of merchant account) should be able to use the AI-Powered Product Landing Page Builder
+- Enable “**Generate with AI**” button on published products from the Inventory Listing Page.
+- Restrict AI Page Generation to **Plus, Pro, and Premium** plan accounts only.
+- Redirect merchants to the **Page Builder** in a new tab with **Max AI side panel** automatically open.
+- Display **Max AI chat interface** supporting:
+  - Slash commands (`/help`, `/sections`, `/samples`, and section-level commands).
+  - Free-form text prompts (charged per request).
+  - Configuration wizards and Prompt Builder overlays for structured section generation.
+- Allow merchants to toggle the **Max AI side panel** between left and right views.
+- Enable **Modify with AI** for selected elements/divs/sections within AI-generated product landing pages.
+- Implement **dynamic credit validation and deduction** logic:
+  - 1 credit = ₱1.
+  - Free-form chat: 1 credit per message.
+  - Section/element generation: (LLM USD cost × 57 × 400%) credits.
+- Enforce **credit gating**:
+  - Less than 50 credits blocks section generation.
+  - Less than 15 credits blocks Modify with AI actions.
+- Handle **LLM timeouts, network errors, or failures** with inline feedback and no credit deduction.
+- Display **“Top Up Now”** screens for insufficient credits in all credit-blocked flows.
+- Automatically update storefront navigation:
+  - First published product landing page adds “Best Sellers” link.
+  - Subsequent pages append under that menu.
+- Disable all AI generation features for **Free plan** merchants and **sub-users**.
+- Only the main user (owner of merchant account) should be able to use the AI-Powered Product Landing Page Builder
 
 ### **Out-of-scope:**
 
-1. To follow
+- Manual (non-AI) Page Builder operations and standard page templates.
+- Support for custom user-uploaded AI prompts outside system interfaces.
+- AI credit purchase, refund, and billing logic (handled under Credits Management module).
+- AI generation for unpublished products or non-product pages.
+- Multi-user collaboration and concurrent Page Builder editing.
 
 ### **Business Requirements:**
 
-1. To follow
+- The system must only allow AI landing page generation for **published products** without existing AI-generated pages.
+- The system must **auto-flag** generated pages as product landing pages to enable AI-related UI components.
+- The **Max AI side panel** must appear automatically for all AI-generated product landing pages.
+- Slash commands must execute **locally** and not consume credits unless an LLM request is triggered.
+- Prompt Builder overlay must dynamically adjust layout options based on **product attributes** (e.g., number of product images).
+- All free-form prompts and generation actions must validate **AI credit sufficiency** before execution.
+- Credit deduction occurs only **after successful** LLM generation or modification.
+- Failed or timed-out AI requests must not deduct credits and must restore UI state.
+- The Modify with AI button must appear only when a **single element/div/section** is selected.
+- The system must blur and overlay the selected element during modification and unblur it upon completion or failure.
+- The LLM response timeout threshold must be **60 seconds**.
+- The system must automatically add or update the **Best Sellers** navigation menu upon the first product landing page publication.
+- System must log all failed or timed-out AI requests for diagnostic tracking.
+- The Page Builder must remain **responsive, stateful, and interactive** after all AI operations.
 
 # Functional Requirements Specification (FRS)
 
 ## Use Case List
 
-| **Use Case ID**     | **Actor** | **Use Case Name**                                                           | **Short Description**                                                                                                          |
-| ------------------- | --------- | --------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| **UC 01**           | Merchant  | Generate Product Landing Page with AI (Success Flow)                        | Enable merchants to generate a product landing page using Max AI from the Inventory Listing Page, based on a selected product. |
-| **UC 02**           | Merchant  | Prevent Duplicate Product Landing Page Generation (Error Flow)              | Prevent multiple AI-generated landing pages for the same product.                                                              |
-| **UC 03**           | Merchant  | Block Product Landing Page Generation for Unpublished Products (Error Flow) | Ensure merchants can only generate landing pages for published products.                                                       |
-| **UC 04**           | System    | Display Max AI Side Panel for Product Landing Pages                         | Ensure Max AI side panel appears only for product landing pages created through the Generate with AI flow.                     |
-| **UC 05**           | System    | Display Modify with AI Button for Elements in Product Landing Pages         | Display the Modify with AI button for section-level or element-level editing only in product landing pages.                    |
-| **UC 06**           | Merchant  | Save and Publish AI-Generated Product Landing Page                          | Save and publish product landing pages, automatically updating the merchant’s storefront navigation structure.                 |
-| **TO BE CONTINUED** | --------- | --------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| **Use Case ID** | **Actor** | **Use Case Name**                                                           | **Short Description**                                                                                                                                                                                                                                                                        |
+| --------------- | --------- | --------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **UC 01**       | Merchant  | Generate Product Landing Page with AI (Success Flow)                        | Enable merchants to generate a product landing page using Max AI from the Inventory Listing Page, based on a selected product.                                                                                                                                                               |
+| **UC 02**       | Merchant  | Prevent Duplicate Product Landing Page Generation (Error Flow)              | Prevent multiple AI-generated landing pages for the same product.                                                                                                                                                                                                                            |
+| **UC 03**       | Merchant  | Block Product Landing Page Generation for Unpublished Products (Error Flow) | Ensure merchants can only generate landing pages for published products.                                                                                                                                                                                                                     |
+| **UC 04**       | System    | Display Max AI Side Panel for Product Landing Pages                         | Ensure Max AI side panel appears only for product landing pages created through the Generate with AI flow.                                                                                                                                                                                   |
+| **UC 05**       | System    | Display Modify with AI Button for Elements in Product Landing Pages         | Display the Modify with AI button for section-level or element-level editing only in product landing pages.                                                                                                                                                                                  |
+| **UC 06**       | Merchant  | Save and Publish AI-Generated Product Landing Page                          | Save and publish product landing pages, automatically updating the merchant’s storefront navigation structure.                                                                                                                                                                               |
+| **UC 07**       | Merchant  | Toggle Side Panel to Left                                                   | To allow the merchant to reposition the Max AI side panel from the right side of the Page Builder interface to the left side for better workspace flexibility and preference.                                                                                                                |
+| **UC 08**       | Merchant  | Toggle Side Panel to Right                                                  | To allow the merchant to reposition the Max AI side panel from the left side of the Page Builder interface to the right side for layout consistency or preferred editing orientation.                                                                                                        |
+| **UC 09**       | Merchant  | Send Free-form Instruction (Valid, Sufficient Credits)                      | To allow the merchant to send a free-form instruction to Max AI and receive a generated response when sufficient AI credits are available.                                                                                                                                                   |
+| **UC 10**       | Merchant  | Send Free-form Instruction (Insufficient Credits)                           | To prevent a merchant from sending a free-form instruction when AI credits are insufficient, and to notify the merchant of low credits.                                                                                                                                                      |
+| **UC 11**       | Merchant  | Send Free-form Instruction (LLM Error Flow)                                 | To define system behavior when a valid free-form instruction fails to return a response due to AI timeout, network interruption, or internal LLM error.                                                                                                                                      |
+| **UC 12**       | Merchant  | Execute Unrecognized Slash Command                                          | To handle situations where a merchant enters a slash command that is not recognized by the Max AI system, ensuring clear feedback and preventing unintended AI requests or credit deductions.                                                                                                |
+| **UC 13**       | Merchant  | Execute /help Command                                                       | To display a complete list of all available and recognized slash commands in the Max AI side panel chat interface when the merchant enters `/help`, assisting the merchant in understanding how to interact with the system.                                                                 |
+| **UC 14**       | Merchant  | Execute /sections Command                                                   | To display a list of all available section-level slash commands (e.g., /hero, /gallery, /faqs, /reviews, /specs, /related-products) in the Max AI side panel chat interface, allowing merchants to quickly identify supported commands for AI-assisted section generation.                   |
+| **UC 15**       | Merchant  | Execute /samples Command                                                    | Provide merchants with clickable sample section examples (links) that open in a new tab so merchants can preview visual references for section types before generating or configuring them.                                                                                                  |
+| **UC 16**       | Merchant  | Execute Section-Level Slash Command                                         | Allow the merchant to trigger a specific section configuration wizard by inputting a valid section-level slash command in the Max AI chat interface, confirming intent before proceeding to configuration.                                                                                   |
+| **UC 17**       | Merchant  | Open and Populate Prompt Builder (All Valid Inputs)                         | To allow the merchant to open the Prompt Builder overlay, make valid selections for all fields, and auto-generate a properly structured AI prompt in the disabled chat textbox.                                                                                                              |
+| **UC 18**       | Merchant  | Close Prompt Builder Without Sending (Abort)                                | To allow the merchant to close or cancel the Prompt Builder overlay without submitting or sending the generated prompt to the LLM.                                                                                                                                                           |
+| **UC 19**       | Merchant  | Submit Prompt Builder Prompt (Valid, Sufficient Credits)                    | To allow the merchant to submit the structured prompt generated by the Prompt Builder and successfully generate the selected section through the LLM when the merchant has sufficient AI credits (≥50).                                                                                      |
+| **UC 20**       | Merchant  | Submit Prompt Builder Prompt (Insufficient Credits)                         | To handle the scenario when a merchant attempts to send a structured prompt from the Prompt Builder but does not have enough AI credits (less than 50) to proceed.                                                                                                                           |
+| **UC 21**       | Merchant  | Submit Prompt Builder Prompt (LLM Error Flow)                               | To define the behavior of the system when an LLM request initiated through the Prompt Builder fails due to timeout, internal server error, or any other LLM-related failure, ensuring that credits are not deducted and the user receives clear error feedback.                              |
+| **UC 22**       | Merchant  | Generate Section (Success Flow)                                             | To handle the complete flow of section generation from Max AI upon a valid prompt submission — ensuring that credits are validated and deducted correctly, the user receives proper UI feedback during generation, and the generated section is inserted into the Page Builder upon success. |
+| **UC 23**       | Merchant  | Generate Section (Insufficient Credits)                                     | To define the system behavior when the merchant attempts to generate a section through Max AI but does not have sufficient credits (less than 50), preventing the operation and guiding the user toward credit top-up or upgrade options.                                                    |
+| **UC 24**       | Merchant  | Generate Section (LLM Error Flow)                                           | To define how the system handles error responses, timeouts, or network failures from the LLM service during section generation, ensuring that credits are not deducted, and the merchant is properly informed through clear UI feedback.                                                     |
+| **UC 25**       | Merchant  | Display “Modify with AI” Button (When Element Selected)                     | To define the conditions under which the “Modify with AI” button becomes visible in the Page Builder interface — ensuring that the button only appears when a valid element/div/section is selected by the merchant.                                                                         |
+| **UC 26**       | Merchant  | Hide “Modify with AI” Button (When No Element Selected)                     | To define the system behavior ensuring that the “Modify with AI” button is hidden when no element/div/section is selected, or when multiple elements are selected, maintaining a clean and context-aware user interface.                                                                     |
+| **UC 27**       | Merchant  | Modify Element with AI (Success Flow)                                       | To describe the complete end-to-end success flow when a merchant modifies an existing element/div/section using the “Modify with AI” feature, including modal interaction, AI request handling, progress indicators, credit deduction, and completion feedback.                              |
+| **UC 28**       | Merchant  | Modify Element with AI (Insufficient Credits)                               | To define the system behavior when a merchant attempts to use the “Modify with AI” feature with insufficient credits, ensuring clear feedback and providing a path for credit top-up without breaking the user experience.                                                                   |
+| **UC 29**       | Merchant  | Modify Element with AI (LLM Error Flow)                                     | To define the system response and recovery behavior when the AI modification request fails due to network timeout, LLM service error, or failed element modification, ensuring user feedback, error messaging, and prevention of unintended credit deductions.                               |
 
 ## Use Case Tables
 
@@ -707,19 +773,32 @@ To follow
 # User Interface (UI) Mockup
 
 AI-Powered Product Landing Page Builder High-Fidelity Wireframe:
-To follow
+[https://www.figma.com/design/9MtKxnNpFkmhMSyLLIiCNV/AI-Product-Landing-Page-Builder?node-id=93-152&t=bK83icSGaTqSERIX-0](https://www.figma.com/design/9MtKxnNpFkmhMSyLLIiCNV/AI-Product-Landing-Page-Builder?node-id=93-152&t=bK83icSGaTqSERIX-0)
 
-| **Description** | **Design** |
-| --------------- | ---------- |
-|                 |            |
+| **Description**       | **Design**                                                                                              |
+| --------------------- | ------------------------------------------------------------------------------------------------------- |
+| Max AI Prompt Builder | ![](https://t7537039.p.clickup-attachments.com/t7537039/e99caae2-8385-45d7-81ac-a7d16abd038f/image.png) |
 
 # Non-Functional Requirements Specification (NFRS)
 
-1. To follow
+- **Performance:** AI responses and section generation should complete within 10 seconds on average (excluding network latency).
+- **Scalability:** Support concurrent AI requests from multiple merchants without service degradation.
+- **Availability:** System uptime must remain ≥99.5% for AI and Page Builder services.
+- **Usability:** UI transitions (blur, loading, chat ellipsis) should be smooth and occur within 500 ms.
+- **Security:** Access control must restrict AI features to main merchant accounts on paid plans only.
+- **Reliability:** All credit validation and deductions must be atomic and fully auditable.
+- **Compliance:** Logging and data handling must follow Prosperna’s privacy and data retention standards.
+- **Localization:** All chat responses, system messages, and tooltips must support English only for v1.
 
 # Test Plan
 
-1. To follow
+- **Functional Testing:** Validate every success, error, and edge-case flow from UC 01–UC 29; verify slash commands, configuration wizards, and Prompt Builder logic.
+- **Integration Testing:** Ensure seamless communication between the Page Builder, AI service, and Credits system.
+- **UI/UX Testing:** Validate dynamic element visibility (Modify with AI, Top Up Now, chat animations).
+- **Negative Testing:** Simulate credit insufficiency, LLM timeouts, and invalid inputs.
+- **Regression Testing:** Confirm existing Page Builder features remain unaffected.
+- **Performance Testing:** Measure AI generation latency and resource consumption under high load.
+- **Security & Access Control Testing:** Verify that Free Plan users and sub-users cannot access AI-related functionalities.
 
 # Change Request Log
 
@@ -729,14 +808,14 @@ To follow
 
 # Signed Off
 
-| **Stakeholder**       | **Role** | **Status**  | **Date Signed** |
-| --------------------- | -------- | ----------- | --------------- |
-| Dennis Velasco        | CEO      |             |                 |
-| Ruel Nopal            | HoE      |             |                 |
-| Rian Froille Alde     | QA       |             |                 |
-| Michael Joseph Santos | BE       |             |                 |
-| Brian Millonte        | FE       |             |                 |
-| Adrianne Berida       | BA       | In Progress |                 |
+| **Stakeholder**       | **Role** | **Status** | **Date Signed**  |
+| --------------------- | -------- | ---------- | ---------------- |
+| Dennis Velasco        | CEO      |            |                  |
+| Ruel Nopal            | HoE      |            |                  |
+| Rian Froille Alde     | QA       |            |                  |
+| Michael Joseph Santos | BE       |            |                  |
+| Brian Millonte        | FE       |            |                  |
+| Adrianne Berida       | BA       | Completed  | October 21, 2025 |
 
 # For Future Considerations:
 
