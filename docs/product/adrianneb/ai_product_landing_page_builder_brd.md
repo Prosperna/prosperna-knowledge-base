@@ -15,11 +15,11 @@ Prosperna is an eCommerce platform that lets their merchants sell products and s
 
 ### **Costing and Recommended Pricing:**
 
-| **Spending Category**              | **Average LLM Cost (USD => PHP)** | **Proposed Percentage Factor**        |  **Credit Pricing**    | **Required Credits to Use**<br>**(Or Display Top Up Modal)** |
-| ---------------------------------- | --------------------------------- | ------------------------------------- | ---------------------- | ------------------------------------------------------------ |
-| **Chat**                           | $0.00087725 => ₱0.05000325        | NA                                    | **₱1.00 (Fixed Cost)** | 1 AI Credit                                                  |
-| **Generate with AI (per section)** | $0.156726 => ₱8.933382            | 400% (`llm_cost` + (`llm_cost` \* 3)) | **₱35.73**             | 50 AI Credits                                                |
-| **Modify with AI (per selection)** | $0.042078 => ₱2.398446            | 400% (`llm_cost` + (`llm_cost` \* 3)) | **₱9.60**              | 15 AI Credits                                                |
+| **Spending Category**              | **Average LLM Cost (USD => PHP)** | **Proposed Percentage Factor**        |  **Credit Pricing**    | **Required Credits to Use**<br />**(Or Display Top Up Modal)** |
+| ---------------------------------- | --------------------------------- | ------------------------------------- | ---------------------- | -------------------------------------------------------------- |
+| **Chat**                           | $0.00087725 => ₱0.05000325        | NA                                    | **₱1.00 (Fixed Cost)** | 1 AI Credit                                                    |
+| **Generate with AI (per section)** | $0.156726 => ₱8.933382            | 400% (`llm_cost` + (`llm_cost` \* 3)) | **₱35.73**             | 50 AI Credits                                                  |
+| **Modify with AI (per selection)** | $0.042078 => ₱2.398446            | 400% (`llm_cost` + (`llm_cost` \* 3)) | **₱9.60**              | 15 AI Credits                                                  |
 
 ### **Business Objectives:**
 
