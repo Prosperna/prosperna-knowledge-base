@@ -7,7 +7,7 @@ sidebar_position: 1
 
 ### **Demo Recording:**
 
-[Low Stock Notifications Demo](https://sharing.clickup.com/clip/p/t7537039/455cdc82-53f4-4b49-8fad-e05a6f72934d/455cdc82-53f4-4b49-8fad-e05a6f72934d.webm?filename=Low%20Stock%20Notifications%20Demo.webm)
+[Low Stock Notifications Demo Recording](https://sharing.clickup.com/clip/p/t7537039/455cdc82-53f4-4b49-8fad-e05a6f72934d/455cdc82-53f4-4b49-8fad-e05a6f72934d.webm?filename=Low%20Stock%20Notifications%20Demo.webm)
 
 ### **Executive Summary:**
 
