@@ -30,9 +30,9 @@ sidebar_position: 2
 | Success Message     |                                                                                                                                                                                                                                                                                                                                                                                                                       |
 | Error Messages      |                                                                                                                                                                                                                                                                                                                                                                                                                       |
 
-| **Business Rules/Desired Behavior** |
-| ----------------------------------- |
-| <br />                              |
+| **Business Rules/Desired Behavior**                                                                                                                                                                       |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| - This flow describes the first-time activation. If a merchant disables and later re-enables variants, the system should restore the previously saved configuration instead of creating a new empty card. |
 
 #### **UC 02 | Disable Variants**
 
@@ -57,9 +57,9 @@ sidebar_position: 2
 | Success Message     |                                                                                                                                                                                                                |
 | Error Messages      |                                                                                                                                                                                                                |
 
-| **Business Rules/Desired Behavior** |
-| ----------------------------------- |
-| <br />                              |
+| **Business Rules/Desired Behavior**                                                                                                                                                                                 |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| - Disabling variants does not delete the variant configuration data. If the merchant re-enables the variants, the previously saved types, options, and combination data should be restored.                         |
 
 #### **UC 03 | Block Saving Product with Variants Enabled But No Combinations**
 
@@ -84,6 +84,6 @@ sidebar_position: 2
 | Success Message     |                                                                                                                                                      |
 | Error Messages      | "Variant type and option is required."                                                                                                               |
 
-| **Business Rules/Desired Behavior** |
-| ----------------------------------- |
-| <br />                              |
+| **Business Rules/Desired Behavior**                                                                                          |
+| ---------------------------------------------------------------------------------------------------------------------------- |
+| - This validation ensures that any product sold with variants has at least one selectable variation.                         |

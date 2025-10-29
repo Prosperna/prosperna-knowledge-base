@@ -28,9 +28,9 @@ sidebar_position: 7
 | Success Message     |                                                                                                                     |
 | Error Messages      |                                                                                                                     |
 
-| **Business Rules/Desired Behavior** |
-| ----------------------------------- |
-| <br /><br />                        |
+| **Business Rules/Desired Behavior**                                                                                                                                                                                      |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| - The Sale Price is optional. If set, it should be the price displayed to customers and used for margin calculation. It should ideally be lower than the standard Price.<br />- It must be a non-negative numeric value. |
 
 #### **UC 41 | Edit Variant Combination Unit Cost**
 
@@ -55,9 +55,9 @@ sidebar_position: 7
 | Success Message     |                                                                                                                 |
 | Error Messages      |                                                                                                                 |
 
-| **Business Rules/Desired Behavior** |
-| ----------------------------------- |
-| <br /><br />                        |
+| **Business Rules/Desired Behavior**                                           |
+| ----------------------------------------------------------------------------- |
+| - The Unit Price is optional.<br />- It must be a non-negative numeric value. |
 
 #### **UC 42 | Auto-Calculate Variant Combination Margin**
 
@@ -89,9 +89,9 @@ sidebar_position: 7
 | Success Message     |                                                                                                                                                                         |
 | Error Messages      |                                                                                                                                                                         |
 
-| **Business Rules/Desired Behavior** |
-| ----------------------------------- |
-| <br /><br />                        |
+| **Business Rules/Desired Behavior**                                                                                                                                                                                                           |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| - The Margin field itself is not editable. It is always a calculated value.<br />- The Margin value can be a negative number if the Unit Cost is higher than the Sale Price or Price value; this scenario should not be blocked by the system |
 
 #### **UC 43 | Toggle Variant Combination Availability**
 
@@ -116,9 +116,9 @@ sidebar_position: 7
 | Success Message     |                                                                                                                                                             |
 | Error Messages      |                                                                                                                                                             |
 
-| **Business Rules/Desired Behavior** |
-| ----------------------------------- |
-| <br />                              |
+| **Business Rules/Desired Behavior**                                                                      |
+| -------------------------------------------------------------------------------------------------------- |
+| - An unavailable variant should not be visible or purchasable on the storefront, even if it is in stock. |
 
 #### **UC 44 | Bulk Edit Variant Combinations**
 
@@ -149,9 +149,9 @@ sidebar_position: 7
 | Success Message     | "Successfully updated variant combinations."                                                                                                               |
 | Error Messages      |                                                                                                                                                            |
 
-| **Business Rules/Desired Behavior** |
-| ----------------------------------- |
-| <br /><br />                        |
+| **Business Rules/Desired Behavior**                                                                                           |
+| ----------------------------------------------------------------------------------------------------------------------------- |
+| - The fields in the modal are not required.<br />- Only fields that are filled in should be applied to the selected variants. |
 
 #### **UC 45 | Block Saving with Null Required Fields in Variant Combinations**
 
@@ -178,9 +178,9 @@ sidebar_position: 7
 | Success Message     |                                                                                                                                                                                                                                                                                        |
 | Error Messages      | "Please complete all the required fields."                                                                                                                                                                                                                                             |
 
-| **Business Rules/Desired Behavior** |
-| ----------------------------------- |
-| <br />                              |
+| **Business Rules/Desired Behavior**                                                              |
+| ------------------------------------------------------------------------------------------------ |
+| - This validation applies to all generated variant combinations before the product can be saved. |
 
 #### **UC 46 | Block Saving with Duplicate Names in Variant Combinations**
 
@@ -206,9 +206,9 @@ sidebar_position: 7
 | Success Message     |                                                                                                                                                                                                                                                    |
 | Error Messages      | "Variant name already exists."<br />"Please complete all the required fields."                                                                                                                                                                     |
 
-| **Business Rules/Desired Behavior** |
-| ----------------------------------- |
-| <br />                              |
+| **Business Rules/Desired Behavior**             |
+| ----------------------------------------------- |
+| - The duplicate check should be case-sensitive. |
 
 #### **UC 47 | Block Saving with Duplicate SKUs in Variant Combinations**
 
@@ -234,11 +234,11 @@ sidebar_position: 7
 | Success Message     |                                                                                                                                                                                                                                                                   |
 | Error Messages      | "SKU already exists."<br />"Please complete all the required fields."                                                                                                                                                                                             |
 
-| **Business Rules/Desired Behavior** |
-| ----------------------------------- |
-| <br /><br />                        |
+| **Business Rules/Desired Behavior**                                                                                |
+| ------------------------------------------------------------------------------------------------------------------ |
+| - The duplicate check should be case-sensitive.<br />- Blank/empty SKUs are ignored and not considered duplicates. |
 
-#### **UC 48 |** Block Saving when Sale Price is Higher than Regular Price **in Variant Combinations**
+#### **UC 48 | Block Saving when Sale Price is Higher than Regular Price in Variant Combinations**
 
 | **Field**           | **Description**                                                                                                                                                                                                                                                   |
 | ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -251,7 +251,7 @@ sidebar_position: 7
 |                     | At least one variant combination exists with both a Regular Price and a Sale Price field.                                                                                                                                                                         |
 | Steps               | 1\. The merchant enters or edits the Sale Price for a variant combination.                                                                                                                                                                                        |
 |                     | 2\. The system continuously validates the Sale Price field against the Regular Price field for the same variant.                                                                                                                                                  |
-|                     | 3\. If the Sale Price is greater than or equal to the Regular Price:<br /><br /><br />                                                                                                                                                                            |
+|                     | 3\. If the Sale Price is greater than or equal to the Regular Price:<br />- The system outlines the Sale Price field in red<br />- The system displays a red inline error message below the Sale Price field: "Sale price must be lower than the regular price."  |
 |                     | 4\. The merchant clicks the "Save" button.                                                                                                                                                                                                                        |
 |                     | 5\. The system detects that at least one invalid Sale Price exists.                                                                                                                                                                                               |
 |                     | 6\. The system blocks the save operation, persists the inline validation, and displays a general error toast: "Please complete all the required fields."                                                                                                          |
@@ -268,9 +268,9 @@ sidebar_position: 7
 | Error Messages      | Inline (per field): "Sale price must be lower than the regular price."                                                                                                                                                                                            |
 |                     | Toast (on save attempt): "Please complete all the required fields."                                                                                                                                                                                               |
 
-| **Business Rules/Desired Behavior** |
-| ----------------------------------- |
-| <br /><br /><br />                  |
+| **Business Rules/Desired Behavior**                                                                                                                                                                                                                                                                           |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| - The system should enforce that Sale Price < Regular Price for each variant combination.<br />- Validation must happen both in real time (on field input) and on save attempt.<br />- The system must not silently correct values or discard data; the merchant must explicitly fix the error before saving. |
 
 #### **UC 49 |** Block Saving when Variant Type has Name but No Options
 
@@ -298,9 +298,9 @@ sidebar_position: 7
 | Success Message     |                                                                                                                                                                                                                                                         |
 | Error Messages      | "Please complete all the required fields."                                                                                                                                                                                                              |
 
-| **Business Rules/Desired Behavior**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| A "populated option" refers to an option field that has been converted from a placeholder through the onBlur + hasValue or onEnter + hasValue trigger as defined in UC 14.<br /><br />A "placeholder option field" refers to a field that has never been converted to a populated option, regardless of whether the merchant has typed into it or not. If a merchant types into a placeholder but does not press Enter or blur the field, it remains a placeholder and should not trigger this validation.<br /><br />This validation ensures variant types must have at least one populated option before saving, while avoiding false-positive errors on placeholder fields that may contain unsaved text. |
+| **Business Rules/Desired Behavior**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| - A "populated option" refers to an option field that has been converted from a placeholder through the onBlur + hasValue or onEnter + hasValue trigger as defined in UC 14.<br />- A "placeholder option field" refers to a field that has never been converted to a populated option, regardless of whether the merchant has typed into it or not. If a merchant types into a placeholder but does not press Enter or blur the field, it remains a placeholder and should not trigger this validation.<br />- This validation ensures variant types must have at least one populated option before saving, while avoiding false-positive errors on placeholder fields that may contain unsaved text. |
 
 #### **UC 50 | Handle Plan Downgrade with Soft Enforcement**
 
@@ -381,9 +381,9 @@ sidebar_position: 7
 | Success Message     |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
 | Error Messages      | "Please complete all the required fields."<br />(Plus all other relevant validation error messages from UC 03, UC 09, UC 10, UC 19, UC 20, UC 45, UC 46, UC 47, UC 48, UC 49, UC 50)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 
-| **Business Rules/Desired Behavior**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
-| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| The "Save" button in the modal should trigger the same comprehensive validation as the main "Save" button on the page.<br />If any validation fails, the modal should close immediately and the merchant should see all validation errors on the page.<br />The system must check for all validation rules including: null variant type names, null variant option names, duplicate variant type names, duplicate variant option names, null required fields in combinations, duplicate combination names, duplicate SKUs, sale price validation, and variant type with name but no options. |
+| **Business Rules/Desired Behavior**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| - The "Save" button in the modal should trigger the same comprehensive validation as the main "Save" button on the page.<br />- If any validation fails, the modal should close immediately and the merchant should see all validation errors on the page.<br />- The system must check for all validation rules including: null variant type names, null variant option names, duplicate variant type names, duplicate variant option names, null required fields in combinations, duplicate combination names, duplicate SKUs, sale price validation, and variant type with name but no options. |
 
 ---
 
@@ -410,7 +410,3 @@ sidebar_position: 7
 | Estimates           |                                                                                                                                                |
 | Success Message     |                                                                                                                                                |
 | Error Messages      |                                                                                                                                                |
-
-| **Business Rules/Desired Behavior** |
-| ----------------------------------- |
-| <br />                              |

@@ -31,9 +31,9 @@ sidebar_position: 6
 | Success Message     |                                                                                                                                                                                       |
 | Error Messages      | (See UC 33)                                                                                                                                                                           |
 
-| **Business Rules/Desired Behavior** |
-| ----------------------------------- |
-| <br /><br />                        |
+| **Business Rules/Desired Behavior**                                                                                                                                                                                                                      |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| - The first image added to a combination is considered the "featured" image.<br />- The Media Library modal is a stateless environment; it does not show counters or pre-select images that are already attached to the variant.                         |
 
 #### **UC 31 | View Full Image on Hover**
 
@@ -57,9 +57,9 @@ sidebar_position: 6
 | Success Message     |                                                                                                                                  |
 | Error Messages      |                                                                                                                                  |
 
-| **Business Rules/Desired Behavior** |
-| ----------------------------------- |
-| <br />                              |
+| **Business Rules/Desired Behavior**                                                                                         |
+| --------------------------------------------------------------------------------------------------------------------------- |
+| - This is a UI-level interaction designed for quick previews and does not involve any data changes.                         |
 
 #### **UC 32 | Remove an Image from a Variant Combination**
 
@@ -88,9 +88,9 @@ sidebar_position: 6
 | Success Message     |                                                                                                                                                                            |
 | Error Messages      |                                                                                                                                                                            |
 
-| **Business Rules/Desired Behavior** |
-| ----------------------------------- |
-| <br />                              |
+| **Business Rules/Desired Behavior**                                                                                                       |
+| ----------------------------------------------------------------------------------------------------------------------------------------- |
+| - Removing an image is a permanent action for that variant combination and does not require a confirmation modal.                         |
 
 #### **UC 33 | Block Adding Images Beyond Plan Limit**
 
@@ -118,9 +118,9 @@ sidebar_position: 6
 | Success Message     |                                                                                                                                                                                                |
 | Error Messages      | "\[planLimit\] Variant image limit reached."                                                                                                                                                   |
 
-| **Business Rules/Desired Behavior**                                                 |
-| ----------------------------------------------------------------------------------- |
-| <br />currentImages<br /><br />newlySelectedImages<br /><br />planLimit<br /><br /> |
+| **Business Rules/Desired Behavior**                                                                                                                                                      |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| - This validation occurs when the merchant clicks "Select" inside the Media Library modal. The check is (`currentImages` + `newlySelectedImages`) > `planLimit`.                         |
 
 #### **UC 34 | Handle Image Limits on Plan Downgrade**
 
@@ -148,9 +148,9 @@ sidebar_position: 6
 | Success Message     |                                                                                                                                                                                               |
 | Error Messages      | "\[planLimit\] Variant image limit reached."                                                                                                                                                  |
 
-| **Business Rules/Desired Behavior** |
-| ----------------------------------- |
-| <br />                              |
+| **Business Rules/Desired Behavior**                                                                                                                                                                                         |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| - This flow ensures that plan limits are respected without being punitive by deleting a user's existing data. The merchant must take manual action to correct their image count before adding more.                         |
 
 #### **UC 35 | Edit Variant Combination Quantity**
 
@@ -178,9 +178,9 @@ sidebar_position: 6
 | Success Message     |                                                                                                                                                                                              |
 | Error Messages      |                                                                                                                                                                                              |
 
-| **Business Rules/Desired Behavior** |
-| ----------------------------------- |
-| <br /><br />                        |
+| **Business Rules/Desired Behavior**                                                                                                                     |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| - The quantity cannot be a negative number.<br />- The total quantity is the sum of all locations and is not directly editable.                         |
 
 #### **UC 36 | Edit Variant Combination Dimensions**
 
@@ -205,9 +205,9 @@ sidebar_position: 6
 | Success Message     |                                                                                                                  |
 | Error Messages      |                                                                                                                  |
 
-| **Business Rules/Desired Behavior**                                                            |
-| ---------------------------------------------------------------------------------------------- |
-| <br /><br />The options for the unit dropdown are the following:<br /><br /><br /><br /><br /> |
+| **Business Rules/Desired Behavior**                                                                                                                                                                                                                                                                                                                       |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| - All dimension fields (L, W, H, and unit) are required to be filled for each variant, as per UC 46.<br />- The L, W, and H fields are numeric fields and should only accept non-negative numeric values.<br />- The options for the unit dropdown are the following:<br />-- mm (millimeter)<br />-- cm (centimeter)<br />-- in (inch)<br />-- m (meter) |
 
 #### **UC 37 | Edit Variant Combination Weight**
 
@@ -232,9 +232,9 @@ sidebar_position: 6
 | Success Message     |                                                                                                 |
 | Error Messages      |                                                                                                 |
 
-| **Business Rules/Desired Behavior**                                                                        |
-| ---------------------------------------------------------------------------------------------------------- |
-| <br /><br />The options for the unit dropdown are the following:<br /><br /><br /><br /><br /><br /><br /> |
+| **Business Rules/Desired Behavior**                                                                                                                                                                                                                                                                                                                                                |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| - Both the weight value and unit are required to be filled for each variant, as per UC 46.<br />- The weight value field is a numeric field and should only accept non-negative numeric values.<br />- The options for the unit dropdown are the following:<br />-- g (gram)<br />-- kg (kilogram)<br />-- lb (pound)<br />-- ml (milliliter)<br />-- l (liter)<br />-- oz (ounce) |
 
 #### **UC 38 | Edit Variant Combination SKU**
 
@@ -260,7 +260,7 @@ sidebar_position: 6
 
 | **Business Rules/Desired Behavior** |
 | ----------------------------------- |
-| <br />                              |
+| - The SKU field is optional.        |
 
 #### **UC 39 | Edit Variant Combination Price**
 
@@ -286,6 +286,6 @@ sidebar_position: 6
 | Success Message     |                                                                                                                    |
 | Error Messages      |                                                                                                                    |
 
-| **Business Rules/Desired Behavior** |
-| ----------------------------------- |
-| <br /><br />                        |
+| **Business Rules/Desired Behavior**                                                          |
+| -------------------------------------------------------------------------------------------- |
+| - The Price field is required, as per UC 46.<br />- It must be a non-negative numeric value. |
