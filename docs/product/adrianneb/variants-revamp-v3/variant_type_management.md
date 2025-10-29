@@ -27,9 +27,9 @@ sidebar_position: 3
 | Success Message     |                                                                                                                                                                                                                                                                                                |
 | Error Messages      | (See UC 08, UC 09 for limit errors)                                                                                                                                                                                                                                                            |
 
-| **Business Rules/Desired Behavior** |
-| ----------------------------------- |
-| <br />                              |
+| **Business Rules/Desired Behavior**                                                                                         |
+| --------------------------------------------------------------------------------------------------------------------------- |
+| - The "Add Variant Type" button should trigger an error if the variant type limit has been reached.                         |
 
 #### **UC 05 | Add a Color Swatch-Based Variant Type**
 
@@ -56,9 +56,9 @@ sidebar_position: 3
 | Success Message     |                                                                                                                                                                                                                                                          |
 | Error Messages      |                                                                                                                                                                                                                                                          |
 
-| **Business Rules/Desired Behavior** |
-| ----------------------------------- |
-| <br /><br /><br />                  |
+| **Business Rules/Desired Behavior**                                                                                                                                                                                                                                                                                                                                                         |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| - Only one variant type can be set to "Color Swatch" at a time to ensure a clean and unambiguous data structure. <br />- If the user switches the display type to "Text" or "Icon", the color data is preserved in the background and will reappear if they switch back to "Color Swatch".<br />- The default color of the color picker should be "#000000" (black)                         |
 
 #### **UC 06 | Add an Icon-Based Variant Type**
 
@@ -89,9 +89,9 @@ sidebar_position: 3
 | Success Message     |                                                                                                                             |
 | Error Messages      |                                                                                                                             |
 
-| **Business Rules/Desired Behavior** |
-| ----------------------------------- |
-| <br /><br />                        |
+| **Business Rules/Desired Behavior**                                                                                                                                                                                                                                                  |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| - Unlike the "Color Swatch" type, multiple variant types can be set to "Icon".<br />- If the user switches the display type to "Text" or "Color Swatch", the icon/image data is preserved in the background and will reappear if they switch back to "Icon".                         |
 
 #### **UC 07 | Delete a Variant Type**
 
@@ -125,9 +125,9 @@ sidebar_position: 3
 | Success Message     | "Successfully deleted variant type."                                                                                                                                                                                                                                                                                                |
 | Error Messages      |                                                                                                                                                                                                                                                                                                                                     |
 
-| **Business Rules/Desired Behavior** |
-| ----------------------------------- |
-| <br /><br />                        |
+| **Business Rules/Desired Behavior**                                                                                                                                                 |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| - Deleting an empty type is a clean-up action and requires no confirmation.<br />- Deleting a populated type is a destructive action and must be confirmed.                         |
 
 #### **UC 08 | Block Adding Variant Type when Type Limit is Reached**
 
@@ -169,9 +169,9 @@ sidebar_position: 3
 | Success Message     |                                                                                                                                                                                   |
 | Error Messages      | "2 Variant type limit reached."<br />"3 Variant type limit reached."<br />"4 Variant type limit reached."<br />"6 Variant type limit reached."                                    |
 
-| **Business Rules/Desired Behavior** |
-| ----------------------------------- |
-| <br />                              |
+| **Business Rules/Desired Behavior**                                                                                                                     |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| - The "Add Variant Type" button should trigger an error if the variant type limit for the user's current plan has been reached.                         |
 
 #### **UC 09 | Block Saving with Null Variant Type Name**
 
@@ -198,9 +198,9 @@ sidebar_position: 3
 | Success Message     |                                                                                                                                                                                                                                                  |
 | Error Messages      | "Please complete all the required fields."                                                                                                                                                                                                       |
 
-| **Business Rules/Desired Behavior** |
-| ----------------------------------- |
-| <br /><br />                        |
+| **Business Rules/Desired Behavior**                                                                                                                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| - The system should not auto-exclude a variant type or its combinations when the name is emptied. Combinations and their data remain intact until the merchant deletes it.<br />-This validation should be triggered upon attempting to save the entire variant configuration.                         |
 
 #### **UC 10 | Block Saving with Duplicate Variant Type Names**
 
@@ -227,9 +227,9 @@ sidebar_position: 3
 | Success Message     |                                                                                                                                                                                                                                                  |
 | Error Messages      | "Please complete all the required fields."                                                                                                                                                                                                       |
 
-| **Business Rules/Desired Behavior** |
-| ----------------------------------- |
-| <br /><br />                        |
+| **Business Rules/Desired Behavior**                                                                                                                                                                                                                                           |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| - Duplicate detection should never result in auto-exclusion of types or deletion of combinations. Data remains intact until corrected.<br />- The duplicate check should be case-sensitive (e.g., "Color" and "color" are not considered duplicates).                         |
 
 #### **UC 11a | Expand Combinations on Adding a New Variant Type (Preferred)**
 
@@ -257,37 +257,37 @@ sidebar_position: 3
 | Success Message     |                                                                                                                                                                 |
 | Error Messages      | Inline validations (see UC 10, UC 11, UC 19, UC 20).                                                                                                            |
 
-| **Business Rules/Desired Behavior** |
-| ----------------------------------- |
-| <br /><br /><br />                  |
+| **Business Rules/Desired Behavior**                                                                                                                                                                                                                                    |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| - Combination data must always be preserved unless the merchant explicitly deletes a variant type or option.<br />- The system must ensure no duplicate or misaligned combinations are generated.<br />- Combination IDs should remain stable.                         |
 
 #### **UC 11b | Reset Combinations on Adding a New Variant Type (Fallback)**
 
-| **Field**           | **Description**                                                                                                                                                                                                                    |
-| ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Use Case ID         | UC 11b                                                                                                                                                                                                                             |
-| Prepared By         | BA                                                                                                                                                                                                                                 |
-| Last Updated        | September 21, 2025                                                                                                                                                                                                                 |
-| Objectives          | The system should reset and regenerate all combinations, discarding existing combination data, when adding a new variant type. This is the fallback approach if incremental expansion proves too risky to implement.               |
-| Actor               | Merchant, System                                                                                                                                                                                                                   |
-| Preconditions       | The merchant is on the "Add/Edit Product" page.                                                                                                                                                                                    |
-|                     | The variant configuration has already generated at least one variant combination.                                                                                                                                                  |
-| Steps               | 1\. The merchant clicks the "Add Variant Type" button.                                                                                                                                                                             |
-|                     | 2\. The system detects that variant combinations currently exist.                                                                                                                                                                  |
-|                     | 3\. The system displays a confirmation modal with:<br /><br /><br /><br />                                                                                                                                                         |
-|                     | 4\. **Path A: Merchant Confirms**<br />a. The merchant clicks "Confirm".<br />b. The system discards existing combinations and their data.<br />c. The system regenerates all combinations including the new type and its options. |
-|                     | 5\. **Path B: Merchant Cancels**<br />a. The merchant clicks "Cancel".<br />b. The modal closes. No new variant type is added.                                                                                                     |
-| Postconditions      | Existing data is discarded. New combinations are generated from scratch.                                                                                                                                                           |
-| Business Trigger    | Provide a fallback behavior to avoid complexity if expansion logic is not feasible.                                                                                                                                                |
-| Acceptance Criteria | Adding a new variant type prompts a destructive warning.                                                                                                                                                                           |
-|                     | Confirming regenerates all combinations and discards previous data.                                                                                                                                                                |
-| Estimates           |                                                                                                                                                                                                                                    |
-| Success Message     |                                                                                                                                                                                                                                    |
-| Error Messages      | Inline validations (see UC 10, UC 11, UC 19, UC 20).                                                                                                                                                                               |
+| **Field**           | **Description**                                                                                                                                                                                                                                                                                          |
+| ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Use Case ID         | UC 11b                                                                                                                                                                                                                                                                                                   |
+| Prepared By         | BA                                                                                                                                                                                                                                                                                                       |
+| Last Updated        | September 21, 2025                                                                                                                                                                                                                                                                                       |
+| Objectives          | The system should reset and regenerate all combinations, discarding existing combination data, when adding a new variant type. This is the fallback approach if incremental expansion proves too risky to implement.                                                                                     |
+| Actor               | Merchant, System                                                                                                                                                                                                                                                                                         |
+| Preconditions       | The merchant is on the "Add/Edit Product" page.                                                                                                                                                                                                                                                          |
+|                     | The variant configuration has already generated at least one variant combination.                                                                                                                                                                                                                        |
+| Steps               | 1\. The merchant clicks the "Add Variant Type" button.                                                                                                                                                                                                                                                   |
+|                     | 2\. The system detects that variant combinations currently exist.                                                                                                                                                                                                                                        |
+|                     | 3\. The system displays a confirmation modal with:<br />- Header: "Add Variant Type"<br />- Text: "You are about to add a new variant type. Adding it will reset all variant combinations and permanently remove their existing data. Would you like to proceed?"<br />- "Cancel" and "Confirm" buttons. |
+|                     | 4\. **Path A: Merchant Confirms**<br />a. The merchant clicks "Confirm".<br />b. The system discards existing combinations and their data.<br />c. The system regenerates all combinations including the new type and its options.                                                                       |
+|                     | 5\. **Path B: Merchant Cancels**<br />a. The merchant clicks "Cancel".<br />b. The modal closes. No new variant type is added.                                                                                                                                                                           |
+| Postconditions      | Existing data is discarded. New combinations are generated from scratch.                                                                                                                                                                                                                                 |
+| Business Trigger    | Provide a fallback behavior to avoid complexity if expansion logic is not feasible.                                                                                                                                                                                                                      |
+| Acceptance Criteria | Adding a new variant type prompts a destructive warning.                                                                                                                                                                                                                                                 |
+|                     | Confirming regenerates all combinations and discards previous data.                                                                                                                                                                                                                                      |
+| Estimates           |                                                                                                                                                                                                                                                                                                          |
+| Success Message     |                                                                                                                                                                                                                                                                                                          |
+| Error Messages      | Inline validations (see UC 10, UC 11, UC 19, UC 20).                                                                                                                                                                                                                                                     |
 
-| **Business Rules/Desired Behavior** |
-| ----------------------------------- |
-| <br /><br />                        |
+| **Business Rules/Desired Behavior**                                                                                                                                                                                                                                                                                       |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| - This flow is documented as a fallback (legacy behavior). It should only be applied if incremental expansion is deemed too complex to implement reliably.<br />- This modal is a critical safeguard against losing manually entered data in the combinations table (like SKU, price, inventory).                         |
 
 #### **UC 12 | Warn Merchant when Deleting a Populated Variant Type**
 
@@ -313,9 +313,9 @@ sidebar_position: 3
 | Success Message     | "Successfully deleted variant type."                                                                                                                                                                                                                                                                                                                                                                    |
 | Error Messages      |                                                                                                                                                                                                                                                                                                                                                                                                         |
 
-| **Business Rules/Desired Behavior** |
-| ----------------------------------- |
-| <br />                              |
+| **Business Rules/Desired Behavior**                                                                                            |
+| ------------------------------------------------------------------------------------------------------------------------------ |
+| - This is the same flow as UC 07, Condition 2. A populated type is any type that is not empty and new.                         |
 
 #### **UC 13 | Block Enabling Multiple Color Swatch Display Types**
 
@@ -338,6 +338,6 @@ sidebar_position: 3
 | Success Message     |                                                                                                                       |
 | Error Messages      |                                                                                                                       |
 
-| **Business Rules/Desired Behavior** |
-| ----------------------------------- |
-| <br />                              |
+| **Business Rules/Desired Behavior**                                                                                                                                                          |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| - If the merchant changes the original "Color Swatch" type to "Text" or "Icon", the "Color Swatch" option should become available again for all other variant types.                         |

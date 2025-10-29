@@ -132,16 +132,12 @@ Prosperna is an ecommerce platform that lets their merchants sell products/servi
 
 # User Interface (UI) Mockup
 
-Variants V3 High-Fidelity Wireframe:
-[https://www.figma.com/design/mU0Pn4d7Hqh5QTqjJCrnyc/Variant-Combination-Enhancements?node-id=296-9077&t=YyfCaDzIHbtE5SzN-4](https://www.figma.com/design/mU0Pn4d7Hqh5QTqjJCrnyc/Variant-Combination-Enhancements?node-id=296-9077&t=YyfCaDzIHbtE5SzN-4)
-Variants V3 UI Prototype:
-[https://www.figma.com/proto/mU0Pn4d7Hqh5QTqjJCrnyc?page-id=0%3A1&node-id=296-9080&t=5svsZ3hSL3NRBz5k-0&scaling=min-zoom&content-scaling=fixed&starting-point-node-id=296%3A9080&fuid=1034290835874621311](https://www.figma.com/proto/mU0Pn4d7Hqh5QTqjJCrnyc?page-id=0%3A1&node-id=296-9080&t=5svsZ3hSL3NRBz5k-0&scaling=min-zoom&content-scaling=fixed&starting-point-node-id=296%3A9080&fuid=1034290835874621311)
-Variants V3 Logic Prototype:
-[https://p1-ba-pocs.vercel.app/variants-v3](https://p1-ba-pocs.vercel.app/variants-v3)
-
-| **Description** | **Design** |
-| --------------- | ---------- |
-|                 |            |
+Variants V3 High-Fidelity Wireframe:<br />
+[https://www.figma.com/design/mU0Pn4d7Hqh5QTqjJCrnyc/Variant-Combination-Enhancements?node-id=296-9077&t=YyfCaDzIHbtE5SzN-4](https://www.figma.com/design/mU0Pn4d7Hqh5QTqjJCrnyc/Variant-Combination-Enhancements?node-id=296-9077&t=YyfCaDzIHbtE5SzN-4)<br />
+Variants V3 UI Prototype:<br />
+[https://www.figma.com/proto/mU0Pn4d7Hqh5QTqjJCrnyc?page-id=0%3A1&node-id=296-9080&t=5svsZ3hSL3NRBz5k-0&scaling=min-zoom&content-scaling=fixed&starting-point-node-id=296%3A9080&fuid=1034290835874621311](https://www.figma.com/proto/mU0Pn4d7Hqh5QTqjJCrnyc?page-id=0%3A1&node-id=296-9080&t=5svsZ3hSL3NRBz5k-0&scaling=min-zoom&content-scaling=fixed&starting-point-node-id=296%3A9080&fuid=1034290835874621311)<br />
+Variants V3 Logic Prototype:<br />
+[https://p1-ba-pocs.vercel.app/variants-v3](https://p1-ba-pocs.vercel.app/variants-v3)<br />
 
 # Non-Functional Requirements Specification (NFRS)
 
@@ -171,14 +167,14 @@ Variants V3 Logic Prototype:
 
 # Signed Off
 
-| **Stakeholder** | **Role** | **Status** | **Date Signed** |
-| --------------- | -------- | ---------- | --------------- |
-| Dennis Velasco  | CEO      |            |                 |
-| Ruel Nopal      | HoE      |            |                 |
-|                 | QA       |            |                 |
-|                 | BE       |            |                 |
-|                 | FE       |            |                 |
-| Adrianne Berida | BA       | Completed  |                 |
+| **Stakeholder**   | **Role** | **Status** | **Date Signed**  |
+| ----------------- | -------- | ---------- | ---------------- |
+| Dennis Velasco    | CEO      |            |                  |
+| Ruel Nopal        | HoE      |            |                  |
+| Rian Froille Alde | QA       |            |                  |
+| Sonny Lozano      | BE       |            |                  |
+| Sonny Lozano      | FE       |            |                  |
+| Adrianne Berida   | BA       | Completed  | October 29, 2025 |
 
 # For Future Considerations:
 

@@ -26,9 +26,9 @@ sidebar_position: 5
 | Success Message     |                                                                                                                                                                                 |
 | Error Messages      |                                                                                                                                                                                 |
 
-| **Business Rules/Desired Behavior** |
-| ----------------------------------- |
-| <br />                              |
+| **Business Rules/Desired Behavior**                                                                                                                     |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| - This process is the core of the variants feature. It should be triggered by any valid change to the variant types or options.                         |
 
 #### **UC 24 | Auto-Delete Variant Combinations**
 
@@ -53,9 +53,9 @@ sidebar_position: 5
 | Success Message     |                                                                                                                           |
 | Error Messages      |                                                                                                                           |
 
-| **Business Rules/Desired Behavior**                                            |
-| ------------------------------------------------------------------------------ |
-| <br />This use case should apply on the following scenarios:<br /><br /><br /> |
+| **Business Rules/Desired Behavior**                                                                                                                                                                                                                                                          |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| - This is a direct consequence of the auto-generation logic (UC 22) and is critical for preventing orphaned or invalid variant data.<br />- This use case should apply on the following scenarios:<br /> - Deleting a variant type<br /> - Deleting a variant option                         |
 
 #### **UC 25 | Preserve Existing Data on Combination Regeneration**
 
@@ -81,9 +81,9 @@ sidebar_position: 5
 | Success Message     |                                                                                                                                                              |
 | Error Messages      |                                                                                                                                                              |
 
-| **Business Rules/Desired Behavior**                                                                    |
-| ------------------------------------------------------------------------------------------------------ |
-| <br />This use case should apply on the following scenarios:<br /><br /><br /><br /><br /><br /><br /> |
+| **Business Rules/Desired Behavior**                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| - The system should identify combinations based on the unique set of options that compose them, not on their row index or a temporary ID.<br />- This use case should apply on the following scenarios:<br /> - Adding a new variant type (via incremental expansion)<br /> - Renaming a variant type<br /> - Adding a new variant option<br /> - Deleting a variant option<br /> - Renaming a variant option<br /> - Rearranging the variant options (via Drag and Drop)                         |
 
 #### **UC 26 | Highlight Newly Generated Variant Combinations**
 
@@ -108,9 +108,9 @@ sidebar_position: 5
 | Success Message     |                                                                                                                                             |
 | Error Messages      |                                                                                                                                             |
 
-| **Business Rules/Desired Behavior** |
-| ----------------------------------- |
-| <br />                              |
+| **Business Rules/Desired Behavior**                                                                                                            |
+| ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| - The highlight should be distinct but not jarring, designed to draw attention without disrupting the user's workflow.                         |
 
 #### **UC 27 | Search Variant Combinations**
 
@@ -137,9 +137,9 @@ sidebar_position: 5
 | Success Message     |                                                                                                                     |
 | Error Messages      |                                                                                                                     |
 
-| **Business Rules/Desired Behavior** |
-| ----------------------------------- |
-| <br />                              |
+| **Business Rules/Desired Behavior**                                                              |
+| ------------------------------------------------------------------------------------------------ |
+| - The search should target the "Name" field of the variant combinations.                         |
 
 #### **UC 28 | Bulk-Select Variant Combinations**
 
@@ -171,9 +171,9 @@ sidebar_position: 5
 | Success Message     |                                                                                                      |
 | Error Messages      |                                                                                                      |
 
-| **Business Rules/Desired Behavior** |
-| ----------------------------------- |
-| <br />                              |
+| **Business Rules/Desired Behavior**                                                                                          |
+| ---------------------------------------------------------------------------------------------------------------------------- |
+| - If the list is filtered, the "Select All" action should only apply to the visible (filtered) rows.                         |
 
 #### **UC 29 | Edit Variant Combination Name**
 
@@ -198,6 +198,6 @@ sidebar_position: 5
 | Success Message     |                                                                                                                                                                  |
 | Error Messages      | (See UC 48 for duplicate name errors)                                                                                                                            |
 
-| **Business Rules/Desired Behavior** |
-| ----------------------------------- |
-| <br />                              |
+| **Business Rules/Desired Behavior**                                                                                |
+| ------------------------------------------------------------------------------------------------------------------ |
+| - The "Name" field is required and must be unique across all combinations for the product.                         |
