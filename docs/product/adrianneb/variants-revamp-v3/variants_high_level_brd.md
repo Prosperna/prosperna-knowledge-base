@@ -145,7 +145,7 @@ Variants V3 Logic Prototype:
 
 # Non-Functional Requirements Specification (NFRS)
 
-1. **Performance**: Must generate variant combinations within plan limits (up to 150 for Premium) in <1 second.
+1. **Performance**: Must generate variant combinations within plan limits (up to 150 for Premium) in less than 1 second.
 2. **Scalability**: Must support thousands of products with variants per merchant without database performance degradation.
 3. **Data Integrity**: All saved variants must include required fields (Name, Price, Dimensions, Weight).
 4. **Usability**: Provide inline validation, tooltips, and visual feedback for errors/warnings.
