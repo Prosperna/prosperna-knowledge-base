@@ -272,7 +272,7 @@ sidebar_position: 7
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | - The system should enforce that Sale Price < Regular Price for each variant combination.<br />- Validation must happen both in real time (on field input) and on save attempt.<br />- The system must not silently correct values or discard data; the merchant must explicitly fix the error before saving. |
 
-#### **UC 49 |** Block Saving when Variant Type has Name but No Options
+#### **UC 49 | Block Saving when Variant Type has Name but No Options**
 
 | **Field**           | **Description**                                                                                                                                                                                                                                         |
 | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
