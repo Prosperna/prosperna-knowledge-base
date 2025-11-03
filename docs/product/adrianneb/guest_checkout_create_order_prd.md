@@ -5,11 +5,11 @@ sidebar_label: Guest Checkout - Create Order PRD
 sidebar_position: 3
 ---
 
-## Guest Checkout - Create Order Enhancement
-
 Agile-focused PRD documenting the enhancement to Prosperna's Create Order feature, enabling merchants to create orders for both Registered and Unregistered customers without requiring email verification as a prerequisite.
 
----
+**Demo Recording:**
+
+[Guest Checkout - Create Order Demo](https://sharing.clickup.com/clip/p/t7537039/772d6df4-d666-4fcd-8845-58615992e1e8/772d6df4-d666-4fcd-8845-58615992e1e8.webm?filename=Checkout%20as%20Guest%20-%20Create%20Order%20Demo.webm)
 
 ## Document Control
 
