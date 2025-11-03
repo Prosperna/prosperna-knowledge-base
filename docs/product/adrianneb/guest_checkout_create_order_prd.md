@@ -297,7 +297,6 @@ Allow merchants to choose between "Delivery" and "Store Pickup" order types at t
 - No shipping address required (section hidden from UI)
 - No shipping method selection required (section hidden from UI)
 - Requires payment method selection only
-- Pickup location auto-populated from merchant's store settings
 
 **BR-04: Order Type Persistence and Data Preservation**
 
@@ -531,7 +530,7 @@ When the merchant fills all fields:
 And the "Send Email Request to Create an Account" checkbox is UNCHECKED
 And the merchant clicks "Create Customer" button
 Then the modal closes
-And a success message displays: "Successfully created customer."
+And a success message displays: "Successfully added lead."
 And the customer "Pedro Dela Cruz" is created with status "Unregistered"
 And NO email is sent to pedro.delacruz@email.com
 And the "Order For" field automatically populates with "Pedro Dela Cruz" (with red "Unregistered" badge)
@@ -551,7 +550,7 @@ And the "Send Email Request to Create an Account" checkbox is CHECKED
 And the merchant clicks "Create Customer" button
 Then the customer "Ana Garcia" is created with status "Unregistered"
 And a verification email IS sent to ana.garcia@email.com
-And a success message displays: "Successfully created customer. Verification email sent."
+And a success message displays: "Successfully added lead. Verification email sent."
 And the "Order For" field automatically populates with "Ana Garcia" (with red "Unregistered" badge)
 And the newly created customer is auto-selected (no need to open dropdown)
 And the merchant can immediately proceed to create an order RIGHT NOW
@@ -617,7 +616,6 @@ Enable merchants to create store pickup orders for walk-in or counter customers 
 
 **BR-11: Pickup Location Handling**
 
-- Pickup location is auto-populated from merchant's store settings
 - Merchant cannot change pickup location during order creation (uses default store)
 - Pickup location displayed in order confirmation modal and order details
 - Multiple store locations (if applicable) handled by merchant settings, not order creation flow
@@ -635,7 +633,7 @@ Enable merchants to create store pickup orders for walk-in or counter customers 
 - Store pickup orders bypass shipping/delivery workflows
 - Order status: "Open" → "Ready for Pickup" → "Completed"
 - Merchant can mark order as "Ready for Pickup" from order details page
-- Customer notified via email/SMS (if contact info provided) when order ready
+- Customer notified via email/SMS when order ready
 
 #### 3.3.3 Scenarios
 
@@ -793,12 +791,11 @@ Comprehensive validation rules and error handling to ensure data quality and pro
 - Email format validation (standard email regex)
 - Phone number format validation (Philippine: +63 + 10 digits)
 - Duplicate email check (warning if email exists)
-- New customer immediately available in dropdown regardless of validation warnings
+- New customer immediately available in dropdown
 
 **BR-18: Error Display Hierarchy**
 
 - Inline errors: Display immediately below relevant field (red text, red border)
-- Summary errors: Display at top of page in red banner for multiple errors
 - Modal errors: Display within modal for modal-specific validations
 - Tooltip errors: Display on hover for disabled buttons explaining why
 
@@ -813,12 +810,8 @@ And NO customer has been selected from "Order For" dropdown
 And shipping method and payment method sections are visible but disabled
 When the merchant tries to click on the "Shipping Method" section
 Then the section remains disabled (greyed out)
-And a validation error banner displays at top: "⚠️ Please select a customer first"
-And the banner has red background with white text
-And a dismiss (X) button is shown on the banner
 When the merchant selects a customer (Registered or Unregistered) from dropdown
-Then the validation banner automatically disappears
-And the "Shipping Method" section becomes enabled
+Then the "Shipping Method" section becomes enabled
 And the "Payment Method" section becomes enabled
 ```
 
@@ -837,10 +830,9 @@ When the merchant fills only partial address:
   | Postal Code   | (empty)     |
 And the merchant moves focus away from Province field (blur)
 Then the Province field shows red border
-And inline error displays below field: "Province is required"
+And inline error displays below field: "Required*"
 When the merchant attempts to select shipping method
 Then the shipping method section is disabled
-And a validation message shows: "Please complete shipping address"
 When the merchant completes all required address fields
 Then all red borders clear
 And inline errors disappear
@@ -868,34 +860,7 @@ Then the "Proceed to Checkout" button becomes enabled (blue, full opacity)
 And the cursor changes to "pointer" on hover
 ```
 
-##### Scenario 4: Multiple validation errors display simultaneously
-
-```gherkin
-Given a merchant has "Delivery" selected
-And NO customer selected
-And NO shipping address entered
-And NO shipping method selected
-And cart is empty
-When the merchant clicks "Proceed to Checkout" button
-Then a validation error banner displays at top with all errors:
-  """
-  ⚠️ Please correct the following:
-  • Select a customer (Registered or Unregistered)
-  • Complete shipping address
-  • Select shipping method
-  • Add at least one product to cart
-  """
-And each section with an error shows red border or indicator
-And the first error field (customer dropdown) is auto-focused
-When the merchant corrects customer selection
-Then the customer error is removed from the banner
-And the banner updates to show 3 remaining errors
-When all errors are corrected one by one
-Then the error banner automatically disappears
-And "Proceed to Checkout" becomes enabled
-```
-
-##### Scenario 5: Create New Customer modal validation
+##### Scenario 4: Create New Customer modal validation
 
 ```gherkin
 Given the "Create New Customer" modal is open
@@ -907,9 +872,9 @@ When the merchant enters invalid data:
 And clicks "Create Customer" button
 Then the modal does NOT close
 And inline errors display below each invalid field:
-  - First Name: "First Name is required"
-  - Email: "Please enter a valid email address"
-  - Mobile Number: "Please enter 10 digits after +63"
+  - First Name: "Required*"
+  - Email: "Please enter a valid email."
+  - Mobile Number: "Invalid phone format for this country."
 And the "Create Customer" button remains enabled (can retry)
 When the merchant corrects all fields
 And clicks "Create Customer" again
@@ -919,7 +884,7 @@ And the modal closes
 And the new customer appears in "Order For" dropdown
 ```
 
-##### Scenario 6: Store Pickup skips shipping validation entirely
+##### Scenario 5: Store Pickup skips shipping validation entirely
 
 ```gherkin
 Given a merchant has "Store Pickup" order type selected
@@ -933,7 +898,7 @@ And the "Confirm Order" modal opens successfully
 And the order can be placed without any shipping information
 ```
 
-##### Scenario 7: Duplicate email error in Create New Customer modal
+##### Scenario 6: Duplicate email error in Create New Customer modal
 
 ```gherkin
 Given the "Create New Customer" modal is open
@@ -956,7 +921,7 @@ And the modal closes
 And the new customer appears in "Order For" dropdown
 ```
 
-##### Scenario 8: Registration status does NOT affect validation
+##### Scenario 7: Registration status does NOT affect validation
 
 ```gherkin
 Given a merchant is creating two orders back-to-back:
@@ -976,23 +941,6 @@ Then EXACTLY THE SAME validation rules apply:
   - Products required
 And NO additional or different validation based on "Unregistered" status
 And both orders are created successfully with identical validation flow
-```
-
-##### Scenario 9: Network error during order submission shows retry option
-
-```gherkin
-Given a merchant has completed all order details for Unregistered customer "Pedro Dela Cruz"
-And clicks "Place Order" in Confirm Order modal
-When the API request fails due to network timeout
-Then the modal remains open
-And the loading spinner stops
-And an error message displays: "⚠️ Failed to create order. Please check connection and try again."
-And the "Place Order" button re-enables
-And a "Retry" button appears next to the error
-When the merchant clicks "Retry"
-Then the order submission is attempted again
-And if successful, proceeds to success modal
-And if fails again, suggests: "Unable to create order after multiple attempts. Please try again later."
 ```
 
 ---
@@ -1065,52 +1013,15 @@ And if fails again, suggests: "Unable to create order after multiple attempts. P
 
 **Primary Flow: Create Order for Unregistered Customer (Delivery)**
 
-```
-[Start Create Order Page]
-    → [Select "Delivery" tab]
-    → [Click "Create New Customer"]
-    → [Fill customer details in modal]
-    → [Uncheck "Send Email Request"] (optional)
-    → [Click "Create Customer"]
-    → [Customer created as Unregistered]
-    → [Customer appears in "Order For" dropdown with Red badge]
-    → [Select customer from dropdown]
-    → [Enter complete shipping address]
-    → [Select shipping method]
-    → [Select payment method]
-    → [Add products to cart]
-    → [Review order summary]
-    → [Click "Proceed to Checkout"]
-    → [Review Confirm Order modal]
-    → [Click "Place Order"]
-    → [Order created successfully]
-    → [View order details]
-```
+![Primary Flow - Guest Checkout on Create Order](/static/primary_flow_guestCreateOrder.png)
 
 **Alternative Flow: Store Pickup for Unregistered Customer**
 
-```
-[Start Create Order Page]
-    → [Select "Store Pickup" tab]
-    → [Select existing Unregistered customer OR create new one]
-    → [Shipping Address & Method sections hidden]
-    → [Select payment method only]
-    → [Add products to cart]
-    → [Proceed to checkout]
-    → [Confirm and place order]
-    → [Order created for store pickup]
-```
+![Alternative Flow - Guest Checkout on Create Order](/static/alternative_flow_guestCreateOrder.png)
 
 **Post-Order Flow: Customer Email Verification**
 
-```
-[Customer receives verification email (if "Send Email Request" was checked)]
-    → [Customer clicks verification link]
-    → [Customer sets password and completes registration]
-    → [Customer status updates: Unregistered → Registered]
-    → [Future orders show Blue "Registered" badge]
-    → [All past orders remain linked to customer]
-```
+![Post-Order Flow - Guest Checkout on Create Order](/static/post_order_flow_guestCreatOrder.png)
 
 ### 5.2 UI Mockups & Wireframes
 
@@ -1122,46 +1033,44 @@ And if fails again, suggests: "Unable to create order after multiple attempts. P
 
 ### 6.1 System Architecture Diagram
 
-Note: Schemas, data models, JSON samples, and API specifications have been intentionally removed per requirements. These sections are left as placeholders for manual addition by the technical team.
-
 **Component Overview:**
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                    Prosperna Frontend                        │
+│                    Prosperna Frontend                       │
 │  ┌───────────────────────────────────────────────────────┐  │
-│  │           Create Order Page Component                  │  │
+│  │           Create Order Page Component                 │  │
 │  │  ┌──────────────────────────────────────────────────┐ │  │
-│  │  │  Order Type Selector (Delivery / Store Pickup)    │ │  │
+│  │  │  Order Type Selector (Delivery / Store Pickup)   │ │  │
 │  │  └──────────────────────────────────────────────────┘ │  │
 │  │  ┌──────────────────────────────────────────────────┐ │  │
-│  │  │  Order For Dropdown Component                     │ │  │
-│  │  │  • Displays Registered (Blue Badge) Customers     │ │  │
-│  │  │  • Displays Unregistered (Red Badge) Customers    │ │  │
-│  │  │  • Searchable by name, email, phone               │ │  │
-│  │  │  • Create New Customer Button                     │ │  │
+│  │  │  Order For Dropdown Component                    │ │  │
+│  │  │  • Displays Registered (Blue Badge) Customers    │ │  │
+│  │  │  • Displays Unregistered (Red Badge) Customers   │ │  │
+│  │  │  • Searchable by name, email, phone              │ │  │
+│  │  │  • Create New Customer Button                    │ │  │
 │  │  └──────────────────────────────────────────────────┘ │  │
 │  │  ┌──────────────────────────────────────────────────┐ │  │
-│  │  │  Shipping Address Component                       │ │  │
-│  │  │  • Visible for Delivery orders                    │ │  │
-│  │  │  • Hidden for Store Pickup orders                 │ │  │
-│  │  │  • Complete address required                      │ │  │
+│  │  │  Shipping Address Component                      │ │  │
+│  │  │  • Visible for Delivery orders                   │ │  │
+│  │  │  • Hidden for Store Pickup orders                │ │  │
+│  │  │  • Complete address required                     │ │  │
 │  │  └──────────────────────────────────────────────────┘ │  │
 │  │  ┌──────────────────────────────────────────────────┐ │  │
-│  │  │  Shipping Method Component                        │ │  │
-│  │  │  • Visible for Delivery orders                    │ │  │
-│  │  │  • Hidden for Store Pickup orders                 │ │  │
+│  │  │  Shipping Method Component                       │ │  │
+│  │  │  • Visible for Delivery orders                   │ │  │
+│  │  │  • Hidden for Store Pickup orders                │ │  │
 │  │  └──────────────────────────────────────────────────┘ │  │
 │  │  ┌──────────────────────────────────────────────────┐ │  │
-│  │  │  Payment Method Component                         │ │  │
-│  │  │  • Always visible and required                    │ │  │
+│  │  │  Payment Method Component                        │ │  │
+│  │  │  • Always visible and required                   │ │  │
 │  │  └──────────────────────────────────────────────────┘ │  │
 │  │  ┌──────────────────────────────────────────────────┐ │  │
-│  │  │  Products & Cart Component                        │ │  │
+│  │  │  Products & Cart Component                       │ │  │
 │  │  └──────────────────────────────────────────────────┘ │  │
 │  │  ┌──────────────────────────────────────────────────┐ │  │
-│  │  │  Order Summary Sidebar                            │ │  │
-│  │  │  [Proceed to Checkout Button]                     │ │  │
+│  │  │  Order Summary Sidebar                           │ │  │
+│  │  │  [Proceed to Checkout Button]                    │ │  │
 │  │  └──────────────────────────────────────────────────┘ │  │
 │  └───────────────────────────────────────────────────────┘  │
 └─────────────────────────────────────────────────────────────┘
@@ -1169,7 +1078,7 @@ Note: Schemas, data models, JSON samples, and API specifications have been inten
 
 ### 6.2 Data Model (ER Diagram)
 
-[Section intentionally left blank for manual addition]
+![Data Model - Guest Checkout on Create Order](/static/data_model_guestCreateOrder.png)
 
 ---
 
@@ -1282,14 +1191,14 @@ Note: Schemas, data models, JSON samples, and API specifications have been inten
 
 ## Approval and Sign-off
 
-| Stakeholder       | Role | Status        | Date Signed |
-| ----------------- | ---- | ------------- | ----------- |
-| Dennis Velasco    | CEO  | ☐ Pending     | ---         |
-| Ruel Nopal        | HoE  | ☐ Pending     | ---         |
-| Rian Froille Alde | QA   | ☐ Pending     | ---         |
-| ---               | BE   | ☐ Pending     | ---         |
-| ---               | FE   | ☐ Pending     | ---         |
-| Adrianne Berida   | BA   | ☐ In Progress | ---         |
+| Stakeholder       | Role | Status      | Date Signed      |
+| ----------------- | ---- | ----------- | ---------------- |
+| Dennis Velasco    | CEO  | ☐ Pending   | ---              |
+| Ruel Nopal        | HoE  | ☐ Pending   | ---              |
+| Rian Froille Alde | QA   | ☐ Pending   | ---              |
+| ---               | BE   | ☐ Pending   | ---              |
+| ---               | FE   | ☐ Pending   | ---              |
+| Adrianne Berida   | BA   | ☐ Completed | November 3, 2025 |
 
 ## **Approval Date:** YYYY-MM-DD
 
