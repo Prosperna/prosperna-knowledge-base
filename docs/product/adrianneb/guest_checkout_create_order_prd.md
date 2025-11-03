@@ -7,7 +7,7 @@ sidebar_position: 3
 
 ## Guest Checkout - Create Order Enhancement
 
-> _Agile-focused PRD documenting the enhancement to Prosperna's Create Order feature, enabling merchants to create orders for both Registered and Unregistered customers without requiring email verification as a prerequisite._
+Agile-focused PRD documenting the enhancement to Prosperna's Create Order feature, enabling merchants to create orders for both Registered and Unregistered customers without requiring email verification as a prerequisite.
 
 ---
 
@@ -19,10 +19,10 @@ sidebar_position: 3
 | Version        | 0.1                                       |
 | Date           | November 03, 2025                         |
 | Prepared by    | Business Analyst                          |
-| Reviewed by    | _To be assigned_                          |
-| Approved by    | _To be assigned_                          |
+| Reviewed by    | To be assigned                            |
+| Approved by    | To be assigned                            |
 | Status         | For Review                                |
-| Related BRD    | _To be created_                           |
+| Related BRD    | To be created                             |
 
 ---
 
@@ -54,10 +54,10 @@ Enable merchants like Harbour City to seamlessly process orders for all customer
 
 **Technical Performance:**
 
-- Order creation for Unregistered customers completes in <5 seconds (P95)
+- Order creation for Unregistered customers completes in less than 5 seconds (P95)
 - 99.5% successful order creation rate for both Registered and Unregistered customers
 - Zero data loss during order processing
-- "Create New Customer" modal creates customer and populates dropdown in <2 seconds
+- "Create New Customer" modal creates customer and populates dropdown in less than 2 seconds
 
 **Business Impact:**
 
@@ -69,7 +69,7 @@ Enable merchants like Harbour City to seamlessly process orders for all customer
 **User Satisfaction:**
 
 - NPS +12 points for merchants using the enhanced Create Order feature
-- < 3% support tickets related to Registered/Unregistered customer confusion
+- Less than 3% support tickets related to Registered/Unregistered customer confusion
 - 85% task success rate in usability testing for creating orders for new Unregistered customers
 
 ### 1.4 Related Documents
@@ -1001,14 +1001,14 @@ And if fails again, suggests: "Unable to create order after multiple attempts. P
 
 ### 4.1 Performance
 
-| Requirement                                | Metric                                                 | Measurement Method                  |
-| ------------------------------------------ | ------------------------------------------------------ | ----------------------------------- |
-| Order creation for Unregistered customers  | P95 < 5 seconds from submission to success modal       | APM monitoring (Backend API timing) |
-| "Create New Customer" modal responsiveness | Customer created and appears in dropdown in <2 seconds | Frontend + Backend timing           |
-| Dropdown rendering with badges             | < 500ms to render 100+ customers with badges           | React rendering performance         |
-| Order type switching                       | < 300ms transition between Delivery/Store Pickup       | UI state change timing              |
-| Badge display performance                  | No visible lag when opening dropdown with 500+ entries | Frontend performance testing        |
-| Page load time                             | < 2 seconds initial load of Create Order page          | Browser performance metrics         |
+| Requirement                                | Metric                                                          | Measurement Method                  |
+| ------------------------------------------ | --------------------------------------------------------------- | ----------------------------------- |
+| Order creation for Unregistered customers  | P95 less than 5 seconds from submission to success modal        | APM monitoring (Backend API timing) |
+| "Create New Customer" modal responsiveness | Customer created and appears in dropdown in less than 2 seconds | Frontend + Backend timing           |
+| Dropdown rendering with badges             | Less than 500ms to render 100+ customers with badges            | React rendering performance         |
+| Order type switching                       | Less than 300ms transition between Delivery/Store Pickup        | UI state change timing              |
+| Badge display performance                  | No visible lag when opening dropdown with 500+ entries          | Frontend performance testing        |
+| Page load time                             | Less than 2 seconds initial load of Create Order page           | Browser performance metrics         |
 
 ### 4.2 Scalability
 
@@ -1016,17 +1016,17 @@ And if fails again, suggests: "Unable to create order after multiple attempts. P
 | --------------------------------------- | ------------------------------------------------------- | ----------------------------- |
 | Dropdown performance with large dataset | Support 10,000+ customers without lag                   | Load testing with sample data |
 | Concurrent order creation               | Support 1,000+ merchants creating orders simultaneously | Load testing                  |
-| Badge rendering                         | Render badges for 1,000 customers in <1 second          | Frontend optimization testing |
-| Database queries                        | Customer lookup by registration status <100ms           | Database query optimization   |
+| Badge rendering                         | Render badges for 1,000 customers in less than 1 second | Frontend optimization testing |
+| Database queries                        | Customer lookup by registration status less than 100ms  | Database query optimization   |
 
 ### 4.3 Reliability
 
-| Requirement                 | Target                                         | Monitoring                      |
-| --------------------------- | ---------------------------------------------- | ------------------------------- |
-| Order creation success rate | > 99.5% for both Registered and Unregistered   | Order creation logs             |
-| Badge display accuracy      | 100% accuracy in showing correct status        | Automated UI testing            |
-| Data consistency            | Zero data loss on order creation failures      | Database transaction monitoring |
-| Customer status updates     | Email verification updates status within 2 min | Status update monitoring        |
+| Requirement                 | Target                                                  | Monitoring                      |
+| --------------------------- | ------------------------------------------------------- | ------------------------------- |
+| Order creation success rate | Greater than 99.5% for both Registered and Unregistered | Order creation logs             |
+| Badge display accuracy      | 100% accuracy in showing correct status                 | Automated UI testing            |
+| Data consistency            | Zero data loss on order creation failures               | Database transaction monitoring |
+| Customer status updates     | Email verification updates status within 2 min          | Status update monitoring        |
 
 ### 4.4 Security
 
@@ -1043,8 +1043,8 @@ And if fails again, suggests: "Unable to create order after multiple attempts. P
 | Requirement                          | Target                                                  | Measurement       |
 | ------------------------------------ | ------------------------------------------------------- | ----------------- |
 | Badge distinction clarity            | 95% users correctly identify Registered vs Unregistered | Usability testing |
-| Order creation time (Unregistered)   | < 3 minutes average for complete order                  | User testing      |
-| Dropdown search effectiveness        | 90% users find customer in <10 seconds                  | User testing      |
+| Order creation time (Unregistered)   | Less than 3 minutes average for complete order          | User testing      |
+| Dropdown search effectiveness        | 90% users find customer in less than 10 seconds         | User testing      |
 | Store Pickup workflow understanding  | 85% users understand when to use Store Pickup           | User testing      |
 | Registration status badge visibility | 100% users notice badge in dropdown options             | Eye tracking      |
 
@@ -1122,7 +1122,7 @@ And if fails again, suggests: "Unable to create order after multiple attempts. P
 
 ### 6.1 System Architecture Diagram
 
-_Note: Schemas, data models, JSON samples, and API specifications have been intentionally removed per requirements. These sections are left as placeholders for manual addition by the technical team._
+Note: Schemas, data models, JSON samples, and API specifications have been intentionally removed per requirements. These sections are left as placeholders for manual addition by the technical team.
 
 **Component Overview:**
 
@@ -1169,7 +1169,7 @@ _Note: Schemas, data models, JSON samples, and API specifications have been inte
 
 ### 6.2 Data Model (ER Diagram)
 
-_[Section intentionally left blank for manual addition]_
+[Section intentionally left blank for manual addition]
 
 ---
 
@@ -1177,15 +1177,15 @@ _[Section intentionally left blank for manual addition]_
 
 ### 7.1 Test Types & Coverage
 
-| Test Type          | Coverage Target                                    | Responsibility | Tools                       |
-| ------------------ | -------------------------------------------------- | -------------- | --------------------------- |
-| Unit Tests         | > 85% code coverage for badge display and dropdown | Dev Team       | Jest, React Testing Library |
-| Integration Tests  | Customer creation → dropdown population flow       | Dev Team       | Jest, Supertest             |
-| BDD Scenario Tests | All Gherkin scenarios automated                    | QA Team        | Cucumber, Playwright        |
-| Regression Tests   | Existing Registered customer flow unchanged        | QA Team        | Automated test suite        |
-| Visual Tests       | Badge colors and positioning                       | QA Team        | Percy, Chromatic            |
-| Accessibility      | Badge contrast and screen reader support           | QA Team        | axe, WAVE                   |
-| UAT                | Merchant end-to-end workflows                      | Product + QA   | Manual testing              |
+| Test Type          | Coverage Target                                               | Responsibility | Tools                       |
+| ------------------ | ------------------------------------------------------------- | -------------- | --------------------------- |
+| Unit Tests         | Greater than 85% code coverage for badge display and dropdown | Dev Team       | Jest, React Testing Library |
+| Integration Tests  | Customer creation → dropdown population flow                  | Dev Team       | Jest, Supertest             |
+| BDD Scenario Tests | All Gherkin scenarios automated                               | QA Team        | Cucumber, Playwright        |
+| Regression Tests   | Existing Registered customer flow unchanged                   | QA Team        | Automated test suite        |
+| Visual Tests       | Badge colors and positioning                                  | QA Team        | Percy, Chromatic            |
+| Accessibility      | Badge contrast and screen reader support                      | QA Team        | axe, WAVE                   |
+| UAT                | Merchant end-to-end workflows                                 | Product + QA   | Manual testing              |
 
 ### 7.2 BDD Test Automation
 
@@ -1291,8 +1291,8 @@ _[Section intentionally left blank for manual addition]_
 | ---               | FE   | ☐ Pending     | ---         |
 | Adrianne Berida   | BA   | ☐ In Progress | ---         |
 
-## **Approval Date:** _YYYY-MM-DD_
+## **Approval Date:** YYYY-MM-DD
 
 **Document End**
 
-_This PRD provides comprehensive specifications for enhancing Prosperna's Create Order feature to support both Registered and Unregistered customers, removing the email verification barrier while maintaining complete data collection and order processing workflows._
+This PRD provides comprehensive specifications for enhancing Prosperna's Create Order feature to support both Registered and Unregistered customers, removing the email verification barrier while maintaining complete data collection and order processing workflows.
