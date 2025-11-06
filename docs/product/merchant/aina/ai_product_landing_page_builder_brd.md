@@ -2,7 +2,7 @@
 id: ai-product-landing-page-builder
 title: AI Product Landing Page Builder BRD
 sidebar_label: Product Landing Page Builder BRD
-sidebar_position: 2
+sidebar_position: 1
 ---
 
 ### **Executive Summary:**

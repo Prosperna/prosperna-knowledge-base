@@ -2,7 +2,7 @@
 id: guest-checkout-create-order
 title: Guest Checkout - Create Order PRD
 sidebar_label: Guest Checkout - Create Order PRD
-sidebar_position: 3
+sidebar_position: 1
 ---
 
 Agile-focused PRD documenting the enhancement to Prosperna's Create Order feature, enabling merchants to create orders for both Registered and Unregistered customers without requiring email verification as a prerequisite.
@@ -1013,15 +1013,15 @@ And both orders are created successfully with identical validation flow
 
 **Primary Flow: Create Order for Unregistered Customer (Delivery)**
 
-![Primary Flow - Guest Checkout on Create Order](/primary_flow_guestCreateOrder.png)
+![Primary Flow - Guest Checkout on Create Order](/product/user-flows/primary_flow_guestCreateOrder.png)
 
 **Alternative Flow: Store Pickup for Unregistered Customer**
 
-![Alternative Flow - Guest Checkout on Create Order](/alternative_flow_guestCreateOrder.png)
+![Alternative Flow - Guest Checkout on Create Order](/product/user-flows/alternative_flow_guestCreateOrder.png)
 
 **Post-Order Flow: Customer Email Verification**
 
-![Post-Order Flow - Guest Checkout on Create Order](/post_order_flow_guestCreatOrder.png)
+![Post-Order Flow - Guest Checkout on Create Order](/product/user-flows/post_order_flow_guestCreatOrder.png)
 
 ### 5.2 UI Mockups & Wireframes
 
@@ -1078,7 +1078,7 @@ And both orders are created successfully with identical validation flow
 
 ### 6.2 Data Model (ER Diagram)
 
-![Data Model - Guest Checkout on Create Order](/data_model_guestCreateOrder.png)
+![Data Model - Guest Checkout on Create Order](/product/data-models/data_model_guestCreateOrder.png)
 
 ---
 
