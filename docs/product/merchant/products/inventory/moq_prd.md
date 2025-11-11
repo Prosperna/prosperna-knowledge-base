@@ -179,7 +179,7 @@ This creates critical operational and financial challenges:
    - **Validation Error Display:**
 
      - Error message appears below quantity selector
-     - Format: "Minimum order of {MOQ} units is required"
+     - Format: "Minimum order of (x) units is required"
      - Styling: Red text, small font size
      - Error clears when quantity >= MOQ
      - Input field shows red border when error is active
@@ -209,7 +209,7 @@ This creates critical operational and financial challenges:
    - **MOQ Validation in Cart:**
 
      - If item quantity < MOQ: inline error appears below quantity controls
-     - Error message: "Minimum order of {MOQ} units is required"
+     - Error message: "Minimum order of (x) units is required"
      - Error styling: red text
      - Input field shows red border when violating MOQ
 
@@ -236,7 +236,7 @@ This creates critical operational and financial challenges:
      - Input field accepts direct numeric entry
      - Real-time validation on change
      - If quantity < MOQ: error message displays below input
-     - Error format: "Minimum order of {MOQ} units is required"
+     - Error format: "Minimum order of (x) units is required"
      - Input field shows red border on validation error
 
    - **Cart Actions:**
@@ -510,7 +510,7 @@ Enforce minimum order quantity rules on the product page by controlling the quan
 **BR-07: Quantity Validation Rules**
 
 - If user enters quantity < MOQ: show inline error below quantity selector
-- Error message format: "Minimum order of {MOQ} units is required"
+- Error message format: "Minimum order of (x) units is required"
 - Error styling: red text, red input border
 - Error clears automatically when quantity >= MOQ
 - Quantity input accepts only positive integers
@@ -673,7 +673,7 @@ Validate MOQ requirements in the floating cart panel that appears after adding i
 **BR-11: MOQ Validation in Floating Cart**
 
 - If item quantity < MOQ: display inline error below quantity controls
-- Error message: "Minimum order of {MOQ} units is required"
+- Error message: "Minimum order of (x) units is required"
 - Error styling: red text, red input border
 - Validation error persists until quantity corrected or item removed
 - Multiple items can have validation errors simultaneously
@@ -840,7 +840,7 @@ Enforce MOQ requirements on the full cart page where customers review all items 
 **BR-15: Cart Page MOQ Validation**
 
 - If quantity < MOQ: error message displays below quantity input
-- Error format: "Minimum order of {MOQ} units is required"
+- Error format: "Minimum order of (x) units is required"
 - Input field shows red border when validation error exists
 - Error clears when quantity becomes >= MOQ
 - Validation runs on every quantity change
