@@ -169,8 +169,8 @@ This creates critical operational and financial challenges:
      - When MOQ is enabled: quantity selector defaults to MOQ value
      - Input field shows current quantity value
      - Minus (-) button behavior:
-       - Enabled when quantity > MOQ
-       - Disabled when quantity <= MOQ (visual indication: grayed out)
+       - Enabled when quantity is greater than MOQ
+       - Disabled when quantity is less than or equal to MOQ (visual indication: grayed out)
      - Plus (+) button: always enabled, allows increasing beyond MOQ
      - Manual input field:
        - Accepts numeric input
@@ -182,12 +182,12 @@ This creates critical operational and financial challenges:
      - Error message appears below quantity selector
      - Format: "Minimum order of (x) units is required"
      - Styling: Red text, small font size
-     - Error clears when quantity >= MOQ
+     - Error clears when quantity is greater than or equal to MOQ
      - Input field shows red border when error is active
 
    - **Add to Cart Behavior:**
      - "Add to Cart" button is disabled when validation error exists
-     - Button shows normal state when quantity >= MOQ
+     - Button shows normal state when quantity is greater than or equal to MOQ
      - Clicking Add to Cart when quantity < MOQ: no action (button disabled)
      - When quantity is valid: product added to cart successfully
 
@@ -263,12 +263,12 @@ This creates critical operational and financial challenges:
    - **Validation Behavior:**
 
      - Quantity < MOQ: show error, disable checkout
-     - Quantity >= MOQ: clear error, enable checkout
+     - Quantity is greater than or equal to MOQ: clear error, enable checkout
      - Error persists until quantity corrected or item removed
 
    - **Edge Cases:**
      - If MOQ changes while item in cart: re-validate all cart items
-     - If MOQ is disabled: remove all validations (treat as MOQ = 1)
+     - If MOQ is disabled: remove all validations (treat as MOQ equals 1)
      - Empty cart: no validation needed
 
 **Benefits After Implementation:**
@@ -399,7 +399,7 @@ Allow merchants to enable and configure Minimum Order Quantity (MOQ) settings fo
 
 **BR-04: MOQ Display Rules**
 
-- MOQ setting only affects storefront when toggle is ON and value >= 2
+- MOQ setting only affects storefront when toggle is ON and value is greater than or equal to 2
 - When toggle is OFF: product behaves as standard (no MOQ enforcement)
 - MOQ validation applies to single product page, floating cart, and cart page
 
@@ -595,8 +595,8 @@ Enforce minimum order quantity rules on the product page by controlling the quan
 
 - Plus (+) button: always enabled, increases quantity by 1
 - Minus (-) button:
-  - Enabled when current quantity > MOQ
-  - Disabled (grayed out) when current quantity <= MOQ
+  - Enabled when current quantity is greater than MOQ
+  - Disabled (grayed out) when current quantity is less than or equal to MOQ
   - Cannot reduce quantity below MOQ
 - Manual input field allows direct numeric entry
 - Input validates on change and blur events
@@ -606,13 +606,13 @@ Enforce minimum order quantity rules on the product page by controlling the quan
 - If user enters quantity < MOQ: show inline error below quantity selector
 - Error message format: "Minimum order of (x) units is required"
 - Error styling: red text, red input border
-- Error clears automatically when quantity >= MOQ
+- Error clears automatically when quantity is greater than or equal to MOQ
 - Quantity input accepts only positive integers
 
 **BR-08: Add to Cart Button State**
 
 - "Add to Cart" button disabled when validation error exists (quantity < MOQ)
-- "Add to Cart" button enabled when quantity >= MOQ
+- "Add to Cart" button enabled when quantity is greater than or equal to MOQ
 - Clicking disabled button has no effect
 - When enabled and clicked: product added to cart with specified quantity
 
@@ -664,7 +664,7 @@ And the product has MOQ of "5"
 And the current quantity is "8"
 When the customer clicks the minus (-) button
 Then the quantity decreases to "7"
-And the minus (-) button remains enabled (quantity still > MOQ)
+And the minus (-) button remains enabled (quantity still greater than MOQ)
 And no validation error is shown
 And the "Add to Cart" button remains enabled
 ```
@@ -716,7 +716,7 @@ And the "Add to Cart" button becomes enabled
 ```gherkin
 Given a customer is on a product page
 And the product has MOQ of "5"
-And the current quantity is "10" (valid, >= MOQ)
+And the current quantity is "10" (valid, is greater than MOQ)
 And no validation errors exist
 When the customer clicks the "Add to Cart" button
 Then the product is added to the cart with quantity "10"
@@ -757,7 +757,7 @@ Validate MOQ requirements in the floating cart overlay that appears after adding
 **BR-10: Quantity Editing in Floating Cart**
 
 - Each cart item has quantity controls: minus (-), input field, plus (+)
-- Minus (-) button decreases quantity by 1 (minimum = MOQ for that product)
+- Minus (-) button decreases quantity by 1 (minimum is equal to MOQ for that product)
 - Plus (+) button increases quantity by 1 (no maximum in floating cart)
 - Input field allows direct numeric entry
 - Real-time validation on every quantity change
@@ -783,7 +783,7 @@ Validate MOQ requirements in the floating cart overlay that appears after adding
 
 ```gherkin
 Given a customer has added products to cart
-And all items have quantities >= their respective MOQ values
+And all items have quantities greater than or equal to their respective MOQ values
 When the customer opens the floating cart overlay
 Then all cart items are displayed
 And no validation errors are shown
@@ -882,7 +882,7 @@ And cart items and validation states are preserved
 
 ```gherkin
 Given the floating cart is displayed
-And all cart items have valid quantities (>= MOQ)
+And all cart items have valid quantities (greater than or equal to MOQ)
 And the "Checkout" button is enabled
 When the customer clicks the "Checkout" button
 Then the floating cart closes
@@ -934,7 +934,7 @@ Enforce MOQ requirements on the full cart page where customers review all items 
 - If quantity < MOQ: error message displays below quantity input
 - Error format: "Minimum order of (x) units is required"
 - Input field shows red border when validation error exists
-- Error clears when quantity becomes >= MOQ
+- Error clears when quantity becomes greater than or equal to MOQ
 - Validation runs on every quantity change
 
 **BR-16: Cart Page Checkout Controls**
@@ -956,7 +956,7 @@ Enforce MOQ requirements on the full cart page where customers review all items 
 
 ```gherkin
 Given a customer has items in their cart
-And all items have quantities >= their respective MOQs
+And all items have quantities greater than or equal to their respective MOQs
 When the customer navigates to the cart page
 Then all cart items are displayed in the table
 And no validation errors are shown
@@ -1047,7 +1047,7 @@ And cart contents and validation states are preserved
 
 ```gherkin
 Given a customer is on the cart page
-And all cart items have valid quantities (>= their MOQs)
+And all cart items have valid quantities (greater than or equal to their MOQs)
 And the "Checkout" button is enabled
 When the customer clicks the "Checkout" button
 Then the customer is navigated to the checkout page
@@ -1105,13 +1105,13 @@ When a merchant changes MOQ settings for a product (enables MOQ, disables MOQ, o
 
 - When merchant enables MOQ with specific value: all cart items validated against new MOQ
 - Items with quantity < new MOQ show validation errors
-- Items with quantity >= new MOQ remain valid
+- Items with quantity greater than or equal to new MOQ remain valid
 
 **BR-21: MOQ Value Changed Scenario**
 
 - When merchant changes MOQ value (e.g., from 5 to 10): all cart items re-validated
 - Items previously valid may become invalid if quantity < new MOQ
-- Items invalid may become valid if quantity >= new lower MOQ
+- Items invalid may become valid if quantity becomes greater than or equal to new lower MOQ
 
 #### 3.5.3 Scenarios
 
@@ -1159,7 +1159,7 @@ Given a product has MOQ of "10"
 And a customer has 7 units in cart (causing validation error)
 When the merchant changes MOQ to "5" and saves
 Then the customer's cart item (quantity 7) is re-validated
-And the validation error disappears (7 >= 5)
+And the validation error disappears (7 is greater than 5)
 And if no other errors exist, the checkout button becomes enabled
 ```
 
@@ -1265,7 +1265,7 @@ Enforce minimum order quantity rules in the merchant dashboard's Create Order mo
 - When merchant clicks "Add" on a product with MOQ enabled: product modal opens
 - Modal displays product details, images, and quantity selector
 - Quantity selector defaults to MOQ value (not 1) when MOQ is enabled
-- Minus (-) button disabled when quantity <= MOQ
+- Minus (-) button disabled when quantity is less than or equal to MOQ
 - Plus (+) button always enabled for incrementing quantity
 - Manual input field validates on change and blur events
 
@@ -1342,7 +1342,7 @@ And the "Add to Order" button becomes enabled
 
 ```gherkin
 Given the product modal is open for a product with MOQ of "6"
-And the current quantity is "10" (valid, >= MOQ)
+And the current quantity is "10" (valid, is greater than MOQ)
 And no validation errors exist
 When the merchant clicks the "Add to Order" button
 Then the product is added to the Order Summary with quantity "10"
@@ -1432,7 +1432,7 @@ And the merchant can still adjust quantities or remove items
 
 ```gherkin
 Given the Order Summary contains multiple products
-And all products have valid quantities (>= their MOQs)
+And all products have valid quantities (greater than or equal to their MOQs)
 And the "Proceed to Checkout" button is enabled
 When the merchant clicks the "Proceed to Checkout" button
 Then the order proceeds to the checkout step
@@ -1621,7 +1621,7 @@ And no order (customer-created or merchant-created) can bypass MOQ validation
 │  │           Product Page Component                      │  │
 │  │  ┌─────────────────────────────────────────────────┐  │  │
 │  │  │  Quantity Selector with MOQ Enforcement         │  │  │
-│  │  │  • Default value = MOQ (if enabled)             │  │  │
+│  │  │  • Default value is equal to MOQ (if enabled)   │  │  │
 │  │  │  • Minus button disabled at MOQ threshold       │  │  │
 │  │  │  • Real-time validation on input change         │  │  │
 │  │  │  • Inline error display                         │  │  │
@@ -1629,7 +1629,7 @@ And no order (customer-created or merchant-created) can bypass MOQ validation
 │  │  ┌─────────────────────────────────────────────────┐  │  │
 │  │  │  Add to Cart Button                             │  │  │
 │  │  │  • Disabled when quantity < MOQ                 │  │  │
-│  │  │  • Enabled when quantity >= MOQ                 │  │  │
+│  │  │  • Enabled when quantity is greater than MOQ    │  │  │
 │  │  └─────────────────────────────────────────────────┘  │  │
 │  └───────────────────────────────────────────────────────┘  │
 │  ┌───────────────────────────────────────────────────────┐  │
@@ -1850,7 +1850,7 @@ And no order (customer-created or merchant-created) can bypass MOQ validation
 18. Turning toggle OFF with unsaved changes discards changes correctly
 19. Empty MOQ field shows "Required\*" error when toggle ON
 20. Save button blocked when MOQ field invalid or empty
-21. MOQ value > 100 shows max value error
+21. MOQ value greater than 100 shows max value error
 22. Quantity selector plus button always enabled
 23. Quantity selector minus button state changes correctly
 24. Manual quantity input validates on change and blur events
@@ -1868,7 +1868,7 @@ And no order (customer-created or merchant-created) can bypass MOQ validation
 33. Product page loads with MOQ in < 2 seconds (P95)
 34. MOQ validation adds < 200ms to product page operations
 35. Real-time validation responds in < 100ms
-36. Cache hit rate for MOQ lookups > 99%
+36. Cache hit rate for MOQ lookups greater than 99%
 37. Concurrent validation supports 10,000+ simultaneous carts
 38. Mobile responsiveness for MOQ controls on 375px+ screens
 39. Keyboard navigation works for all MOQ controls
