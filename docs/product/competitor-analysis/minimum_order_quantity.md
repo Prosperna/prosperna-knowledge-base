@@ -1,6 +1,7 @@
 ---
-id: Minimum Order Quantity
+id: minimum-order-quantity
 title: Competitor Research - Minimum Order Quantity
+sidebar_label: Minimum Order Quantity
 sidebar_position: 1
 ---
 

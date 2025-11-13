@@ -1,22 +1,22 @@
 ---
 id: minimum-order-quantity
-title: Minimum Order Quantity (MOQ) PRD
+title: Minimum Order Quantity PRD
 sidebar_label: Minimum Order Quantity PRD
 sidebar_position: 1
 ---
 
-## Minimum Order Quantity (MOQ) Feature
+Agile-focused PRD with 64 scenarios documenting the implementation of Minimum Order Quantity (MOQ) feature for Prosperna's merchant dashboard and storefront, enabling merchants to set minimum purchase requirements per product and automatically enforce these rules during customer checkout.
 
-Agile-focused PRD documenting the implementation of Minimum Order Quantity (MOQ) feature for Prosperna's merchant dashboard and storefront, enabling merchants to set minimum purchase requirements per product and automatically enforce these rules during customer checkout.
+**Demo Recording:**
 
----
+[Set Minimum Order Quantity Demo](https://sharing.clickup.com/clip/p/t7537039/e896aeff-bb84-4caa-b491-27f785faafbb/e896aeff-bb84-4caa-b491-27f785faafbb.webm?filename=Set%20Minimum%20Order%20Quantity%20Demo)
 
 ## Document Control
 
 | Item           | Details                              |
 | -------------- | ------------------------------------ |
 | Document Title | Minimum Order Quantity (MOQ) Feature |
-| Version        | 0.1                                  |
+| Version        | 1.0                                  |
 | Date           | November 10, 2025                    |
 | Prepared by    | Business Analyst                     |
 | Reviewed by    | To be assigned                       |
@@ -30,7 +30,7 @@ Agile-focused PRD documenting the implementation of Minimum Order Quantity (MOQ)
 
 | Version | Date         | Author           | Change Description                |
 | ------- | ------------ | ---------------- | --------------------------------- |
-| 0.1     | Nov 10, 2025 | Business Analyst | Initial draft - MOQ specification |
+| 1.0     | Nov 10, 2025 | Business Analyst | Initial draft - MOQ specification |
 
 ---
 
@@ -79,7 +79,7 @@ Enable Prosperna merchants to define and enforce minimum order quantities for th
 
 ### 1.4 Related Documents
 
-- [Competitor Research - Minimum Order Quantity](https://pkb.prosperna.ph/docs/product/competitor-analysis/Minimum%20Order%20Quantity)
+- [Competitor Research - Minimum Order Quantity](https://pkb.prosperna.ph/docs/product/competitor-analysis/minimum-order-quantity)
 - [MOQ Feature Prototype](https://p1-ba-pocs.vercel.app/moq)
 
 ---
@@ -152,24 +152,25 @@ This creates critical operational and financial challenges:
    - **MOQ Input Field:**
      - Label: "Minimum quantity per order:"
      - Numeric input field with "units" suffix
-     - Default value when enabled: Empty (merchant must enter value)
-     - Minimum allowed: 2 units
+     - Frontend always displays "2" as default value (both when toggle OFF and when first enabled)
+     - Database stores null until product is saved with toggle ON
+     - Minimum enforced: 2 units (input auto-corrects values < 2 to 2 on blur)
      - Maximum allowed: 100 units
      - Field is disabled (grayed out) when toggle is OFF
      - Field becomes active when toggle is ON
-   - **No custom message field** in initial implementation
-   - Settings save via "Save" button at bottom of page
+     - **No custom message field** in initial implementation
+     - Settings save via "Save" button at bottom of page
 
 2. **Storefront - Product Page with MOQ Enforcement:**
 
    - **Quantity Selector Behavior:**
 
-     - When MOQ is disabled (or = 1): quantity selector defaults to 1
+     - When MOQ is disabled: quantity selector defaults to 1
      - When MOQ is enabled: quantity selector defaults to MOQ value
      - Input field shows current quantity value
      - Minus (-) button behavior:
        - Enabled when quantity > MOQ
-       - Disabled when quantity = MOQ (visual indication: grayed out)
+       - Disabled when quantity <= MOQ (visual indication: grayed out)
      - Plus (+) button: always enabled, allows increasing beyond MOQ
      - Manual input field:
        - Accepts numeric input
@@ -190,7 +191,7 @@ This creates critical operational and financial challenges:
      - Clicking Add to Cart when quantity < MOQ: no action (button disabled)
      - When quantity is valid: product added to cart successfully
 
-3. **Storefront - Floating Cart Panel:**
+3. **Storefront - Floating Cart Overlay:**
 
    - **Cart Item Display:**
 
@@ -225,7 +226,7 @@ This creates critical operational and financial challenges:
      - Columns: Product, Product Type, Price, Quantity, Total, Actions
      - Each row shows one cart item
      - Product column: image + name
-     - Product Type: badge showing "Physical"
+     - Product Type: badge showing "Physical" or "Digital"
      - Price: unit price
      - Quantity: numeric input field (not increment/decrement buttons on table)
      - Total: calculated total for that line item
@@ -254,7 +255,7 @@ This creates critical operational and financial challenges:
 
    - **MOQ Check Timing:**
 
-     - On product page: before Add to Cart
+     - On single product page: before Add to Cart
      - In floating cart: on quantity change
      - In cart page: on quantity change
      - Before checkout: final validation check
@@ -349,7 +350,7 @@ This creates critical operational and financial challenges:
 
 #### 3.1.1 Feature Context
 
-Allow merchants to enable and configure Minimum Order Quantity (MOQ) settings for products in the Price section of the product edit page. This provides merchants with control over minimum purchase requirements to align with their business model and product economics.
+Allow merchants to enable and configure Minimum Order Quantity (MOQ) settings for products in the Price section of the edit product page. This provides merchants with control over minimum purchase requirements to align with their business model and product economics.
 
 #### 3.1.2 Business Rules
 
@@ -364,12 +365,30 @@ Allow merchants to enable and configure Minimum Order Quantity (MOQ) settings fo
 **BR-02: MOQ Value Input Validation**
 
 - MOQ value must be a positive integer
-- Minimum allowed value: 2 units
+- Minimum enforced value: 2 units (values below 2 auto-correct to 2 on blur)
 - Maximum allowed value: 100 units
 - Input field shows "units" suffix for clarity
 - Input field is numeric-only (no decimals, letters, or special characters)
 - Empty field when enabled requires merchant to enter value before saving
-- Value of 1 is not allowed (use toggle OFF instead)
+- Values less than 2 (e.g., 0, 1) automatically convert to 2 on blur event (no error displayed)
+
+**BR-02A: MOQ Field Default Display Behavior**
+
+- Frontend always displays a value in the MOQ input field
+- When toggle is OFF and no value saved in database: Display "2" (disabled, grayed)
+- When toggle is OFF and value exists in database: Display saved value (disabled, grayed)
+- When toggle is ON and no value saved in database: Display "2" (active, editable)
+- When toggle is ON and value exists in database: Display saved value (active, editable)
+- Database only stores MOQ value when product is saved with toggle ON and valid value entered
+
+**BR-02B: Toggle OFF Behavior with Unsaved Changes**
+
+- When MOQ toggle is turned OFF without saving:
+  - If field has a previously saved value: Field displays last saved value (disabled/grayed)
+  - If field has never had a saved value: Field displays "2" as default (disabled/grayed)
+  - Any unsaved changes (empty field, modified values) are discarded
+  - Any validation errors are cleared
+- This implements "cancel current edit" behavior - unsaved changes don't persist
 
 **BR-03: MOQ Settings Persistence**
 
@@ -381,8 +400,8 @@ Allow merchants to enable and configure Minimum Order Quantity (MOQ) settings fo
 **BR-04: MOQ Display Rules**
 
 - MOQ setting only affects storefront when toggle is ON and value >= 2
-- When toggle is OFF or value = 1: product behaves as standard (no MOQ enforcement)
-- MOQ validation applies to product page, floating cart, cart page, and checkout
+- When toggle is OFF: product behaves as standard (no MOQ enforcement)
+- MOQ validation applies to single product page, floating cart, and cart page
 
 #### 3.1.3 Scenarios
 
@@ -433,10 +452,10 @@ And the "Minimum Order Quantity" toggle is ON
 And the MOQ input field is empty and active
 When the merchant types "1" into the MOQ input field
 And the merchant clicks outside the input field (blur event)
-Then a validation error message appears below the input field
-And the error message reads "Minimum value must be at least 2 units"
-And the input field border turns red
-And the "Save" button may be disabled or show warning
+Then the input field value automatically changes to "2"
+And no validation error message is displayed
+And the input field border remains normal (not red)
+And the merchant can proceed to save
 ```
 
 ##### Scenario 5: Merchant enters MOQ value above maximum (more than 100)
@@ -450,7 +469,7 @@ And the merchant clicks outside the input field (blur event)
 Then a validation error message appears below the input field
 And the error message reads "Maximum value cannot exceed 100 units"
 And the input field border turns red
-And the "Save" button may be disabled or show warning
+And clicking the "Save" button will trigger the system to not save the changes + display error toast "Please complete all the required fields."
 ```
 
 ##### Scenario 6: Merchant saves MOQ settings successfully
@@ -462,22 +481,97 @@ And the MOQ input field shows a valid value of "6"
 And there are no validation errors
 When the merchant clicks the "Save" button at the bottom of the page
 Then the system saves the MOQ settings to the database
-And a success toast notification appears (e.g., "Product settings saved successfully")
+And a success toast notification appears (e.g., "Successfully updated product.")
 And the MOQ value "6" is now active for this product on the storefront
-And the page remains on the product edit view
 ```
 
-##### Scenario 7: Merchant attempts to save with empty MOQ field when toggle is ON
+##### Scenario 7: Merchant leaves MOQ field empty when toggle is ON
 
 ```gherkin
 Given a merchant is on the "Price" section for a product
 And the "Minimum Order Quantity" toggle is ON
 And the MOQ input field is empty
+When the merchant clicks on the MOQ input field
+And then clicks outside the input field (blur event)
+Then a validation error appears below the MOQ field
+And the error message reads "Required*"
+And the input field border turns red
+```
+
+##### Scenario 8: Merchant corrects empty MOQ field
+
+```gherkin
+Given a merchant is on the "Price" section for a product
+And the "Minimum Order Quantity" toggle is ON
+And the MOQ input field has a validation error showing "Required*"
+And the input field border is red
+When the merchant types a valid value (e.g., "5") into the MOQ input field
+Then the validation error "Required*" disappears
+And the input field border returns to normal (no red border)
+And the merchant can proceed to save
+```
+
+##### Scenario 9: Merchant attempts to save with empty MOQ field showing validation error
+
+```gherkin
+Given a merchant is on the "Price" section for a product
+And the "Minimum Order Quantity" toggle is ON
+And the MOQ input field is empty with validation error "Required*" displayed
+And the input field border is red
 When the merchant clicks the "Save" button
-Then a validation error appears for the MOQ field
-And the error message reads "Please enter a minimum quantity value"
-And the save operation is blocked
-And the merchant must enter a valid value before saving
+Then the product settings are NOT saved
+And an error toast notification appears
+And the error toast reads "Please complete all the required fields."
+And the merchant remains on the product edit page
+And the MOQ field validation error remains visible
+```
+
+##### Scenario 10: Merchant empties MOQ field then disables toggle (with previous saved value)
+
+```gherkin
+Given a merchant is on the "Price" section for a product
+And the product has a previously saved MOQ value of "10" in the database
+And the "Minimum Order Quantity" toggle is currently ON
+And the MOQ input field shows "10"
+When the merchant clears the MOQ input field (makes it empty)
+And clicks outside the input field (blur event)
+Then a validation error "Required*" appears below the field
+And the input field border turns red
+When the merchant clicks the MOQ toggle to turn it OFF (without saving)
+Then the toggle switches to OFF state (gray color)
+And the validation error "Required*" disappears
+And the MOQ input field becomes disabled and grayed out
+And the field displays "10" (the last saved value from database, not "2")
+And no MOQ validation will apply to this product on the storefront
+```
+
+##### Scenario 11: Editing product that never had MOQ enabled
+
+```gherkin
+Given a merchant is editing a product in the "Price" section
+And the product has never had MOQ enabled (database value is null)
+And the "Minimum Order Quantity" toggle is OFF
+Then the MOQ input field is disabled and grayed out
+And the field displays "2" (default frontend value)
+And the merchant understands "2" will be the starting value if they enable MOQ
+```
+
+##### Scenario 12: Merchant applies MOQ on product variants
+
+```gherkin
+Given the merchant is editing a product
+And enables the Product Variants toggle (turned ON)
+And the Product Variants section expands
+And the Price section becomes hidden
+And the "Minimum Order Quantity" toggle + input field appears in the Product Variants section
+When the merchant enables MOQ on the Product Variants section
+And adds a value on the MOQ input field
+And saves the product
+Then all logic and validation from scenarios 1-11 of this feature should also be applicable
+And the MOQ is applied to all variants of the product
+And MOQ validations will take effect on the storefront for that variant product
+When customer selects any variant on the storefront single product page
+Then the same MOQ will apply
 ```
 
 ---
@@ -502,7 +596,7 @@ Enforce minimum order quantity rules on the product page by controlling the quan
 - Plus (+) button: always enabled, increases quantity by 1
 - Minus (-) button:
   - Enabled when current quantity > MOQ
-  - Disabled (grayed out) when current quantity = MOQ
+  - Disabled (grayed out) when current quantity <= MOQ
   - Cannot reduce quantity below MOQ
 - Manual input field allows direct numeric entry
 - Input validates on change and blur events
@@ -600,7 +694,7 @@ And clicks outside the input field (blur event)
 Then a validation error appears below the quantity selector
 And the error message reads "Minimum order of 5 units is required"
 And the input field border turns red
-And the "Add to Cart" button becomes disabled
+And the "Add to Cart" button (and Buy Now button) becomes disabled
 ```
 
 ##### Scenario 7: Customer corrects quantity from below MOQ to valid amount
@@ -626,11 +720,10 @@ And the current quantity is "10" (valid, >= MOQ)
 And no validation errors exist
 When the customer clicks the "Add to Cart" button
 Then the product is added to the cart with quantity "10"
-And a success notification may appear (e.g., "Product added to cart")
-And the floating cart panel may automatically open showing the added item
+And a success toast notification appears (e.g., "Successfully added item to cart.")
 ```
 
-##### Scenario 9: Customer attempts to add product with quantity below MOQ
+##### Scenario 9: Customer attempts to add product to cart with quantity below MOQ
 
 ```gherkin
 Given a customer is on a product page
@@ -650,14 +743,13 @@ And the validation error remains visible
 
 #### 3.3.1 Feature Context
 
-Validate MOQ requirements in the floating cart panel that appears after adding items to cart. Customers can view cart items, adjust quantities, and proceed to checkout, but must maintain MOQ compliance for all items.
+Validate MOQ requirements in the floating cart overlay that appears after adding items to cart. Customers can view cart items, adjust quantities, and proceed to checkout, but must maintain MOQ compliance for all items.
 
 #### 3.3.2 Business Rules
 
 **BR-09: Floating Cart Display**
 
-- Floating cart panel appears on right side of screen when customer adds item or clicks cart icon
-- Shows all cart items with: image, name, price, quantity controls, subtotal
+- Floating cart overlay shows all cart items with: image, name, price, quantity controls, subtotal
 - Displays total item count in cart icon badge
 - Shows cart total (sum of all items)
 - Provides "Continue Shopping" and "Checkout" buttons
@@ -692,7 +784,7 @@ Validate MOQ requirements in the floating cart panel that appears after adding i
 ```gherkin
 Given a customer has added products to cart
 And all items have quantities >= their respective MOQ values
-When the customer opens the floating cart panel
+When the customer opens the floating cart overlay
 Then all cart items are displayed
 And no validation errors are shown
 And the "Checkout" button is enabled
@@ -702,7 +794,7 @@ And the "Continue Shopping" button is enabled
 ##### Scenario 2: Customer increases item quantity in floating cart
 
 ```gherkin
-Given the floating cart is open
+Given the floating cart is displayed
 And an item has MOQ of "5" and current quantity of "5"
 When the customer clicks the plus (+) button for that item
 Then the quantity increases to "6"
@@ -715,7 +807,7 @@ And the "Checkout" button remains enabled
 ##### Scenario 3: Customer decreases item quantity to MOQ threshold
 
 ```gherkin
-Given the floating cart is open
+Given the floating cart is displayed
 And an item has MOQ of "5" and current quantity of "7"
 When the customer clicks the minus (-) button twice
 Then the quantity decreases to "5"
@@ -726,7 +818,7 @@ And the "Checkout" button remains enabled
 ##### Scenario 4: Customer manually enters quantity below MOQ in floating cart
 
 ```gherkin
-Given the floating cart is open
+Given the floating cart is displayed
 And an item has MOQ of "5" and current quantity of "5"
 When the customer clicks the quantity input field
 And types "3"
@@ -740,7 +832,7 @@ And the "Checkout" button becomes disabled
 ##### Scenario 5: Customer corrects invalid quantity in floating cart
 
 ```gherkin
-Given the floating cart is open
+Given the floating cart is displayed
 And an item has a validation error (quantity "3", MOQ "5")
 And the "Checkout" button is disabled
 When the customer changes the quantity to "5"
@@ -752,7 +844,7 @@ And the "Checkout" button becomes enabled
 ##### Scenario 6: Customer removes item with validation error from floating cart
 
 ```gherkin
-Given the floating cart is open
+Given the floating cart is displayed
 And an item has a validation error (quantity below MOQ)
 And the "Checkout" button is disabled
 When the customer clicks the trash icon to remove that item
@@ -765,7 +857,7 @@ And the cart total updates
 ##### Scenario 7: Multiple items with MOQ violations in floating cart
 
 ```gherkin
-Given the floating cart is open
+Given the floating cart is displayed
 And there are 3 items in cart
 And 2 items have quantities below their respective MOQs
 When the customer views the floating cart
@@ -778,18 +870,18 @@ And the "Continue Shopping" button is enabled
 ##### Scenario 8: Customer clicks Continue Shopping from floating cart
 
 ```gherkin
-Given the floating cart is open
+Given the floating cart is displayed
 And there may or may not be validation errors
 When the customer clicks "Continue Shopping" button
-Then the floating cart panel closes
-And the customer returns to the previous page (product or category page)
+Then the floating cart overlay closes
+And the customer redirects to the product listing page
 And cart items and validation states are preserved
 ```
 
 ##### Scenario 9: Customer proceeds to checkout from floating cart with valid items
 
 ```gherkin
-Given the floating cart is open
+Given the floating cart is displayed
 And all cart items have valid quantities (>= MOQ)
 And the "Checkout" button is enabled
 When the customer clicks the "Checkout" button
@@ -800,7 +892,7 @@ And the customer is navigated to the full cart page
 ##### Scenario 10: Customer attempts to checkout with MOQ violations
 
 ```gherkin
-Given the floating cart is open
+Given the floating cart is displayed
 And at least one item has quantity < MOQ
 And the "Checkout" button is disabled (grayed out)
 When the customer attempts to click the "Checkout" button
@@ -947,7 +1039,7 @@ And the "Continue Shopping" button remains enabled
 Given a customer is on the cart page
 And there may or may not be validation errors
 When the customer clicks "Continue Shopping" button
-Then the customer is redirected to the previous page or product catalog
+Then the customer is redirected to the product listing page
 And cart contents and validation states are preserved
 ```
 
@@ -958,7 +1050,7 @@ Given a customer is on the cart page
 And all cart items have valid quantities (>= their MOQs)
 And the "Checkout" button is enabled
 When the customer clicks the "Checkout" button
-Then the customer is navigated to the checkout/payment page
+Then the customer is navigated to the checkout page
 And all cart items are included in the checkout
 ```
 
@@ -974,16 +1066,16 @@ And the customer remains on the cart page
 And validation errors remain visible
 ```
 
-##### Scenario 10: Cart page displays correct order summary
+##### Scenario 10: Customer places or updates order via QR menu
 
 ```gherkin
-Given a customer is on the cart page
-And the cart contains multiple items with varying quantities
-When the page loads or quantities change
-Then the order summary sidebar displays
-And "Total" shows the sum of all line item totals
-And "Grand Total" shows the same value as Total (in this implementation)
-And totals update in real-time as quantities change
+Given a merchant is subscribed to the QR menu add-on
+And has configured the QR menu settings
+And the customer is on the cart page from scanning the merchant's QR menu
+And the customer has added items to cart with MOQ enabled
+And the CTA button is not "Checkout" but "Place Order" (or "Update Order")
+When the customer views and interacts with the cart
+Then all logic and validation from scenarios 1-9 of this feature should also be applicable
 ```
 
 ---
@@ -1069,6 +1161,323 @@ When the merchant changes MOQ to "5" and saves
 Then the customer's cart item (quantity 7) is re-validated
 And the validation error disappears (7 >= 5)
 And if no other errors exist, the checkout button becomes enabled
+```
+
+---
+
+### Feature F-06: MOQ Behavior on Product Listing Page
+
+#### 3.6.1 Feature Context
+
+Control the visibility and behavior of "Add to Cart" and "Buy Now" buttons on product cards in the product listing page when MOQ is enabled. This ensures customers are directed to the single product page where they can properly configure the minimum quantity before adding to cart.
+
+#### 3.6.2 Business Rules
+
+**BR-22: Product Card Button Visibility with MOQ**
+
+- When MOQ is enabled for a product: "Buy Now" button is always hidden on product card (regardless of merchant settings)
+- When MOQ is enabled for a product: "Add to Cart" button remains visible but behavior changes
+- When MOQ is disabled: both buttons follow normal merchant configuration (show/hide based on toggle)
+
+**BR-23: Add to Cart Button Behavior with MOQ on Product Listing**
+
+- When MOQ is disabled: "Add to Cart" button adds product to cart immediately (normal behavior)
+- When MOQ is enabled: "Add to Cart" button redirects customer to single product page (same as products with variants)
+- Redirect allows customer to configure proper quantity that meets MOQ requirements
+- No product is added to cart until customer completes action on single product page
+
+**BR-24: Buy Now Button Behavior with MOQ**
+
+- "Buy Now" button is hidden when MOQ is enabled (to prevent MOQ validation conflicts)
+- Button remains hidden even if merchant has "Buy Now" enabled in store settings
+- Other products without MOQ continue to show "Buy Now" button normally
+
+#### 3.6.3 Scenarios
+
+##### Scenario 1: Customer views product listing with MOQ-enabled product (Add to Cart only)
+
+```gherkin
+Given a merchant has enabled "Add to Cart" button for product cards
+And a product has MOQ enabled with value "5"
+And the merchant has disabled "Buy Now" button
+When a customer views the product listing page
+Then the product card displays the "Add to Cart" button
+And the "Buy Now" button is not visible (as configured)
+And clicking "Add to Cart" redirects to the single product page
+And no product is added to cart yet
+```
+
+##### Scenario 2: Customer views product listing with MOQ-enabled product (both buttons enabled)
+
+```gherkin
+Given a merchant has enabled both "Add to Cart" and "Buy Now" buttons for product cards
+And a product has MOQ enabled with value "5"
+When a customer views the product listing page
+Then the product card displays only the "Add to Cart" button
+And the "Buy Now" button is hidden (due to MOQ enforcement)
+And clicking "Add to Cart" redirects to the single product page
+```
+
+##### Scenario 3: Customer clicks Add to Cart on MOQ-enabled product from listing
+
+```gherkin
+Given a customer is on the product listing page
+And a product has MOQ enabled with value "5"
+And the product card shows "Add to Cart" button
+When the customer clicks the "Add to Cart" button
+Then the customer is redirected to the single product page
+And the quantity selector on the product page defaults to "5"
+And no product has been added to cart yet
+And the customer can now adjust quantity and add to cart properly
+```
+
+##### Scenario 4: Product listing with mixed MOQ and non-MOQ products
+
+```gherkin
+Given the product listing page displays multiple products
+And Product A has MOQ enabled with value "5"
+And Product B has MOQ disabled
+And both products have "Add to Cart" and "Buy Now" buttons enabled by merchant
+When a customer views the product listing page
+Then Product A displays only "Add to Cart" button (Buy Now hidden)
+And Product B displays both "Add to Cart" and "Buy Now" buttons
+And clicking Product A's "Add to Cart" redirects to single product page
+And clicking Product B's "Add to Cart" adds product to cart immediately
+```
+
+### Feature F-07: MOQ Enforcement in Create Order Module
+
+#### 3.7.1 Feature Context
+
+Enforce minimum order quantity rules in the merchant dashboard's Create Order module, where merchants manually create orders on behalf of customers (for walk-in purchases, phone orders, or assisted sales). The MOQ feature ensures that even merchant-created orders comply with product quantity requirements, maintaining consistency across all order creation methods.
+
+#### 3.7.2 Business Rules
+
+**BR-25: Create Order Module MOQ Validation**
+
+- MOQ rules apply to all products added via the Create Order module
+- Validation occurs when merchant clicks "Add" button to add product to order
+- MOQ validation applies to products in the Order Summary section
+- All MOQ validation logic mirrors storefront behavior (same rules, same error messages)
+
+**BR-26: Product Modal Quantity Controls in Create Order**
+
+- When merchant clicks "Add" on a product with MOQ enabled: product modal opens
+- Modal displays product details, images, and quantity selector
+- Quantity selector defaults to MOQ value (not 1) when MOQ is enabled
+- Minus (-) button disabled when quantity <= MOQ
+- Plus (+) button always enabled for incrementing quantity
+- Manual input field validates on change and blur events
+
+**BR-27: Order Summary MOQ Validation**
+
+- Order Summary displays all added products with quantity controls
+- Each line item shows: product image, name, variant, addons, quantity controls (-, input, +), price, remove button
+- Quantity can be adjusted directly in Order Summary
+- Real-time MOQ validation on quantity changes in Order Summary
+- "Proceed to Checkout" button disabled when any item violates MOQ
+
+**BR-28: Create Order Checkout Enforcement**
+
+- "Proceed to Checkout" button validates all items against MOQ before allowing checkout
+- Button disabled (non-clickable) when validation errors exist
+- Button enabled only when all items meet or exceed MOQ requirements
+- Validation errors persist until quantities corrected or items removed
+
+#### 3.7.3 Scenarios
+
+##### Scenario 1: Merchant opens product modal for MOQ-enabled product
+
+```gherkin
+Given a merchant is on the Create Order page
+And a product has MOQ enabled with value of "6"
+When the merchant clicks the "Add" button for that product
+Then a product modal opens displaying product details
+And the quantity selector defaults to "6" (the MOQ value)
+And the minus (-) button is disabled (grayed out)
+And the plus (+) button is enabled
+And the "Add to Order" button is enabled
+And no validation error is displayed
+```
+
+##### Scenario 2: Merchant increases quantity in product modal
+
+```gherkin
+Given the product modal is open for a product with MOQ of "6"
+And the current quantity is "6"
+When the merchant clicks the plus (+) button
+Then the quantity increases to "7"
+And the minus (-) button becomes enabled
+And no validation error is shown
+And the "Add to Order" button remains enabled
+```
+
+##### Scenario 3: Merchant manually enters quantity below MOQ in product modal
+
+```gherkin
+Given the product modal is open for a product with MOQ of "6"
+And the current quantity is "6"
+When the merchant clicks the quantity input field
+And types "3"
+And clicks outside the input field (blur event)
+Then a validation error appears below the quantity selector
+And the error message reads "Minimum order of 6 units is required"
+And the input field border turns red
+And the "Add to Order" button becomes disabled
+```
+
+##### Scenario 4: Merchant corrects invalid quantity in product modal
+
+```gherkin
+Given the product modal is open for a product with MOQ of "6"
+And the merchant has entered "3" causing a validation error
+And the "Add to Order" button is disabled
+When the merchant changes the quantity to "6"
+Then the validation error disappears
+And the input field border returns to normal
+And the "Add to Order" button becomes enabled
+```
+
+##### Scenario 5: Merchant successfully adds product to order with valid quantity
+
+```gherkin
+Given the product modal is open for a product with MOQ of "6"
+And the current quantity is "10" (valid, >= MOQ)
+And no validation errors exist
+When the merchant clicks the "Add to Order" button
+Then the product is added to the Order Summary with quantity "10"
+And the product modal closes
+And the product appears in the Order Summary section on the right side
+And the order totals update to reflect the added product
+```
+
+##### Scenario 6: Merchant attempts to add product with quantity below MOQ
+
+```gherkin
+Given the product modal is open for a product with MOQ of "6"
+And the merchant has manually entered quantity "4"
+And a validation error is displayed
+And the "Add to Order" button is disabled
+When the merchant attempts to click the "Add to Order" button
+Then no action occurs (button is disabled)
+And the product is NOT added to Order Summary
+And the validation error remains visible
+And the product modal remains open
+```
+
+##### Scenario 7: Merchant adjusts quantity in Order Summary above MOQ
+
+```gherkin
+Given a product with MOQ of "6" is in the Order Summary
+And the current quantity is "6"
+When the merchant clicks the plus (+) button in the Order Summary
+Then the quantity increases to "7"
+And the line item total recalculates
+And the order totals update
+And no validation error is shown
+And the "Proceed to Checkout" button remains enabled
+```
+
+##### Scenario 8: Merchant manually enters quantity below MOQ in Order Summary
+
+```gherkin
+Given a product with MOQ of "6" is in the Order Summary
+And the current quantity is "6"
+When the merchant clicks the quantity input field
+And types "4"
+And clicks outside the input field
+Then a validation error appears below the quantity controls for that item
+And the error reads "Minimum order of 6 units is required"
+And the input field shows red border
+And the "Proceed to Checkout" button becomes disabled
+```
+
+##### Scenario 9: Merchant corrects invalid quantity in Order Summary
+
+```gherkin
+Given a product in Order Summary has a validation error (quantity "4", MOQ "6")
+And the "Proceed to Checkout" button is disabled
+When the merchant changes the quantity to "6"
+Then the validation error disappears
+And the input field border returns to normal
+And if no other items have errors, the "Proceed to Checkout" button becomes enabled
+And the line item total and order totals update
+```
+
+##### Scenario 10: Merchant removes product with validation error from Order Summary
+
+```gherkin
+Given a product in Order Summary has a validation error (quantity below MOQ)
+And the "Proceed to Checkout" button is disabled
+When the merchant clicks the remove (trash) icon for that item
+Then the item is removed from Order Summary
+And the validation error disappears (along with the item)
+And if no other items have errors, the "Proceed to Checkout" button becomes enabled
+And the order totals update (excluding removed item)
+```
+
+##### Scenario 11: Multiple products with MOQ violations in Order Summary
+
+```gherkin
+Given the Order Summary contains 4 products
+And 2 products have quantities below their respective MOQs
+When the merchant views the Order Summary
+Then each invalid item displays its own validation error
+And each error shows the specific MOQ requirement for that product
+And the "Proceed to Checkout" button is disabled
+And the merchant can still adjust quantities or remove items
+```
+
+##### Scenario 12: Merchant proceeds to checkout with valid quantities
+
+```gherkin
+Given the Order Summary contains multiple products
+And all products have valid quantities (>= their MOQs)
+And the "Proceed to Checkout" button is enabled
+When the merchant clicks the "Proceed to Checkout" button
+Then the order proceeds to the checkout step
+And all products with valid quantities are included in the order
+```
+
+##### Scenario 13: Merchant attempts checkout with MOQ violations
+
+```gherkin
+Given the Order Summary contains products
+And at least one product has quantity < MOQ
+And validation errors are displayed for invalid items
+And the "Proceed to Checkout" button is disabled
+When the merchant attempts to click the "Proceed to Checkout" button
+Then no action occurs (button is not clickable)
+And the merchant remains on the Create Order page
+And validation errors remain visible
+And the merchant must correct quantities before proceeding
+```
+
+##### Scenario 14: Product with variants and MOQ in Create Order
+
+```gherkin
+Given a product has variants enabled
+And MOQ is enabled on the Product Variants section with value "12"
+When the merchant clicks "Add" for that product in Create Order
+Then the product modal opens
+And the variant selector is displayed
+When the merchant selects any variant
+Then all logic and validation from scenarios 1-6 of this feature are applicable
+And the quantity selector defaults to "12" (the MOQ value)
+And MOQ validation applies consistently across all variants
+```
+
+##### Scenario 15: MOQ validation consistency across order creation methods
+
+```gherkin
+Given a product has MOQ enabled with value "6"
+And the same product is available in both:
+  - Customer-facing storefront (single product page, cart, checkout)
+  - Merchant dashboard (Create Order module)
+Then all validation logic from Features F-02, F-03, and F-04 are applicable to Feature F-07
+And the validation rules, error messages, and enforcement mechanisms are identical
+And merchants and customers receive the same MOQ requirements and feedback
+And no order (customer-created or merchant-created) can bypass MOQ validation
 ```
 
 ---
@@ -1164,6 +1573,329 @@ And if no other errors exist, the checkout button becomes enabled
 
 ---
 
+## 5. User Experience & Design
+
+### 5.1 User Flow Diagrams
+
+**Primary Flow: Merchant Enables MOQ for Product**
+
+![Primary Flow: Merchant Enables MOQ for Product](/product/user-flows/primary_flow_moq.png)
+
+**Alternative Flow: Customer Purchases Product with MOQ (Valid Quantity)**
+
+![Alternative Flow: Customer Purchases Product with MOQ (Valid Quantity)](/product/user-flows/alternative_flow_moq.png)
+
+**Error Flow: Customer Enters Quantity Below MOQ**
+
+![Error Flow: Customer Enters Quantity Below MOQ](/product/user-flows/error_flow_moq.png)
+
+**Cart Flow: MOQ Validation in Floating Cart**
+
+![Cart Flow: MOQ Validation in Floating Cart](/product/user-flows/cart_flow_moq.png)
+
+**Cart Page Flow: Full Cart Review with MOQ Validation**
+
+![Cart Page Flow: Full Cart Review with MOQ Validation](/product/user-flows/cart_page_flow_moq.png)
+
+**MOQ Re-validation Flow: Settings Change Impact**
+
+![MOQ Re-validation Flow: Settings Change Impact](/product/user-flows/revalidation_flow_moq.png)
+
+### 5.2 UI Mockups & Wireframes
+
+[Minimum Order Quantity Prototype](https://www.figma.com/proto/MDSZPqc0ZrAJMfWEyMytOT/Minimum-Order-Quantity-Feature?page-id=0%3A1&node-id=1-2389&t=cVULHjoUpKFbfge7-0&scaling=min-zoom&content-scaling=fixed&starting-point-node-id=1%3A2389)
+[Minimum Order Quantity Wireframe](https://p1-ba-pocs.vercel.app/moq)
+
+---
+
+## 6. Technical Architecture & System Design
+
+### 6.1 System Architecture Diagram
+
+**Component Overview:**
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    Prosperna Frontend                       │
+│  ┌───────────────────────────────────────────────────────┐  │
+│  │           Product Page Component                      │  │
+│  │  ┌─────────────────────────────────────────────────┐  │  │
+│  │  │  Quantity Selector with MOQ Enforcement         │  │  │
+│  │  │  • Default value = MOQ (if enabled)             │  │  │
+│  │  │  • Minus button disabled at MOQ threshold       │  │  │
+│  │  │  • Real-time validation on input change         │  │  │
+│  │  │  • Inline error display                         │  │  │
+│  │  └─────────────────────────────────────────────────┘  │  │
+│  │  ┌─────────────────────────────────────────────────┐  │  │
+│  │  │  Add to Cart Button                             │  │  │
+│  │  │  • Disabled when quantity < MOQ                 │  │  │
+│  │  │  • Enabled when quantity >= MOQ                 │  │  │
+│  │  └─────────────────────────────────────────────────┘  │  │
+│  └───────────────────────────────────────────────────────┘  │
+│  ┌───────────────────────────────────────────────────────┐  │
+│  │           Floating Cart Overlay Component             │  │
+│  │  ┌─────────────────────────────────────────────────┐  │  │
+│  │  │  Cart Items with Quantity Controls              │  │  │
+│  │  │  • Inline MOQ validation per item               │  │  │
+│  │  │  • Error messages below quantity controls       │  │  │
+│  │  │  • Red border on invalid input                  │  │  │
+│  │  └─────────────────────────────────────────────────┘  │  │
+│  │  ┌─────────────────────────────────────────────────┐  │  │
+│  │  │  Checkout Button State Manager                  │  │  │
+│  │  │  • Disabled: any item violates MOQ              │  │  │
+│  │  │  • Enabled: all items valid                     │  │  │
+│  │  └─────────────────────────────────────────────────┘  │  │
+│  └───────────────────────────────────────────────────────┘  │
+│  ┌───────────────────────────────────────────────────────┐  │
+│  │           Cart Page Component                         │  │
+│  │  ┌─────────────────────────────────────────────────┐  │  │
+│  │  │  Cart Table with MOQ Validation                 │  │  │
+│  │  │  • Numeric input per line item                  │  │  │
+│  │  │  • Real-time validation on change               │  │  │
+│  │  │  • Error display per invalid item               │  │  │
+│  │  └─────────────────────────────────────────────────┘  │  │
+│  │  ┌─────────────────────────────────────────────────┐  │  │
+│  │  │  Order Summary & Checkout Controls              │  │  │
+│  │  │  • Total calculations                           │  │  │
+│  │  │  • Checkout button state management             │  │  │
+│  │  └─────────────────────────────────────────────────┘  │  │
+│  └───────────────────────────────────────────────────────┘  │
+│  ┌───────────────────────────────────────────────────────┐  │
+│  │           Product Listing Component                   │  │
+│  │  ┌─────────────────────────────────────────────────┐  │  │
+│  │  │  Product Card Button Control                    │  │  │
+│  │  │  • Hide "Buy Now" when MOQ enabled              │  │  │
+│  │  │  • "Add to Cart" redirects to product page      │  │  │
+│  │  └─────────────────────────────────────────────────┘  │  │
+│  └───────────────────────────────────────────────────────┘  │
+│  ┌───────────────────────────────────────────────────────┐  │
+│  │           Create Order Module Component               │  │
+│  │  ┌─────────────────────────────────────────────────┐  │  │
+│  │  │  Product Modal with MOQ Controls                │  │  │
+│  │  │  • Quantity selector (defaults to MOQ)          │  │  │
+│  │  │  • Validation before adding to Order Summary    │  │  │
+│  │  └─────────────────────────────────────────────────┘  │  │
+│  │  ┌─────────────────────────────────────────────────┐  │  │
+│  │  │  Order Summary with MOQ Validation              │  │  │
+│  │  │  • Line item quantity editing                   │  │  │
+│  │  │  • Real-time MOQ validation                     │  │  │
+│  │  │  • Checkout enforcement                         │  │  │
+│  │  └─────────────────────────────────────────────────┘  │  │
+│  └───────────────────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────┐
+│                 API Gateway / Backend Services              │
+│  ┌───────────────────────────────────────────────────────┐  │
+│  │           Product Service                             │  │
+│  │  • Retrieve MOQ settings per product                  │  │
+│  │  • Update MOQ configuration                           │  │
+│  │  • Validate MOQ input (2-100 range)                   │  │
+│  │  • Cache MOQ data for performance                     │  │
+│  └───────────────────────────────────────────────────────┘  │
+│  ┌───────────────────────────────────────────────────────┐  │
+│  │           Cart Service                                │  │
+│  │  • Add items to cart with MOQ validation              │  │
+│  │  • Update cart quantities with MOQ checks             │  │
+│  │  • Real-time cart validation                          │  │
+│  │  • Cart-level validation before checkout              │  │
+│  └───────────────────────────────────────────────────────┘  │
+│  ┌───────────────────────────────────────────────────────┐  │
+│  │           Validation Service                          │  │
+│  │  • Centralized MOQ validation logic                   │  │
+│  │  • Multi-item batch validation                        │  │
+│  │  • Re-validation on MOQ settings change               │  │
+│  │  • Error message generation                           │  │
+│  └───────────────────────────────────────────────────────┘  │
+│  ┌───────────────────────────────────────────────────────┐  │
+│  │           Order Service                               │  │
+│  │  • Final MOQ validation at checkout                   │  │
+│  │  • Prevent order placement with MOQ violations        │  │
+│  │  • Order creation via Create Order module             │  │
+│  └───────────────────────────────────────────────────────┘  │
+│  ┌───────────────────────────────────────────────────────┐  │
+│  │           Event / Notification Service                │  │
+│  │  • Broadcast MOQ setting changes                      │  │
+│  │  • Trigger cart re-validation events                  │  │
+│  │  • Update active customer sessions                    │  │
+│  └───────────────────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────┐
+│                    Database Layer                           │
+│  ┌───────────────────────────────────────────────────────┐  │
+│  │           Products Table                              │  │
+│  │  • MOQ enabled flag (boolean)                         │  │
+│  │  • MOQ value (integer, nullable)                      │  │
+│  │  • Indexed for fast lookups                           │  │
+│  └───────────────────────────────────────────────────────┘  │
+│  ┌───────────────────────────────────────────────────────┐  │
+│  │           Cart Items Table                            │  │
+│  │  • Product reference with MOQ metadata                │  │
+│  │  • Current quantity                                   │  │
+│  │  • Validation status cache                            │  │
+│  └───────────────────────────────────────────────────────┘  │
+│  ┌───────────────────────────────────────────────────────┐  │
+│  │           Orders Table                                │  │
+│  │  • Order line items with quantities                   │  │
+│  │  • MOQ compliance audit trail                         │  │
+│  └───────────────────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────┐
+│                 Caching Layer (Redis)                       │
+│  • Product MOQ settings cache                               │
+│  • Active cart validation state cache                       │
+│  • 99% cache hit rate target                                │
+│  • TTL: 5 minutes (auto-refresh on updates)                 │
+└─────────────────────────────────────────────────────────────┘
+```
+
+**Data Flow:**
+
+![MOQ Data Flow](/product/data-flows/data_flow_moq.png)
+
+### 6.2 Data Model (ER Diagram)
+
+![MOQ Data Model](/product/data-models/data_model_moq.png)
+
+---
+
+## 7. Testing Strategy
+
+### 7.1 Test Types & Coverage
+
+| Test Type                  | Coverage Target                                                 | Responsibility | Tools                              |
+| -------------------------- | --------------------------------------------------------------- | -------------- | ---------------------------------- |
+| Unit Tests                 | Greater than 90% code coverage for MOQ validation logic         | Dev Team       | Jest, React Testing Library        |
+| Integration Tests          | MOQ settings save → storefront propagation flow                 | Dev Team       | Jest, Supertest, Postman           |
+| BDD Scenario Tests         | All Gherkin scenarios in Features F-01 through F-07 automated   | QA Team        | Cucumber, Playwright, Cypress      |
+| API Tests                  | MOQ validation endpoints, cart operations, checkout enforcement | QA Team        | Postman, Newman, REST Assured      |
+| Regression Tests           | Existing product/cart/checkout flows remain functional          | QA Team        | Automated regression test suite    |
+| Visual Tests               | MOQ UI elements, error messages, button states                  | QA Team        | Percy, Chromatic, Applitools       |
+| Performance Tests          | MOQ validation speed, cart operations, database queries         | QA Team        | JMeter, k6, Lighthouse             |
+| Load Tests                 | Concurrent MOQ validations, bulk cart re-validation             | QA Team        | JMeter, Gatling, LoadRunner        |
+| Accessibility Tests        | MOQ controls, error messages, keyboard navigation               | QA Team        | axe, WAVE, NVDA screen reader      |
+| Security Tests             | MOQ bypass attempts, API manipulation, input injection          | Security Team  | OWASP ZAP, Burp Suite, Manual pen  |
+| Cross-browser Tests        | MOQ functionality across Chrome, Firefox, Safari, Edge          | QA Team        | BrowserStack, Sauce Labs           |
+| Mobile Responsiveness      | MOQ controls on mobile devices (375px+ screens)                 | QA Team        | Device lab, BrowserStack           |
+| Database Transaction Tests | MOQ data integrity, cart re-validation consistency              | Dev Team       | Database testing frameworks        |
+| UAT                        | Merchant MOQ configuration and customer shopping experience     | Product + QA   | Manual testing with real merchants |
+
+### 7.2 BDD Test Automation
+
+**All Gherkin scenarios in sections 3.1 through 3.7 must be automated as executable tests.**
+
+**Test Structure:**
+
+```
+/tests
+  /features
+    /moq-configuration
+      /merchant-dashboard-toggle.feature
+      /moq-value-validation.feature
+      /moq-settings-persistence.feature
+    /moq-enforcement
+      /product-page-validation.feature
+      /floating-cart-validation.feature
+      /cart-page-validation.feature
+      /product-listing-behavior.feature
+      /create-order-module.feature
+    /moq-revalidation
+      /settings-change-revalidation.feature
+  /step-definitions
+    /moq-configuration-steps.js
+    /product-page-steps.js
+    /cart-validation-steps.js
+    /create-order-steps.js
+    /revalidation-steps.js
+  /support
+    /hooks.js
+    /test-data.js
+    /moq-helpers.js
+    /validation-helpers.js
+  /fixtures
+    /products-with-moq.json
+    /cart-test-data.json
+    /validation-scenarios.json
+```
+
+### 7.3 Critical Test Scenarios
+
+**High Priority (P0 - Blocker):**
+
+1. MOQ toggle enables/disables correctly in merchant dashboard
+2. MOQ value validation (min 2, max 100, auto-correct < 2)
+3. Product page quantity selector defaults to MOQ when enabled
+4. Minus button disabled at MOQ threshold on product page
+5. Add to Cart button disabled when quantity < MOQ
+6. Inline validation error displays correctly when quantity < MOQ
+7. Floating cart displays validation errors for items < MOQ
+8. Checkout button disabled in floating cart when any item violates MOQ
+9. Cart page validates quantities and shows errors correctly
+10. Checkout button disabled on cart page with MOQ violations
+11. Final checkout API validation prevents orders with MOQ violations
+12. Create Order module enforces MOQ in product modal and Order Summary
+13. MOQ re-validation triggers when merchant changes settings
+14. Cart items re-validated correctly after MOQ setting changes
+15. Product listing "Add to Cart" redirects to product page when MOQ enabled
+
+**Medium Priority (P1 - Critical):**
+
+16. MOQ field displays "2" as default when toggle OFF (no saved value)
+17. MOQ field displays last saved value when toggle OFF (with saved value)
+18. Turning toggle OFF with unsaved changes discards changes correctly
+19. Empty MOQ field shows "Required\*" error when toggle ON
+20. Save button blocked when MOQ field invalid or empty
+21. MOQ value > 100 shows max value error
+22. Quantity selector plus button always enabled
+23. Quantity selector minus button state changes correctly
+24. Manual quantity input validates on change and blur events
+25. Validation errors clear when quantity corrected
+26. Multiple items with MOQ violations show individual errors
+27. Removing item with MOQ violation updates checkout button state
+28. Buy Now button hidden on product listing when MOQ enabled
+29. MOQ applies to all variants when Product Variants toggle enabled
+30. Order Summary quantity controls validate MOQ in Create Order module
+
+**Lower Priority (P2 - Important):**
+
+31. MOQ settings save and propagate within 3 seconds
+32. Cart validation completes in < 500ms for 50+ items
+33. Product page loads with MOQ in < 2 seconds (P95)
+34. MOQ validation adds < 200ms to product page operations
+35. Real-time validation responds in < 100ms
+36. Cache hit rate for MOQ lookups > 99%
+37. Concurrent validation supports 10,000+ simultaneous carts
+38. Mobile responsiveness for MOQ controls on 375px+ screens
+39. Keyboard navigation works for all MOQ controls
+40. Screen reader announces validation errors correctly
+41. Color contrast for error messages meets WCAG AA
+42. MOQ controls work on touch devices
+43. RTL language support for MOQ UI
+44. Error message text centralized and configurable
+45. MOQ validation consistent across all order creation methods
+
+---
+
+## 8. Risks & Mitigations
+
+### High-Impact Risks Requiring Attention
+
+| Risk                                                        | Probability | Impact | Mitigation                                                                     | Residual Concern                                                                                       |
+| ----------------------------------------------------------- | ----------- | ------ | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------ |
+| Cart abandonment increases significantly due to MOQ barrier | High        | High   | Early MOQ disclosure on product cards; clear messaging; suggest alternatives   | Cannot fully control customer price sensitivity; may lose price-conscious customers who won't meet MOQ |
+| Merchants set unrealistic MOQ values harming conversion     | High        | Medium | Provide recommended ranges and impact warnings; analytics showing abandonment  | Cannot prevent poor merchant decisions; may require intervention/education after launch                |
+| Performance degradation with large-scale cart re-validation | Medium      | High   | Batch processing and rate limiting; background jobs                            | Under extreme load (MOQ changes affecting 10,000+ active carts), delays of 5-30 seconds possible       |
+| Customer confusion about MOQ requirements                   | High        | High   | Extensive usability testing; clear UI/error messages; help resources           | First-time users may still struggle; requires ongoing message optimization based on support feedback   |
+| MOQ conflicts with existing promotional/discount logic      | Medium      | High   | Thorough integration testing; clear precedence rules                           | Complex edge cases may surface post-launch requiring hotfixes                                          |
+| Support volume spike overwhelming team                      | High        | Medium | Comprehensive training; self-service documentation; dedicated MOQ support tier | Initial 2-4 weeks post-launch will likely see 3-5x normal support volume                               |
+
+---
+
 ## 9. Future Enhancements
 
 1. Maximum Order Quantity Limits
@@ -1179,14 +1911,14 @@ And if no other errors exist, the checkout button becomes enabled
 
 ## Approval and Sign-off
 
-| Stakeholder       | Role | Status        | Date Signed |
-| ----------------- | ---- | ------------- | ----------- |
-| Dennis Velasco    | CEO  | ☐ Pending     | ---         |
-| Ruel Nopal        | HoE  | ☐ Pending     | ---         |
-| Rian Froille Alde | QA   | ☐ Pending     | ---         |
-| ---               | BE   | ☐ Pending     | ---         |
-| ---               | FE   | ☐ Pending     | ---         |
-| Adrianne Berida   | BA   | ☐ In Progress | ---         |
+| Stakeholder       | Role | Status      | Date Signed |
+| ----------------- | ---- | ----------- | ----------- |
+| Dennis Velasco    | CEO  | ☐ Pending   | ---         |
+| Ruel Nopal        | HoE  | ☐ Pending   | ---         |
+| Rian Froille Alde | QA   | ☐ Pending   | ---         |
+| ---               | BE   | ☐ Pending   | ---         |
+| ---               | FE   | ☐ Pending   | ---         |
+| Adrianne Berida   | BA   | ☐ Completed | ---         |
 
 ## **Approval Date:** YYYY-MM-DD
 
