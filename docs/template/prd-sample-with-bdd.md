@@ -133,6 +133,5 @@ Feature: Password Reset
 
 ## References & Supporting Documents
 
-- [BRD Document](link-to-brd)
-- [UX/UI Design Document](link-to-design-doc)
-
+- BRD Document (attach link to the BRD)
+- UX/UI Design Document (attach link to the design document)

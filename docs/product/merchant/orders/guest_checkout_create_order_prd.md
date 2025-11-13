@@ -1152,26 +1152,16 @@ And both orders are created successfully with identical validation flow
 
 ### Technical Risks
 
-| Risk                               | Impact | Mitigation                             |
-| ---------------------------------- | ------ | -------------------------------------- |
-| Badge rendering performance issues | Medium | Lazy loading, virtualized lists        |
-| Customer status sync delays        | Medium | Real-time status updates via WebSocket |
-| Dropdown lag with large datasets   | Medium | Pagination, search optimization        |
+| Risk                                                                                                                                                                                                               | Impact | Likelihood | Mitigation Strategy                                                                                                                                                                                                                                                                                                |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------ | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Database query performance degradation** - As customer database grows (10K+ records), dropdown queries combining Registered and Unregistered customers may experience latency spikes during high-traffic periods | Medium | High       | • Implement query result caching with 30-second TTL<br>• Add database indexing on status and created_at columns<br>• Set up database read replicas for order creation queries<br>• Monitor P95/P99 query times and optimize when thresholds exceeded<br>• Accept 1-2 second delays during peak times as acceptable |
 
-### Business Risks
+### Data Integrity Risks
 
-| Risk                                     | Impact | Mitigation                             |
-| ---------------------------------------- | ------ | -------------------------------------- |
-| Merchant confusion about badge colors    | High   | Clear onboarding, tooltip explanations |
-| Low Unregistered → Registered conversion | Medium | Email verification reminders           |
-| Data quality issues with Unregistered    | Medium | Validation enforcement, data audits    |
-
-### User Experience Risks
-
-| Risk                                  | Impact | Mitigation                              |
-| ------------------------------------- | ------ | --------------------------------------- |
-| Badge visibility on mobile            | Medium | Responsive design testing               |
-| Color blindness accessibility concern | Low    | Icon + text labels in addition to color |
+| Risk                                                                                                                                                                                                                                 | Impact | Likelihood | Mitigation Strategy                                                                                                                                                                                                                                                                                                                                                                                                  |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------ | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Duplicate customer records** - Allowing order creation for Unregistered customers may increase duplicate customer records if merchants create new customer entries for existing Unregistered leads who forgot their email or phone | High   | Medium     | • Implement fuzzy matching during customer creation (name + phone similarity)<br>• Display "Possible duplicate" warning with existing matches<br>• Provide customer merge functionality for admins<br>• Add customer search by partial name/phone before "Create New Customer"<br>• Monitor duplicate rate metrics and adjust matching sensitivity<br>• Accept 5-10% duplicate rate as inherent to manual data entry |
+| **Stale customer data** - Unregistered customers who never verify email cannot self-update their information (address, phone) through customer portal, leading to outdated contact information and failed order deliveries           | Medium | High       | • Allow merchants to manually update customer information from admin panel<br>• Prompt address reconfirmation for Unregistered customers on repeat orders<br>• Send periodic data update requests via email to Unregistered customers<br>• Track delivery failure rates by customer type<br>• Accept higher address update burden for merchants with Unregistered customer base                                      |
 
 ---
 
