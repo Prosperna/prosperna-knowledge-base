@@ -1,193 +1,191 @@
 ---
-id: gift-note-brd
-title: Dedication/Gift Note BRD
-sidebar_label: Gift Note
-sidebar_position: 1
+title: "Prosperna One | Dedication/Gift Note BRD"
+version: "1.0"
+date_created: "2025-11-14"
+author: "Jomari"
+stakeholders:
+  - Dennis: CEO
+  - Ruel: HoE
+  - Jomari: BA
+  - Christian: PM
+plans_available: ["FREE", "PLUS", "PRO", "PREMIUM"]
+price_per_month: 249.00
+links:
+  comparative_analysis: "https://www.amazon.in/"
+  wireframes: "https://www.figma.com/design/qBkujzywAdH1pGXcDDV4a9/Wireframe---Jomari?node-id=418-1578&t=p1pqcUAKpLF2IpVO-4"
+  design_file: "https://www.figma.com/design/XQZ6TwOZcYNtyfTINm7ahN/Prosperna----User-Flows?node-id=26187-823&node-type=canvas&t=xRxDtRi9b67hhIDN-0"
+  demo_video: "https://watch.prosperna.com/share/nim5v12vs0sgke4cs6t34blec0ccjize"
+  enhancement_video: "https://t7537039.p.clickup-attachments.com/t7537039/9ca78350-7fe6-4331-a49a-539f6ec91d61/Gift%20Note.mp4?open=true"
+  clickup_tasks:
+    main_task: "https://app.clickup.com/t/86epbfydf"
+    enhancement: "https://app.clickup.com/t/86erpam2n"
+    qa_testing: "https://app.clickup.com/t/86epbfydf"
 ---
-
-# Prosperna One | Dedication/Gift Note
+# Prosperna One | Dedication/Gift Note BRD
 
 ## Summary
-This document is focused on adding a Dedication/Gift Note section on the Shopping Cart section up to the whole consumer checkout process.
+This document focuses on adding a **Dedication/Gift Note** section in the Shopping Cart through the entire consumer checkout process.
 
 ## Problem Statement
-There are customers who want to order products from an Online Store and send it as a gift to their preferred recipient and adding a gift note pertaining to the products ordered.
+Some customers want to order products as gifts and include a **gift note** for the recipient.
 
 ## Scope
-- This feature is available to ALL plans. (FREE, PLUS, PRO and PREMIUM)  
-- **PRICE:** 249.00 PhP / Month
+- Available to **ALL plans**: FREE, PLUS, PRO, PREMIUM
+- Price: **249.00 PhP / Month**
 
 ## Comparative Analysis
-- https://www.amazon.in/ – Checkout and Gifting Process
+Checkout and gifting process example: [Amazon.in](https://www.amazon.in/)
 
-## Research Proper
-*(if applicable)*
+## Functional Requirements
 
----
-
-# Functional Requirements
-
-## Use Cases
+### Use Cases
 
 | Use Case ID | Actor | Use Case Name | Short Description | Priority |
-|-------------|--------|----------------|-------------------|----------|
-| UC 01 | Prosperna One Merchant | Marketplace: Gift Note | Enable the Merchant to subscribe to the Gift Note feature via Marketplace | HIGH |
-| UC 02 | Prosperna One Customer | Customer: Checkout Process for Dedication/Gift Note | Enable the Customer to add a Dedication/Gift Note to any products in their Shopping Cart | HIGH |
-| UC 03 | Prosperna One Customer | Email Notifications for Products with Dedication/Gift Note | Enable the Customer and the Recipient to receive Email Notifications regarding orders with Dedication/Gift Note | HIGH |
+|------------|-------|---------------|-----------------|---------|
+| UC 01 | Prosperna One Merchant | Marketplace: Gift Note | Enable Merchant to subscribe to Gift Note via Marketplace | HIGH |
+| UC 02 | Prosperna One Customer | Checkout Process for Dedication/Gift Note | Enable Customer to add a Dedication/Gift Note to products in Cart | HIGH |
+| UC 03 | Prosperna One Customer | Email Notifications for Products with Dedication/Gift Note | Enable Customer and Recipient to receive email notifications for orders with Gift Note | HIGH |
 
 ---
 
-# Use Case Description Tables
+### UC 01 | Marketplace: Gift Note
+
+**Prepared By:** Jomari  
+**Objectives:** Enable Merchants to subscribe to Gift Note  
+**Actor:** Merchant  
+**Preconditions:** Merchant has activated **myPay**, customer is on Marketplace Page  
+
+**Steps:**
+1. Hover on Gift Note add-on (Title: Gift Note, Description: Let your customers add a gift message and send it via email)  
+2. Click **Learn More**  
+3. System loads modal with:  
+   - Price: 249.00 PhP / Month  
+   - Overview of the feature and benefits  
+4. Click **Subscribe Now**  
+5. Marketplace checkout displays Gift Note  
+6. Select Payment Type  
+   - If Credit Card, user enters credentials  
+7. Tick acknowledgement checkbox regarding plan expiry  
+8. Click **Pay Now**  
+9. System redirects to payment channel  
+10. Validate payment  
+11. Display modal: *"Payment successful! Gift Note add-on added..."*  
+   - Promo codes can apply discounts  
+
+**Postconditions:**
+- User subscribed to Gift Note add-on  
+- Feature added to Customer’s Cart Page  
+
+**Business Trigger:** Customer wants to send a gift with a note  
+
+**Acceptance Criteria:** Gift Note integrated in Product and Order Fulfillment  
+
+**Error Handling:**
+- Show myPay activation modal if not active  
+- Invalid promo code: "Sorry! The promo code does not exist."  
+
+**Impacted Modules:** Marketplace, Online Store  
 
 ---
 
-## UC 01 — Marketplace: Gift Note
+### UC 02 | Customer: Checkout Process for Dedication/Gift Note
 
-| Column | Description |
-|--------|-------------|
-| **Use Case ID** | UC 01 |
-| **Prepared By** | Jomari |
-| **Last Updated** | |
-| **Objectives** | To enable Merchants to subscribe to the Gift Note |
-| **Actor** | Merchant |
-| **Preconditions** | Merchant has activated their myPay; Customer is on the Marketplace Page |
-| **Steps** | 1. User hovers through the Gift Note add-on titled Gift Note with description. 2. User clicks Learn More. 3. System loads the modal with price, availability, overview. 4. User clicks Subscribe Now. 5. System displays Marketplace checkout containing the add-on. 6. User selects payment type. 7. User ticks acknowledgment checkbox. 8. User clicks Pay Now. 9. User is redirected to appropriate payment channel. 10. System validates payment. 11. System displays confirmation modal. |
-| **Additional Notes** | User can use a valid promo code for discounts. Credit card requires credential entry. |
-| **Postconditions** | User successfully subscribed to the Gift Note add-on; System adds Gift Note feature to Customer Cart Page |
-| **Business Trigger** | Customers want to send a product as a Gift with a Gift Note |
-| **Acceptance Criteria** | System will add Gift Note as part of the Product and Order Fulfillment Process |
-| **Estimates** | To be determined |
-| **Error** | If myPay not activated → show activation modal. Invalid promo code → “Sorry! The promo code does not exist.” |
+**Prepared By:** Jomari  
+**Objectives:** Customer places order with Dedication/Gift Note  
+**Actor:** Customer  
+**Preconditions:** Merchant subscribed to Gift Note  
 
----
+**Steps:**
+1. Load Product Listing Page  
+2. Add preferred product to Cart  
+3. Click **Cart**  
+4. Load Cart Page  
+5. Tick **"This product is a gift"** checkbox  
+6. Gift Note section displays: Add Recipient, Gift Note, From {{Customer Name}}  
+   - Recipient Email shows if **Add Recipient** clicked  
+   - Customer Name autopopulated  
+   - Max 150 characters in Gift Note  
+   - Checkbox auto-ticked if Gift Note added  
+7. Click **Checkout** and complete Billing, Shipping, Payment  
+8. Edit Gift Note in Order Summary or **Add Gift Note** from product  
 
-## UC 02 — Customer: Checkout Process for Dedication/Gift Note
+**Postconditions:**
+- Order placed with Gift Note  
 
-| Column | Description |
-|--------|-------------|
-| **Use Case ID** | UC 02 |
-| **Prepared By** | Jomari |
-| **Last Updated** | |
-| **Objectives** | Customer placed an order with a Dedication/Gift Note |
-| **Actor** | Customer |
-| **Preconditions** | Merchant is subscribed to Gift Note; Customer is on the Online Store Product Listing Page |
-| **Steps** | 1. System loads Product Listing Page. 2. User selects product and clicks Add to Cart. 3. System adds product to Cart. 4. User goes to Cart. 5. System loads Cart Page. 6. User ticks “This product is a gift”. 7. System shows Gift Note section with Add Recipient, Gift Note, From fields. 8. User reviews notes and continues to checkout. 9. System loads Billing, Shipping, Payment Info. 10. Order Summary shows Edit Gift Note or Add Gift Note. 11. User completes payment. |
-| **Postconditions** | User successfully placed an order with a Gift Note |
-| **Business Trigger** | Customer wants to send a product as a Gift with a Gift Note |
-| **Acceptance Criteria** | System adds Gift Note into Order Fulfillment Process |
-| **Estimates** | To be determined |
-| **Error** | — |
+**Business Trigger:** Customer wants to send a gift with note  
+
+**Acceptance Criteria:** Gift Note integrated in Product and Order Fulfillment  
+
+**Impacted Modules:** Online Store  
 
 ---
 
-## UC 03 — Email Notifications for Products with Dedication/Gift Note
+### UC 03 | Email Notifications for Products with Dedication/Gift Note
 
-| Column | Description |
-|--------|-------------|
-| **Use Case ID** | UC 03 |
-| **Prepared By** | Jomari |
-| **Last Updated** | |
-| **Objectives** | System sends additional Email Content for Orders with Gift Notes |
-| **Actor** | Customer |
-| **Preconditions** | Customer placed an order with a Gift Note |
-| **Steps** | Upon placing an order, system sends email notifications to Recipient, Customer, and Merchant. The Recipient receives the Gift Note email with designs from Figma, and receives ongoing Order Status updates (Delivery, Completion, Cancellation). Merchant and Customer also receive updated Email Content versions. |
-| **Postconditions** | All parties successfully receive the appropriate Gift Note–related emails |
-| **Business Trigger** | Merchant wants to send updated order details to involved parties |
-| **Acceptance Criteria** | System sends all necessary notifications with Gift Note details |
-| **Estimates** | To be determined |
-| **Error** | — |
+**Prepared By:** Jomari  
+**Objectives:** Send additional email content for Gift Note orders  
+**Actor:** Customer  
+**Preconditions:** Order with Gift Note placed  
 
----
+**Steps:**
+1. Send email to Recipient, Customer, Merchant  
+   - Recipient receives Gift Note email & Order Status notifications  
+   - Customer & Merchant receive updated email content  
 
-# Business Rules / Desired Behavior
+**Postconditions:**
+- Recipient, Customer, Merchant successfully receive emails  
 
-## For UC 01
-- Available only for FREE, PLUS, PRO, PREMIUM plans  
-- Impacted Modules: Marketplace, Online Store
+**Business Trigger:** Merchant wants updated communication for Gift Note orders  
 
-## For UC 02
-- Available to ALL Plans  
-- Impacted Modules: Online Store
+**Acceptance Criteria:** Customers can receive order notifications with Gift Notes  
 
-## For UC 03
-- Available to ALL Plans  
-- Impacted Modules: Online Store
+**Impacted Modules:** Online Store  
 
 ---
 
-# Nonfunctional Requirements
+## Nonfunctional Requirements
 
 | Name | Description | Priority |
-|------|-------------|----------|
-| Responsiveness | Website must be fully responsive and not compromise UI | HIGH |
-| System Performance | Output generation within 3 seconds | HIGH |
+|------|-------------|---------|
+| Responsiveness | Website resizes without interface compromise | HIGH |
+| System Performance | Outputs generated within 3 seconds | HIGH |
 
 ---
 
-# Success Criteria
-- Available to ALL plans  
-- Once Merchant subscribes, feature applies automatically  
-- Gift Note automatically appears in Cart Page once products are added  
+## Success Criteria
+- Add-on available for all plans  
+- Automatically applies to Merchant’s account  
+- Gift Note visible on Cart Page when products added  
 
 ---
 
-# Wireframes
-- https://www.figma.com/design/qBkujzywAdH1pGXcDDV4a9/Wireframe---Jomari?node-id=418-1578
-
-# Figma Design File
-- https://www.figma.com/design/XQZ6TwOZcYNtyfTINm7ahN/Prosperna----User-Flows?node-id=26187-823
-
-# Demo Video
-- https://watch.prosperna.com/share/nim5v12vs0sgke4cs6t34blec0ccjize  
-- Enhancement: https://t7537039.p.clickup-attachments.com/t7537039/9ca78350-7fe6-4331-a49a-539f6ec91d61/Gift%20Note.mp4
+## Wireframes & Designs
+- [Wireframes](https://www.figma.com/design/qBkujzywAdH1pGXcDDV4a9/Wireframe---Jomari?node-id=418-1578&t=p1pqcUAKpLF2IpVO-4)  
+- [Figma Design File](https://www.figma.com/design/XQZ6TwOZcYNtyfTINm7ahN/Prosperna----User-Flows?node-id=26187-823&node-type=canvas&t=xRxDtRi9b67hhIDN-0)  
+- [Demo Video](https://watch.prosperna.com/share/nim5v12vs0sgke4cs6t34blec0ccjize)  
+- [Enhancement Video](https://t7537039.p.clickup-attachments.com/t7537039/9ca78350-7fe6-4331-a49a-539f6ec91d61/Gift%20Note.mp4?open=true)  
 
 ---
 
-# ClickUp Task
-- https://app.clickup.com/t/86epbfydf  
-- Enhancement: https://app.clickup.com/t/86erpam2n  
-
-# Test Documentation (QA)
-- Dedication Gift/Note Testing Documentation  
-- https://app.clickup.com/t/86epbfydf  
+## Future Enhancements
+- Simplify UI/UX for Gift Note in Cart  
+- Add Gift Note in My Account - Orders  
+- Add validation logic for Gift Note button  
+- Include Gift Note section in Merchant Orders Page  
 
 ---
 
-# Future Enhancements
-*(Filed by QA)*
-
-- Customer Side | Carts | Simplify Gift Note UI  
-  https://app.clickup.com/t/86erau2pw  
-
-- Orders | Reference Number Logic  
-  https://app.clickup.com/t/86eraugdv  
-
-- Carts | Add Gift Notes Validation Logic  
-  https://app.clickup.com/t/86eraub17  
-
-- My Account | Missing Gift Note section  
-  https://app.clickup.com/t/86eraubez  
-
-- Merchant Side | Orders | Missing Gift Note section  
-  https://app.clickup.com/t/86eraub61  
+## Signed Off
+| Stakeholder | Role | Status |
+|------------|------|-------|
+| Dennis | CEO | - |
+| Ruel | HoE | - |
+| Jomari | BA | Completed |
+| Christian | PM | - |
 
 ---
 
-# Signed Off
-
-| Stakeholder | Role | Status | Date |
-|-------------|--------|--------|-------|
-| Dennis | CEO | | |
-| Ruel | HoE | | |
-| Jomari | BA | Completed | |
-| Christian | PM | | |
-
----
-
-# Logs
-
+## Logs
 | Name | Action | Description | Date | Related Docs |
-|------|---------|-------------|--------|----------------|
-| Jomari Adornado | Added Dedication/Gift Note as a Marketplace Add-on | Dedication/Gift Note will be available in the Marketplace | March 7, 2025 | https://prosperna.larksuite.com/docx/GTUldKuxxoUHM1x92Qvueox2ste |
-
-
+|------|--------|------------|------|--------------|
+| Jomari Adornado | Added Dedication/Gift Note as Marketplace Add-on | Available in Marketplace for 249.00 PhP / Month | March 7, 2025 | [Link](https://prosperna.larksuite.com/docx/GTUldKuxxoUHM1x92Qvueox2ste) |
