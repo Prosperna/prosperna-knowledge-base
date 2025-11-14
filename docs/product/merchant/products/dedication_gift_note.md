@@ -1,5 +1,9 @@
 ---
-title: "Prosperna One | Dedication/Gift Note BRD"
+id: dedication-gift-note
+title: Dedication/Gift Note BRD
+sidebar_label: Dedication Gift Note
+sidebar_position: 1
+---
 version: "1.0"
 date_created: "2025-11-14"
 author: "Jomari"
