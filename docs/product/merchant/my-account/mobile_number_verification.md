@@ -57,7 +57,7 @@ To provide merchants with a secure, user-friendly mobile number management exper
 
 - OTP modal displays in less than 500ms after clicking Save
 - OTP verification completes in less than 2 seconds (P95)
-- Input validation responds in real-time (< 100ms)
+- Input validation responds in real-time (less than 100ms)
 - Rate limiting enforced with 100% accuracy
 - Zero bypass attempts succeed
 
@@ -137,7 +137,7 @@ The current mobile number field in the My Account module has three critical issu
 
 **Current Limitations:**
 
-- Binary bypass: Refresh page = skip verification
+- Binary bypass: Refresh page results to skip verification
 - No format enforcement for Philippine numbers
 - No rate limiting protection
 - Inconsistent user experience (sometimes verified, sometimes not)
@@ -697,7 +697,7 @@ Ensure that mobile number changes are never saved to the database without succes
 **BR-15: User Feedback on Discard**
 
 - No explicit confirmation dialog for cancel/refresh
-- User understands modal close = discard changes
+- User understands modal close results to discard changes
 - Field reverts to original number on discard
 - No data loss because original number preserved in database
 
