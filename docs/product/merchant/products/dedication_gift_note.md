@@ -108,7 +108,7 @@ Checkout and gifting process example: [Amazon.in](https://www.amazon.in/)
 3. Click **Cart**  
 4. Load Cart Page  
 5. Tick **"This product is a gift"** checkbox  
-6. Gift Note section displays: Add Recipient, Gift Note, From {{Customer Name}}  
+6. Gift Note section displays: Add Recipient, Gift Note, From \{\{Customer Name\}\}  
    - Recipient Email shows if **Add Recipient** clicked  
    - Customer Name autopopulated  
    - Max 150 characters in Gift Note  
