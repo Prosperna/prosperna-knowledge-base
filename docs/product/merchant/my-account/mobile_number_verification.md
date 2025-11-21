@@ -1,5 +1,5 @@
 ---
-id: mobile-number-verification
+id: my-account-mobile-number-verification
 title: Mobile Number Verification Enhancement PRD
 sidebar_label: Mobile Number Verification
 sidebar_position: 1
