@@ -61,23 +61,6 @@ To provide merchants with a secure, user-friendly mobile number management exper
 - Rate limiting enforced with 100% accuracy
 - Zero bypass attempts succeed
 
-**Business Impact:**
-
-- 95% reduction in unauthorized mobile number changes
-- 80% reduction in SMS costs through rate limiting
-- 90% decrease in support tickets related to mobile number verification issues
-- Improved data quality with standardized phone number format
-
-**User Satisfaction:**
-
-- NPS +8 points for My Account security features
-- 90% task success rate in usability testing for mobile number updates
-- Less than 2% support tickets related to OTP verification confusion
-
-### 1.4 Related Documents
-
-- To be followed
-
 ---
 
 ## 2. Background & Context
@@ -87,23 +70,6 @@ To provide merchants with a secure, user-friendly mobile number management exper
 **Current Pain Point:**
 
 The current mobile number field in the My Account module has three critical issues: (1) it accepts inconsistent formats (+63 09XXXXXXXXX and +63 9XXXXXXXXX), causing merchant confusion, (2) merchants can bypass OTP verification by refreshing the page after clicking Save, creating a security vulnerability, and (3) there is no rate limiting on OTP requests, making the system vulnerable to abuse and unnecessary SMS costs.
-
-**Impact of Current Limitations:**
-
-1. **Security Risk:** Merchant receives OTP request, refreshes page without entering code, number saves anyway
-2. **Inconsistent Data:** System accepts both +63 09XXXXXXXXX and +63 9XXXXXXXXX formats
-3. **SMS Abuse:** Merchants can spam OTP requests with no cooldown period
-4. **Data Quality Issues:** Inconsistent number formats complicate reporting and integrations
-5. **Support Burden:** Multiple tickets about "number saved without verification"
-6. **Cost Impact:** Unnecessary SMS costs from repeated OTP requests
-
-**Business Context:**
-
-- Reported incidents of unauthorized mobile number changes (bypassing OTP verification)
-- Inconsistent mobile number formats causing integration issues with SMS providers
-- Average 15-20 OTP requests per merchant update (due to no rate limiting)
-- Support team receiving 8-12 tickets per week related to mobile number verification
-- SMS costs increased by 35% in past quarter due to OTP spam
 
 ### 2.2 Current State
 
@@ -121,19 +87,6 @@ The current mobile number field in the My Account module has three critical issu
 8. **Critical Issue:** If merchant refreshes page without entering OTP:
    - New mobile number is saved anyway
    - No verification actually required
-9. No cooldown on "Request OTP" - can be clicked repeatedly
-
-**Current "Edit Mobile Number" Behavior:**
-
-- Edit button (pencil icon) triggers input state
-- Country code selector shows flag icon + code (e.g., 🇵🇭 +63)
-- Input field allows free-form numeric entry
-- Minus button enabled/disabled based on content
-- Cancel button discards changes and reverts to read-only
-- Save button triggers OTP field display + sends SMS
-- OTP field appears inline (not in modal)
-- No visual indication of verification requirement
-- Page refresh bypasses verification entirely
 
 **Current Limitations:**
 
@@ -160,19 +113,18 @@ The current mobile number field in the My Account module has three critical issu
    - Modal displays:
      - OTP input field (6 digits)
      - "Resend Code" button with cooldown timer
-     - "Cancel" button (discards changes)
-     - "Verify" button (completes update)
    - Modal cannot be closed without completing verification or canceling
    - Page refresh does NOT save number without verification
 
 3. **Rate Limiting Implementation:**
 
-   - First OTP request: immediate send
-   - Subsequent requests: 2-minute cooldown
-   - After 3 attempts within 15 minutes: escalated to 5-minute cooldown
+   - All OTP requests: 2-minute cooldown enforced
+   - First request (clicking Save): immediate send, starts cooldown timer
    - "Resend Code" button disabled during cooldown
-   - Countdown timer displayed (e.g., "Resend in 1:45")
-   - Cooldown persists across page refreshes
+   - Countdown timer displayed (e.g., "1:45")
+   - Cooldown persists across page refreshes and modal close/reopen
+   - If merchant closes modal during cooldown and reopens, cooldown continues
+   - Error toast displayed if Save clicked during active cooldown: "Please try again after [X] minutes"
 
 4. **Save Prevention Without Verification:**
 
@@ -193,19 +145,15 @@ The current mobile number field in the My Account module has three critical issu
 
 - **Security Guarantee:** 100% of mobile number changes require OTP verification
 - **Data Quality:** Consistent +639XXXXXXXXX format for all Philippine numbers
-- **Cost Reduction:** 80% reduction in SMS costs through rate limiting
 - **User Clarity:** Modal-based verification provides clear workflow
-- **Support Reduction:** 90% fewer tickets related to verification issues
 - **Audit Trail:** Complete record of verification attempts and successes
 
 ### 2.4 Target Users
 
-| User Segment                 | Description                              | Use Case                                                | Frequency                 |
-| ---------------------------- | ---------------------------------------- | ------------------------------------------------------- | ------------------------- |
-| Active Prosperna Merchants   | Merchants managing their account details | Update mobile number when changing phone                | Occasional (few times/yr) |
-| New Prosperna Merchants      | Recently signed up merchants             | Set initial mobile number during account setup          | One-time (signup)         |
-| Security-Conscious Merchants | Merchants prioritizing account security  | Verify mobile number is protected by OTP                | Verification checks       |
-| Multi-User Account Managers  | Merchants with team access               | Ensure only authorized users can change contact details | As needed                 |
+| User Segment               | Description                              | Use Case                                       | Frequency                 |
+| -------------------------- | ---------------------------------------- | ---------------------------------------------- | ------------------------- |
+| Active Prosperna Merchants | Merchants managing their account details | Update mobile number when changing phone       | Occasional (few times/yr) |
+| New Prosperna Merchants    | Recently signed up merchants             | Set initial mobile number during account setup | One-time (signup)         |
 
 ### 2.5 Project Constraints & Assumptions
 
@@ -223,7 +171,6 @@ The current mobile number field in the My Account module has three critical issu
 - Cannot compromise user experience with overly restrictive validation
 - Must maintain reasonable OTP cooldown times (not too restrictive)
 - Enhancement must not break existing user workflows
-- Must provide clear migration path for existing inconsistent phone numbers
 - SMS cost reduction balanced against user convenience
 
 **Key Assumptions:**
@@ -271,11 +218,14 @@ Enforce strict format validation for Philippine mobile numbers to ensure data co
 - Error displays below input field in red text
 - Input field shows red border when error active
 - Error clears automatically when valid format entered
-- Save button remains enabled (validation happens before OTP modal)
+- Save button becomes disabled when validation error is active
+- Save button becomes disabled when mobile number is incomplete (less than 10 digits)
+- Save button re-enables only when valid format entered (exactly 10 digits after +63, starts with 9)
 
 **BR-03: Input Restrictions**
 
-- Cannot manually remove +63 prefix
+- +63 prefix is autopopulated when Philippines is selected but can be manually deleted
+- If +63 is deleted, validation error triggers immediately
 - Cannot enter "0" immediately after +63
 - Cannot enter less than 10 digits after +63
 - Cannot enter more than 10 digits after +63
@@ -296,8 +246,8 @@ Enforce strict format validation for Philippine mobile numbers to ensure data co
 Given a merchant is on the "My Account" page
 And "Philippines" is selected in the country code selector
 And the mobile number field is in edit mode
-When the merchant types "9062417893" after "+63"
-Then the input field displays "+63 9062417893"
+When the merchant types "9123456789" after "+63"
+Then the input field displays "+63 9123456789"
 And no validation error is shown
 And the input field border remains normal (not red)
 And the "Save" button remains enabled
@@ -309,7 +259,7 @@ And the "Save" button remains enabled
 Given a merchant is on the "My Account" page
 And "Philippines" is selected in the country code selector
 And the mobile number field is in edit mode
-When the merchant types "09062417893" (starting with "0")
+When the merchant types "0912345678" (starting with "0")
 And clicks outside the input field (blur event)
 Then a validation error appears below the field
 And the error message reads "Invalid mobile number format"
@@ -323,26 +273,28 @@ And the "Save" button remains enabled but will trigger validation
 Given a merchant is on the "My Account" page
 And "Philippines" is selected in the country code selector
 And the mobile number field is in edit mode
-When the merchant types "906241789" (only 9 digits)
+When the merchant types "912345678" (only 9 digits)
 And clicks outside the input field (blur event)
 Then a validation error appears below the field
 And the error message reads "Invalid mobile number format"
 And the input field border turns red
 ```
 
-##### Scenario 4: Merchant manually removes "+63" and enters 09XXXXXXXXX
+##### Scenario 4: Merchant manually removes "+63" prefix
 
 ```gherkin
 Given a merchant is on the "My Account" page
 And "Philippines" is selected in the country code selector
-And the mobile number field is in edit mode
-When the merchant attempts to clear the "+63" prefix
-Then the "+63" prefix remains (cannot be deleted)
-And only the digits after "+63" can be edited
-When the merchant types "09062417893" in the editable portion
-And clicks outside the input field
-Then the validation error appears
+And the mobile number field is in edit mode with "+63" autopopulated
+When the merchant deletes the "+63" prefix
+Then the prefix is removed from the input field
+And a validation error appears immediately
 And the error message reads "Invalid mobile number format"
+And the input field border turns red
+And the "Save" button becomes disabled
+When the merchant types "9123456789" (without +63)
+Then the validation error remains
+And the "Save" button remains disabled
 ```
 
 ##### Scenario 5: Merchant clicks Save with incomplete number
@@ -350,23 +302,23 @@ And the error message reads "Invalid mobile number format"
 ```gherkin
 Given a merchant is on the "My Account" page
 And "Philippines" is selected in the country code selector
-And the mobile number field shows "+63 90624178" (only 8 digits)
+And the mobile number field shows "+63 91234567" (only 8 digits)
 And a validation error is displayed
-When the merchant clicks the "Save" button
-Then the OTP modal does NOT open
-And the system does NOT send OTP
+And the "Save" button is disabled (grayed out, not clickable)
+When the merchant attempts to click the "Save" button
+Then nothing happens (button is not clickable)
 And the validation error remains visible
 And the input field border remains red
-And a toast notification displays: "Please complete all the required fields."
+And the OTP modal does NOT open
 ```
 
 ##### Scenario 6: Merchant corrects invalid format to valid format
 
 ```gherkin
-Given a merchant has entered "+63 09062417893" (invalid - has "0")
+Given a merchant has entered "+63 09123456789" (invalid - has "0")
 And a validation error is displayed
 And the input field has red border
-When the merchant corrects the number to "+63 9062417893" (valid)
+When the merchant corrects the number to "+63 9123456789" (valid)
 And clicks outside the input field
 Then the validation error disappears
 And the input field border returns to normal
@@ -395,23 +347,23 @@ Implement a modal-based OTP verification flow that prevents mobile number change
 **BR-06: OTP Modal Content**
 
 - Modal displays:
-  - Title: "Verify Mobile Number"
-  - Message: "We've sent a 6-digit code to +639XXXXXXXXX"
+  - Title: "Verify Your Mobile Number"
+  - Message: "Please enter the verification code sent to your mobile phone."
   - OTP input field (6 digits)
+  - "Submit" button
   - "Resend Code" button (with cooldown timer)
-  - "Cancel" button
-  - "Verify" button
+  - Close button (X icon in top-right corner)
 - Modal cannot be dismissed by clicking outside
-- Modal can only be closed via Cancel button or successful verification
+- Modal can only be closed via Close button (X) or successful verification
 
 **BR-07: OTP Verification Logic**
 
 - OTP is 6 digits numeric
-- OTP valid for 10 minutes after generation
+- OTP valid for 2 minutes after generation
 - Correct OTP entry triggers:
   - Mobile number saved to database
   - Modal closes
-  - Success toast: "Mobile number updated successfully"
+  - Success toast: "Successfully updated mobile number."
   - Field returns to read-only mode with new number
 - Incorrect OTP entry displays:
   - Error message: "Invalid code. Please try again."
@@ -434,20 +386,20 @@ Implement a modal-based OTP verification flow that prevents mobile number change
 ```gherkin
 Given a merchant is on the "My Account" page
 And "Philippines" is selected in the country code selector
-And the mobile number field shows "+63 9062417893" (valid format)
+And the mobile number field shows "+63 9123456789" (valid format)
 And this number is different from the currently saved number
 And no validation errors exist
 When the merchant clicks the "Save" button
 Then the OTP verification modal opens immediately
 And the modal displays:
-  | Element       | Content                                      |
-  | Title         | Verify Mobile Number                         |
-  | Message       | We've sent a 6-digit code to +63 9062417893  |
-  | OTP Field     | Empty input field (6 digits)                 |
-  | Resend Button | Resend Code (enabled)                        |
-  | Cancel Button | Cancel                                       |
-  | Verify Button | Verify (disabled until 6 digits entered)     |
-And an OTP SMS is sent to +63 9062417893
+  | Element       | Content                                                      |
+  | Title         | Verify Your Mobile Number                                    |
+  | Message       | Please enter the verification code sent to your mobile phone.|
+  | OTP Field     | Empty input field (6 digits)                                 |
+  | Submit Button | Submit (disabled until 6 digits entered)                     |
+  | Resend Button | Resend Code (enabled)                                        |
+  | Close Button  | X icon (top-right corner)                                    |
+And an OTP SMS is sent to +63 9123456789
 And the mobile number is NOT yet saved to database
 ```
 
@@ -457,15 +409,15 @@ And the mobile number is NOT yet saved to database
 Given the OTP verification modal is open
 And the merchant has received OTP "123456" via SMS
 When the merchant types "123456" in the OTP input field
-Then the "Verify" button becomes enabled
-When the merchant clicks the "Verify" button
+Then the "Submit" button becomes enabled
+When the merchant clicks the "Submit" button
 Then the system validates the OTP code
 And the OTP code matches the sent code
 Then the modal closes
-And the mobile number "+63 9062417893" is saved to the database
-And a success toast notification displays: "Mobile number updated successfully"
+And the mobile number "+63 9123456789" is saved to the database
+And a success toast notification displays: "Successfully updated mobile number."
 And the mobile number field returns to read-only mode
-And displays the new number "+63 9062417893"
+And displays the new number "+63 9123456789"
 ```
 
 ##### Scenario 3: Merchant enters incorrect OTP code
@@ -474,13 +426,13 @@ And displays the new number "+63 9062417893"
 Given the OTP verification modal is open
 And the correct OTP is "123456"
 When the merchant types "654321" (incorrect code) in the OTP field
-And clicks the "Verify" button
+And clicks the "Submit" button
 Then the system validates the OTP code
 And the OTP code does NOT match
 Then an error message displays below the OTP field
 And the error message reads "Invalid code. Please try again."
 And the OTP input field is cleared (becomes empty)
-And the "Verify" button becomes disabled again
+And the "Submit" button becomes disabled again
 And the modal remains open
 And the merchant can try again or click "Resend Code"
 And the mobile number is still NOT saved to database
@@ -491,7 +443,7 @@ And the mobile number is still NOT saved to database
 ```gherkin
 Given the OTP verification modal is open
 And the merchant has not yet entered the OTP
-When the merchant clicks the "Cancel" button
+When the merchant clicks the "Close" button (X icon)
 Then the modal closes immediately
 And the mobile number change is discarded
 And the mobile number field reverts to read-only mode
@@ -503,7 +455,7 @@ And no changes are saved to the database
 
 ```gherkin
 Given the OTP verification modal is open
-And the merchant has entered a new mobile number "+63 9062417893"
+And the merchant has entered a new mobile number "+63 9123456789"
 And OTP has been sent but not yet verified
 When the merchant refreshes the page (F5 or browser refresh)
 Then the page reloads
@@ -517,10 +469,10 @@ And the merchant must start the edit process again if they want to update
 
 ```gherkin
 Given the OTP verification modal is open
-And OTP "123456" was generated 10 minutes ago
-And the OTP has now expired (10-minute validity)
+And OTP "123456" was generated 2 minutes ago
+And the OTP has now expired (2-minute validity)
 When the merchant enters "123456" in the OTP field
-And clicks the "Verify" button
+And clicks the "Submit" button
 Then the system validates the OTP
 And detects the OTP has expired
 Then an error message displays: "Code expired. Please request a new code."
@@ -541,12 +493,13 @@ Implement rate limiting on OTP requests to prevent abuse, reduce SMS costs, and 
 
 **BR-09: Rate Limiting Rules**
 
-- **First OTP request:** Immediate send when Save button clicked
-- **Second request (Resend):** 2-minute cooldown before next request allowed
-- **After 3 requests within 15 minutes:** Escalate to 5-minute cooldown
+- **All OTP requests:** 2-minute cooldown enforced (no escalation)
+- **First OTP request:** Immediate send when Save button clicked, cooldown timer starts immediately
+- **Subsequent requests:** 2-minute cooldown before next request allowed
 - Cooldown timer displays remaining time (e.g., "Resend in 1:45")
 - Cooldown persists across page refreshes (session-based)
-- Timer resets to normal (2 min) after 15-minute window passes
+- Cooldown persists if merchant closes OTP modal and reopens
+- If merchant clicks Save during active cooldown: OTP modal does NOT open, no OTP sent, error toast displays "Please try again after [X] minutes"
 
 **BR-10: Resend Button Behavior**
 
@@ -559,15 +512,19 @@ Implement rate limiting on OTP requests to prevent abuse, reduce SMS costs, and 
   - Button returns to enabled state
   - Text changes back to "Resend Code"
 
-**BR-11: Escalation Logic**
+**BR-11: Cooldown Persistence Logic**
 
-- Track OTP requests per session per mobile number
-- If 3 requests made within 15-minute sliding window:
-  - Increase cooldown from 2 minutes to 5 minutes
-  - Display warning toast: "Too many requests. Please wait 5 minutes."
-- If merchant waits 15+ minutes without requesting:
-  - Reset to normal 2-minute cooldown
-- Escalation tied to session (not permanent)
+- Track last OTP request timestamp per merchant session
+- Every OTP request triggers a 2-minute cooldown (regardless of attempt count)
+- Cooldown timestamp stored in session and persists across:
+  - Page refreshes
+  - Modal close/reopen actions
+  - Navigation within My Account page
+- If merchant requests OTP, closes modal, and attempts to request again (clicks Save) within cooldown:
+  - System checks remaining cooldown time
+  - OTP modal does NOT open
+  - No OTP sent to mobile number
+  - Error toast displays: "Please try again after [X] minutes" (where X shows remaining minutes)
 
 **BR-12: OTP Resend Success**
 
@@ -575,8 +532,8 @@ Implement rate limiting on OTP requests to prevent abuse, reduce SMS costs, and 
   - New OTP generated and sent via SMS
   - Success toast displays: "New code sent to +63 9XXXXXXXXX"
   - Previous OTP invalidated
-  - Cooldown timer restarts (2 or 5 minutes)
-  - Request counter increments
+  - Cooldown timer restarts (2 minutes)
+  - Last request timestamp updated
 
 #### 3.3.3 Scenarios
 
@@ -584,16 +541,16 @@ Implement rate limiting on OTP requests to prevent abuse, reduce SMS costs, and 
 
 ```gherkin
 Given the OTP verification modal is open
-And the initial OTP was sent when Save button was clicked (1st request)
+And the initial OTP was sent when Save button was clicked
 And 30 seconds have passed
 And the "Resend Code" button is enabled
 When the merchant clicks the "Resend Code" button
 Then a new OTP is generated and sent via SMS
-And a success toast displays: "New code sent to +63 9062417893"
+And a success toast displays: "New code sent to +63 9123456789"
 And the "Resend Code" button becomes disabled
 And the button text changes to "Resend in 2:00"
 And a countdown timer starts (2:00, 1:59, 1:58, ...)
-And the request counter increments to 2
+And the last OTP request timestamp is updated
 ```
 
 ##### Scenario 2: Merchant attempts to click Resend during cooldown
@@ -621,19 +578,28 @@ And the countdown timer is no longer displayed
 And the merchant can click to request another OTP
 ```
 
-##### Scenario 4: Merchant makes 3 OTP requests within 15 minutes (escalation)
+##### Scenario 4: Merchant closes modal during cooldown and attempts Save again
 
 ```gherkin
 Given the OTP verification modal is open
-And the merchant has already made 2 OTP requests (initial + 1 resend)
-And both requests occurred within the last 15 minutes
-When the merchant clicks "Resend Code" again (3rd request)
-Then a warning toast displays: "Too many requests. Please wait 5 minutes."
-And a new OTP is sent via SMS
-And the "Resend Code" button becomes disabled
-And the button text changes to "Resend in 5:00"
-And a 5-minute countdown timer starts (escalated cooldown)
-And the request counter increments to 3
+And the merchant has clicked "Resend Code"
+And the "Resend Code" button shows "Resend in 1:30" (90 seconds remaining)
+When the merchant clicks the "Close" button (X icon)
+Then the modal closes
+And the mobile number change is discarded
+And the cooldown timer continues in the background (session-based)
+When the merchant edits the mobile number again
+And enters a new number "+63 9123456789"
+And clicks the "Save" button
+Then the system checks for active cooldown
+And detects 1 minute 20 seconds remaining (approximately, accounting for elapsed time)
+And the OTP modal does NOT open
+And no OTP is sent to the mobile number
+And an error toast displays: "Please try again after 1 minute"
+When the merchant waits for the cooldown to expire
+And clicks the "Save" button again
+Then the OTP modal opens
+And a new OTP is sent to +63 9123456789
 ```
 
 ##### Scenario 5: Merchant refreshes page during cooldown, cooldown persists
@@ -645,24 +611,56 @@ When the merchant refreshes the page (F5)
 Then the page reloads
 And the mobile number field reverts to original value
 And the OTP modal does NOT reappear
-And if the merchant edits the number again and clicks Save
-And the OTP modal reopens
-Then the "Resend Code" button STILL shows cooldown
-And the remaining time is approximately "Resend in 1:20" (accounts for page load time)
-And the cooldown persists until the original timer expires
+And the cooldown timer continues in the background (session-based)
+When the merchant edits the number again
+And clicks the "Save" button within the cooldown period
+Then the system checks for active cooldown
+And detects approximately 1 minute 20 seconds remaining
+And the OTP modal does NOT open
+And no OTP is sent
+And an error toast displays: "Please try again after 1 minute"
+When the cooldown expires and the merchant clicks "Save" again
+Then the OTP modal opens
+And a new OTP is sent to the mobile number
 ```
 
-##### Scenario 6: 15-minute window passes, cooldown resets to normal
+##### Scenario 6: Multiple resend attempts all have 2-minute cooldown
 
 ```gherkin
-Given a merchant made 3 OTP requests triggering 5-minute escalated cooldown
-And 15 minutes have passed since the first request
-When the merchant triggers a new OTP request (edits number, clicks Save)
-Then the system checks the request history
-And detects the 15-minute window has elapsed
-And resets the cooldown to normal (2 minutes)
-And the first resend will use 2-minute cooldown (not 5-minute)
-And the request counter resets to 1 for the new session
+Given the OTP verification modal is open
+And the merchant has already clicked "Resend Code" twice
+And each resend triggered a 2-minute cooldown
+And the current cooldown has expired
+When the merchant clicks "Resend Code" again (third time)
+Then a new OTP is generated and sent via SMS
+And a success toast displays: "New code sent to +63 9123456789"
+And the "Resend Code" button becomes disabled
+And the button text changes to "Resend in 2:00"
+And a 2-minute countdown timer starts (same duration as all previous attempts)
+And the cooldown remains 2 minutes regardless of how many times "Resend Code" is clicked
+```
+
+##### Scenario 7: Merchant attempts to click Save during active cooldown
+
+```gherkin
+Given a merchant is on the "My Account" page
+And the merchant previously requested an OTP 1 minute ago
+And the 2-minute cooldown is still active (1 minute remaining)
+And the merchant has closed the OTP modal or refreshed the page
+When the merchant edits the mobile number field
+And enters a valid number "+63 9123456789"
+And clicks the "Save" button
+Then the system checks for active cooldown
+And detects 1 minute remaining on the cooldown timer
+And the OTP modal does NOT open
+And no OTP is sent to the mobile number
+And an error toast displays: "Please try again after 1 minute"
+And the mobile number field remains in edit mode
+When the merchant waits for 1 minute for the cooldown to expire
+And clicks the "Save" button again
+Then the cooldown has expired
+And the OTP modal opens
+And a new OTP is sent to +63 9123456789
 ```
 
 ---
@@ -714,31 +712,31 @@ Ensure that mobile number changes are never saved to the database without succes
 
 ```gherkin
 Given the OTP verification modal is open
-And the merchant entered new number "+63 9062417893"
+And the merchant entered new number "+63 9123456789"
 And the original number was "+63 9171234567"
 And OTP "123456" was sent to the new number
 When the merchant enters correct OTP "123456"
-And clicks the "Verify" button
+And clicks the "Submit" button
 Then the system validates the OTP
 And the OTP is correct
-Then the mobile number "+63 9062417893" is written to the database
-And the originalNumber is updated to "+63 9062417893"
+Then the mobile number "+63 9123456789" is written to the database
+And the originalNumber is updated to "+63 9123456789"
 And the verificationPending flag is cleared
 And the modal closes
-And the field displays "+63 9062417893" in read-only mode
-And a success toast displays: "Mobile number updated successfully"
+And the field displays "+63 9123456789" in read-only mode
+And a success toast displays: "Successfully updated mobile number."
 ```
 
 ##### Scenario 2: Merchant cancels OTP modal, number NOT saved
 
 ```gherkin
 Given the OTP verification modal is open
-And the merchant entered new number "+63 9062417893"
+And the merchant entered new number "+63 9123456789"
 And the original number in database is "+63 9171234567"
 And OTP has been sent but not yet entered
-When the merchant clicks the "Cancel" button
+When the merchant clicks the "Close" button (X icon)
 Then the modal closes immediately
-And the newNumber "+63 9062417893" is discarded from temporary state
+And the newNumber "+63 9123456789" is discarded from temporary state
 And the database STILL contains the original number "+63 9171234567"
 And the mobile number field returns to read-only mode
 And displays the original number "+63 9171234567"
@@ -749,7 +747,7 @@ And NO database update occurs
 
 ```gherkin
 Given the OTP verification modal is open
-And the merchant entered new number "+63 9062417893"
+And the merchant entered new number "+63 9123456789"
 And the original number in database is "+63 9171234567"
 And OTP "123456" was sent but merchant has not entered it yet
 When the merchant refreshes the browser page (F5 or Ctrl+R)
@@ -765,7 +763,7 @@ And the merchant must start the edit process again
 
 ```gherkin
 Given the OTP verification modal is open
-And the merchant entered new number "+63 9062417893"
+And the merchant entered new number "+63 9123456789"
 And the original number in database is "+63 9171234567"
 When the merchant clicks on a different navigation item (e.g., "Dashboard", "Orders")
 Then the system navigates to the selected page
@@ -781,17 +779,17 @@ Then the mobile number field displays "+63 9171234567" (original)
 ```gherkin
 Given the OTP verification modal is open
 And the correct OTP is "123456"
-And the merchant entered new number "+63 9062417893"
+And the merchant entered new number "+63 9123456789"
 And the original number in database is "+63 9171234567"
 When the merchant enters incorrect OTP "111111"
-And clicks "Verify"
+And clicks "Submit"
 Then error message displays: "Invalid code. Please try again."
 And the database STILL contains "+63 9171234567"
 When the merchant enters incorrect OTP "222222"
-And clicks "Verify"
+And clicks "Submit"
 Then error message displays again
 And the database STILL contains "+63 9171234567"
-When the merchant clicks "Cancel" after multiple failed attempts
+When the merchant clicks "Close" (X icon) after multiple failed attempts
 Then the modal closes
 And the number reverts to "+63 9171234567"
 And NO database update occurred at any point
@@ -801,11 +799,11 @@ And NO database update occurred at any point
 
 ```gherkin
 Given the OTP verification modal is open
-And OTP "123456" was generated 10 minutes ago
-And the merchant entered new number "+63 9062417893"
+And OTP "123456" was generated 2 minutes ago
+And the merchant entered new number "+63 9123456789"
 And the original number in database is "+63 9171234567"
 When the merchant enters the expired OTP "123456"
-And clicks "Verify"
+And clicks "Submit"
 Then error message displays: "Code expired. Please request a new code."
 And the database STILL contains "+63 9171234567"
 And the modal remains open
@@ -973,7 +971,7 @@ And the number is NOT saved until a valid, non-expired OTP is verified
 │  ┌───────────────────────────────────────────────────────┐  │
 │  │           OTP Service                                 │  │
 │  │  • Generate secure 6-digit OTP codes                  │  │
-│  │  • Store OTP with 10-minute expiration                │  │
+│  │  • Store OTP with 2-minute expiration                 │  │
 │  │  • Validate OTP codes (match + not expired)           │  │
 │  │  • Invalidate OTP after successful verification       │  │
 │  └───────────────────────────────────────────────────────┘  │
@@ -981,8 +979,6 @@ And the number is NOT saved until a valid, non-expired OTP is verified
 │  │           Rate Limiting Service                       │  │
 │  │  • Track OTP requests per merchant session            │  │
 │  │  • Enforce 2-minute cooldown (normal)                 │  │
-│  │  • Enforce 5-minute cooldown (escalated)              │  │
-│  │  • Count requests within 15-minute sliding window     │  │
 │  │  • Return cooldown remaining time to frontend         │  │
 │  └───────────────────────────────────────────────────────┘  │
 │  ┌───────────────────────────────────────────────────────┐  │
@@ -1014,7 +1010,7 @@ And the number is NOT saved until a valid, non-expired OTP is verified
 │  │  • otp_code (encrypted)                               │  │
 │  │  • merchant_id                                        │  │
 │  │  • mobile_number                                      │  │
-│  │  • created_at, expires_at (10 min TTL)                │  │
+│  │  • created_at, expires_at (2 min TTL)                 │  │
 │  │  • verified_at (null until verified)                  │  │
 │  └───────────────────────────────────────────────────────┘  │
 │  ┌───────────────────────────────────────────────────────┐  │
@@ -1108,7 +1104,7 @@ And the number is NOT saved until a valid, non-expired OTP is verified
 
 11. Real-time validation displays error on input change
 12. Validation error clears when valid format entered
-13. OTP expiration (10 min) prevents verification
+13. OTP expiration (2 min) prevents verification
 14. Resend Code generates new OTP and invalidates old one
 15. Cooldown timer displays accurate countdown
 16. Modal cannot be dismissed by clicking outside
