@@ -820,7 +820,7 @@ And the number is NOT saved until a valid, non-expired OTP is verified
 | Requirement                        | Metric                                       | Measurement Method          |
 | ---------------------------------- | -------------------------------------------- | --------------------------- |
 | OTP modal display speed            | Less than 500ms after Save button clicked    | Frontend performance timing |
-| OTP verification response time     | Less than 2 seconds (P95) after Verify click | API response monitoring     |
+| OTP verification response time     | Less than 2 seconds (P95) after Submit click | API response monitoring     |
 | Input validation response time     | Less than 100ms for real-time validation     | UI event handling timing    |
 | Rate limiting enforcement accuracy | 100% cooldown enforcement, zero bypasses     | Backend validation logs     |
 | SMS delivery time                  | 95% delivered within 60 seconds              | SMS provider metrics        |
@@ -897,9 +897,9 @@ And the number is NOT saved until a valid, non-expired OTP is verified
 
 ### 5.2 UI Mockups & Wireframes
 
-[Mobile Number Verification Enhancement Figma Design](https://www.figma.com/design/yWBhFz2OUJ40N21RHObNje/Contact-Number-error?node-id=1-172&t=EV0Vq6fP1qmmsa0i-0)
-[Mobile Number Verification Enhancement Prototype](https://www.figma.com/proto/yWBhFz2OUJ40N21RHObNje/Contact-Number-error?page-id=0%3A1&node-id=1-225&t=EV0Vq6fP1qmmsa0i-0&scaling=min-zoom&content-scaling=fixed)
-[Mobile Number Verification Enhancement Wireframe](https://p1-ba-pocs.vercel.app/my-account-contact-number)
+1. [Mobile Number Verification Enhancement Figma Design](https://www.figma.com/design/yWBhFz2OUJ40N21RHObNje/Contact-Number-error?node-id=1-172&t=EV0Vq6fP1qmmsa0i-0)
+2. [Mobile Number Verification Enhancement Prototype](https://www.figma.com/proto/yWBhFz2OUJ40N21RHObNje/Contact-Number-error?page-id=0%3A1&node-id=1-225&t=EV0Vq6fP1qmmsa0i-0&scaling=min-zoom&content-scaling=fixed)
+3. [Mobile Number Verification Enhancement Wireframe](https://p1-ba-pocs.vercel.app/my-account-contact-number)
 
 ---
 
@@ -925,7 +925,7 @@ And the number is NOT saved until a valid, non-expired OTP is verified
 │  │  │  OTP Verification Modal Component               │  │  │
 │  │  │  • 6-digit OTP input field                      │  │  │
 │  │  │  • Resend Code button with cooldown timer       │  │  │
-│  │  │  • Cancel / Verify buttons                      │  │  │
+│  │  │  • Cancel / Submit buttons                      │  │  │
 │  │  │  • Error/success message display                │  │  │
 │  │  └─────────────────────────────────────────────────┘  │  │
 │  │  ┌─────────────────────────────────────────────────┐  │  │
@@ -972,7 +972,6 @@ And the number is NOT saved until a valid, non-expired OTP is verified
 │  │  • Log all OTP generation events                      │  │
 │  │  • Log all verification attempts (success/failure)    │  │
 │  │  • Log mobile number change attempts                  │  │
-│  │  • Track rate limiting escalations                    │  │
 │  └───────────────────────────────────────────────────────┘  │
 └─────────────────────────────────────────────────────────────┘
                               │
@@ -1017,7 +1016,7 @@ And the number is NOT saved until a valid, non-expired OTP is verified
 2. Merchant clicks Save → Backend generates OTP → SMS sent
 3. OTP modal opens → Merchant enters code → Backend validates
 4. If valid → Database updated → Modal closes → Success message
-5. Rate limiting enforced on each OTP request (2 or 5 min cooldown)
+5. Rate limiting enforced on each OTP request (2 min cooldown)
 
 ### 6.2 Data Model (ER Diagram)
 
@@ -1078,33 +1077,31 @@ And the number is NOT saved until a valid, non-expired OTP is verified
 7. Cancel button closes modal and discards changes
 8. Page refresh during OTP modal does NOT save number
 9. Rate limiting enforces 2-minute cooldown on Resend
-10. 3 requests within 15 minutes escalates to 5-minute cooldown
 
 **Medium Priority (P1 - Critical):**
 
-11. Real-time validation displays error on input change
-12. Validation error clears when valid format entered
-13. OTP expiration (2 min) prevents verification
-14. Resend Code generates new OTP and invalidates old one
-15. Cooldown timer displays accurate countdown
-16. Modal cannot be dismissed by clicking outside
-17. Verify button disabled until 6 digits entered
-18. Database audit logs capture all verification attempts
-19. SMS delivery success rate monitored
-20. Session-based rate limiting persists across page refreshes
+10. Real-time validation displays error on input change
+11. Validation error clears when valid format entered
+12. OTP expiration (2 min) prevents verification
+13. Resend Code generates new OTP and invalidates old one
+14. Cooldown timer displays accurate countdown
+15. Modal cannot be dismissed by clicking outside
+16. Database audit logs capture all verification attempts
+17. SMS delivery success rate monitored
+18. Session-based rate limiting persists across page refreshes
 
 **Lower Priority (P2 - Important):**
 
-21. OTP modal displays within 500ms
-22. Verification completes within 2 seconds
-23. Input validation responds within 100ms
-24. Mobile responsiveness of OTP modal
-25. Keyboard navigation within modal
-26. Screen reader announces validation errors
-27. Error messages meet WCAG AA contrast standards
-28. SMS provider capacity supports burst requests
-29. Rate limiting handles 10,000+ active sessions
-30. Audit logs support forensic analysis
+19. OTP modal displays within 500ms
+20. Verification completes within 2 seconds
+21. Input validation responds within 100ms
+22. Mobile responsiveness of OTP modal
+23. Keyboard navigation within modal
+24. Screen reader announces validation errors
+25. Error messages meet WCAG AA contrast standards
+26. SMS provider capacity supports burst requests
+27. Rate limiting handles 10,000+ active sessions
+28. Audit logs support forensic analysis
 
 ---
 
