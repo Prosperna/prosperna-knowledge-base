@@ -8,7 +8,7 @@ sidebar_position: 1
 Agile-focused PRD documenting the enhancement to Prosperna's My Account module, focusing on mobile number field security improvements, OTP verification enforcement, and input validation for Philippine mobile numbers.
 
 **Demo Recording:**
-[Mobile Number Enhancement Demo - To be created]
+[Mobile Number Verification Enhancement Demo](https://sharing.clickup.com/clip/p/t7537039/9f4ef57c-aa67-479b-aaad-1f240d7a6b0c/9f4ef57c-aa67-479b-aaad-1f240d7a6b0c.webm?filename=My%20Account%20%7C%20Contact%20Number%20Enhancement%20Demo.webm)
 
 ## Document Control
 
@@ -881,45 +881,25 @@ And the number is NOT saved until a valid, non-expired OTP is verified
 
 **Primary Flow: Successful Mobile Number Update**
 
-[To be created: Flowchart showing Edit → Validate → Save → OTP Modal → Enter OTP → Verify → Success]
+![Primary Flow: Successful Mobile Number Update](/product/user-flows/primary_flow_mobile_number_verification.png)
 
 **Alternative Flow: OTP Resend with Cooldown**
 
-[To be created: Flowchart showing OTP Modal → Resend Code → Cooldown → Wait → Resend → Enter OTP → Verify]
+![Alternative Flow: OTP Resend with Cooldown](/product/user-flows/alternative_flow_mobile_number_verification.png)
 
 **Error Flow: Invalid Format Validation**
 
-[To be created: Flowchart showing Edit → Enter Invalid Format → Validation Error → Correct Format → Proceed to OTP]
+![Error Flow: Invalid Format Validation](/product/user-flows/error_flow_1_mobile_number_verification.png)
 
-**Error Flow: Incorrect OTP Entry**
+**Error Flow: Cooldown Prevents Save Action**
 
-[To be created: Flowchart showing OTP Modal → Enter Wrong OTP → Error → Retry or Resend]
+![Error Flow: Cooldown Prevents Save Action](/product/user-flows/error_flow_2_mobile_number_verification.png)
 
 ### 5.2 UI Mockups & Wireframes
 
-**My Account Page - Mobile Number Edit State:**
-
-- Initial state: Read-only field with Edit (pencil) icon
-- Edit state: Input field with country selector + number, Cancel/Save buttons
-- Validation error state: Red border, error message below field
-
-**OTP Verification Modal:**
-
-- Modal overlay (centered, cannot dismiss by outside click)
-- Title: "Verify Mobile Number"
-- Message: "We've sent a 6-digit code to +63 9XXXXXXXXX"
-- OTP input: 6-digit field with clear visual separation
-- Resend Code button: Shows countdown timer during cooldown
-- Cancel button: Secondary styling
-- Verify button: Primary styling, disabled until 6 digits entered
-
-**Cooldown Timer States:**
-
-- Enabled: "Resend Code" (blue button)
-- Cooldown: "Resend in 1:45" (grayed out)
-- Escalated: "Resend in 5:00" (grayed out, warning color)
-
-[Mockup links to be added]
+[Mobile Number Verification Enhancement Figma Design](https://www.figma.com/design/yWBhFz2OUJ40N21RHObNje/Contact-Number-error?node-id=1-172&t=EV0Vq6fP1qmmsa0i-0)
+[Mobile Number Verification Enhancement Prototype](https://www.figma.com/proto/yWBhFz2OUJ40N21RHObNje/Contact-Number-error?page-id=0%3A1&node-id=1-225&t=EV0Vq6fP1qmmsa0i-0&scaling=min-zoom&content-scaling=fixed)
+[Mobile Number Verification Enhancement Wireframe](https://p1-ba-pocs.vercel.app/my-account-contact-number)
 
 ---
 
@@ -1041,7 +1021,7 @@ And the number is NOT saved until a valid, non-expired OTP is verified
 
 ### 6.2 Data Model (ER Diagram)
 
-[To be created: ER diagram showing relationships between Merchant Accounts, OTP Codes, Rate Limiting Tracking, and Audit Logs tables]
+![Data Model - Mobile Verification Enhancement](/product/data-models/data_model_mobile_number_verification.png)
 
 ---
 
@@ -1132,33 +1112,39 @@ And the number is NOT saved until a valid, non-expired OTP is verified
 
 ### High-Impact Risks
 
-| Risk                                                                            | Probability | Impact | Mitigation                                                                                           | Residual Concern                                                    |
-| ------------------------------------------------------------------------------- | ----------- | ------ | ---------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| SMS delivery failures prevent legitimate verifications                          | Medium      | High   | Fallback to email verification; 95% SMS delivery SLA with provider; retry logic on delivery failures | 5% of verifications may require manual support intervention         |
-| Rate limiting too restrictive frustrates users                                  | Medium      | Medium | 2-minute normal cooldown balanced for UX; escalation only after 3 requests; usability testing first  | Power users may find cooldown annoying; some support tickets likely |
-| Existing merchants with invalid formats cannot update                           | Low         | Medium | Migration script to convert +63 09XXX to +63 9XXX; grace period with warnings before enforcement     | Small % of edge cases may require manual data cleanup               |
-| OTP modal UX confuses users unfamiliar with 2FA                                 | Medium      | Medium | Clear messaging in modal; contextual help text; comprehensive user testing                           | First-time users may need support; onboarding documentation needed  |
-| Performance degradation with OTP generation under high load                     | Low         | High   | SMS provider capacity testing; caching OTP codes; rate limiting inherently reduces load              | Under extreme conditions (1000+ requests/min), delays possible      |
-| Security: Session-based rate limiting bypassable with multiple browsers/devices | Low         | Medium | Track rate limiting by merchant ID + phone number (not just session); monitor for abuse patterns     | Sophisticated attackers with multiple IPs could still abuse         |
+| Risk                                                                            | Probability | Impact | Mitigation                                                                                       | Residual Concern                                               |
+| ------------------------------------------------------------------------------- | ----------- | ------ | ------------------------------------------------------------------------------------------------ | -------------------------------------------------------------- |
+| Performance degradation with OTP generation under high load                     | Low         | High   | SMS provider capacity testing; caching OTP codes; rate limiting inherently reduces load          | Under extreme conditions (1000+ requests/min), delays possible |
+| Security: Session-based rate limiting bypassable with multiple browsers/devices | Low         | Medium | Track rate limiting by merchant ID + phone number (not just session); monitor for abuse patterns | Sophisticated attackers with multiple IPs could still abuse    |
 
 ---
 
 ## 9. Future Enhancements
 
-1. **To follow**
+1. **Smart Input Behavior (Philippines)**
+
+- Does not prefill the input field with "+63" (country code)
+- When entering first digit with 9, it automatically becomes "09"
+- When entering first with 0, it allows 11 numeric characters
+- When the 11 digits has been inputted starting with "0", the system automatically converts it to international format (starting with +63)
+- Disable "Save" button until valid format is entered (either 11 digits starting with 0, or +63 followed by 10 digits starting with 9)
+- Basically replicate the "GCash" experience
+
+2. **Verified Badge** - Displayed next to mobile number once OTP verification is successful.
+3. **Escalation Cooldown Logic** - Once merchant makes X number of OTP requests for Y period of time, a longer cooldown time will be persisted instead of the normal 2 minutes.
 
 ---
 
 ## Approval and Sign-off
 
-| Stakeholder       | Role | Status        | Date Signed       |
-| ----------------- | ---- | ------------- | ----------------- |
-| Dennis Velasco    | CEO  | ☐ Pending     | ---               |
-| Ruel Nopal        | HoE  | ☐ Pending     | ---               |
-| Rian Froille Alde | QA   | ☐ Pending     | ---               |
-| ---               | BE   | ☐ Pending     | ---               |
-| ---               | FE   | ☐ Pending     | ---               |
-| Adrianne Berida   | BA   | ☐ In Progress | November 20, 2025 |
+| Stakeholder       | Role | Status      | Date Signed       |
+| ----------------- | ---- | ----------- | ----------------- |
+| Dennis Velasco    | CEO  | ☐ Pending   | ---               |
+| Ruel Nopal        | HoE  | ☐ Pending   | ---               |
+| Rian Froille Alde | QA   | ☐ Pending   | ---               |
+| ---               | BE   | ☐ Pending   | ---               |
+| ---               | FE   | ☐ Pending   | ---               |
+| Adrianne Berida   | BA   | ☐ Completed | November 20, 2025 |
 
 ## **Approval Date:** YYYY-MM-DD
 
