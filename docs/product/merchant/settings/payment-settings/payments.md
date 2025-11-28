@@ -4,6 +4,7 @@ title: Payments Module
 sidebar_label: Payments Module BRD
 sidebar_position: 1
 ---
+
 # Prosperna One | Payments Page
 
 ## Summary
