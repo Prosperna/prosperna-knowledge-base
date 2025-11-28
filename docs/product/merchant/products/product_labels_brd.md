@@ -8,251 +8,236 @@ sidebar_position: 1
 # Product Labels BRD  
 **Business Requirements Document (BRD)**
 
----
 
-## Executive Summary
-The **Product Label** is a feature that provides merchants with the ability to attach label tags to their product images in product listings, visible to their customers.  
-This helps merchants relay information about their products through short texts presented in an engaging way.
 
----
+# Executive Summary
+The Product Label is a feature that provides merchants with the ability to attach label tags to their product images in their product listing, which is then visible to customers. This helps merchants relay information about their products in an engaging way.
 
-## Background
-Prosperna recognizes the importance of providing merchants with a competitive edge in the eCommerce industry.  
-The proposed **Product Label** feature aims to enhance the visual presentation of merchants' products, allowing them to use standard or custom labels to differentiate products and create a more engaging shopping experience.
+# Background
+Prosperna recognizes the significance of providing merchants with an edge in the E-commerce industry. The Product Label feature enhances the visual presentation of products, allowing standard or custom labels to differentiate products and create a more engaging shopping experience.
 
----
+# Business Objectives
+- Improve visual appeal of online stores using standard or custom product labels.
+- Foster a more engaging shopping experience by enabling merchants to creatively label products.
+- Introduce product labeling as a premium feature in Plus, Pro, and Premium plans.
+- Attract new merchants by showcasing innovative features.
+- Empower merchants to highlight key products, promotions, or offerings.
+- Position Prosperna as a cutting-edge E-commerce solution.
+- Enhance overall user satisfaction and retention.
+- Provide merchants tools to implement effective marketing strategies.
 
-## Business Objective
-The primary goal of implementing the Product Label feature is to improve the visual appeal of online stores by enabling merchants to use standard or custom product labels, enriching the overall presentation of products.
+# Scope of Solution
+**In-Scope:**
+- Custom product label creation.
+- Customization options: text, layout, appearance, position, margin, tooltip.
+- View, edit, delete functionality for labels.
+- Assigning/disassociating labels with products.
+- Integration with Prosperna page builder.
+- Admin site label management.
+- Compliance with Prosperna security standards.
+- Robust database handling of label data.
 
-### Specific Objectives
-- Foster a more engaging shopping experience by enabling merchants to creatively label their products.
-- Introduce the product labeling feature as a **premium offering** within the Plus, Pro, and Premium subscription plans.
-- Attract new merchants by showcasing Prosperna’s innovative customization options.
-- Empower merchants to strategically label and highlight key products, promotions, or unique offerings.
-- Position Prosperna as a cutting-edge eCommerce solution through a feature-rich product labeling system.
-- Improve overall user satisfaction and retention by enhancing merchants’ creative control.
-- Provide a tool for merchants to implement effective marketing strategies through product labels.
+**Out-of-Scope:**
+- Advanced graphic design, animations, or offline editing.
+- Integration with external design tools.
+- Cross-platform/browser beyond standard requirements.
+- Automated label generation or ML-based suggestions.
+- Detailed analytics or reporting.
+- Extensive localization or printable label design.
 
----
+# Business Requirements
 
-## Scope of Solution
-The **scope** of the Product Label feature includes:
-- Development of a feature allowing merchants to create **custom product labels**.
-- Customization options for text, layout, visual appearance, position, margin, and tooltip.
-- View, edit, and delete functionalities for product labels.
-- Association and disassociation of labels with individual products.
-- Seamless integration with **Prosperna’s page builder**.
-- Inclusion of a **Product Labels** section in the merchant’s admin site.
-- Compliance with Prosperna’s overall **security standards**.
-- Database setup for storing product label information, settings, and associations.
+## 1. Product Label Creation and Customization
+### 1.1 Standard Labels
+- Predefined, uneditable, undeletable, viewable by merchants.
 
----
+### 1.2 Custom Labels
+- Merchants can add, edit, and delete custom labels.
 
-## Out of Scope
-- Advanced customization (e.g., intricate design elements or animations).  
-- Integration with external tools or design services.  
-- Compatibility beyond Prosperna’s standard browser requirements.  
-- Offline editing capabilities.  
-- Automated label generation (e.g., via AI or predefined criteria).  
-- Detailed analytics and reporting (e.g., click-through rates).  
-- Localization or multilingual label translation.  
-- Printable label generation.
+### 1.3 Label Customization
+- Customize text, layout, background, font, size, color, font family, height, width, border radius, position, margin, tooltip.
 
----
+## 2. Label Management
+### 2.1 Viewing and Deleting
+- View list of all labels.
+- Delete custom labels.
 
-## Business Requirements
+### 2.2 Assignment and Removal
+- Assign/unassign labels to products.
 
-### 1. Product Label Creation and Customization
-**1.1 Standard Labels**
-- The system shall provide predefined standard product labels.
-- Standard labels shall be **uneditable** and **undeletable**, but viewable by merchants.
+## 3. Dashboard Integration
+- Dedicated Product Labels section in admin site.
 
-**1.2 Custom Labels**
-- Merchants shall be able to create new custom product labels.
-- Custom labels shall be **editable** and **deletable**.
+## 4. Database Handling
+- Secure storage of labels, settings, and associations.
+- Ensure data integrity.
 
-**1.3 Label Customization**
-- Merchants can customize:
-  - Text, layout, background color, font size, font color, font family  
-  - Height, width, border radius, position, margin, tooltip
+# Stakeholder Analysis
+| Stakeholder | Role |
+|------------|------|
+| Project CEO | Overall project management |
+| Head of Engineering | Department coordination |
+| Prosperna Product Team | Development & implementation oversight |
+| Prosperna Sales & Marketing | Platform promotion |
+| Merchants | Create/manage products |
+| Customers | Purchase products |
 
----
+# User Classes and Characteristics
+- **Merchants:** Business account holders, manage products.  
+- **Customers:** Visit merchant pages to explore products.
 
-### 2. Label Management
-**2.1 Viewing and Deleting**
-- Merchants can view all product labels.
-- Merchants can delete **custom** labels.
+# UI Mockups
+- [Low-Fidelity Wireframe](https://dennisvelasco229503.invisionapp.com/freehand/Web---Product-Label-Tags-ykfh1aX5s)  
+- [High-Fidelity Wireframe](https://www.figma.com/file/XQZ6TwOZcYNtyfTINm7ahN/Prosperna---Merchant?type=design&node-id=10974-6196&mode=design)
 
-**2.2 Assignment and Removal**
-- Merchants can assign a label to a specific product.
-- Merchants can remove a label from a product.
+# Data Flow Diagram
+- Product Data Flow: TBD
 
----
+# System Architecture Diagram
+- TBD
 
-### 3. Dashboard Integration
-**3.1 Product Labels Section**
-- A dedicated section shall be added to the merchant’s **admin site** for easy access and management of product labels.
+# Functional Requirements Specification (FRS)
 
----
+## Use Cases
 
-### 4. Database Handling
-**4.1 Data Storage**
-- The system shall securely store all product label data, settings, and associations.
+### UC-01: Create Standard Product Labels
+**Actor:** System  
+**Objectives:** Create three standard labels usable by all merchants.  
+**Steps:**  
+1. Create labels:  
+   - **New:** Rounded, green (#2DA94F), white font  
+   - **Sale:** Circle, red (#F53C3C), white font  
+   - **Best Seller:** Rounded, blue (#3F71D7), white font  
+2. Display in Products > Product Labels.  
+3. Standard labels: view only, no edit/delete.  
+4. Table columns: Preview, Name, Text, Show Discounted Products Automatically (toggle), Date Created, Date Updated, Actions.
 
-**4.2 Data Integrity**
-- Ensure data integrity and consistency in storing and retrieving product label information.
-
----
-
-## Stakeholder Analysis
-- **Project CEO** – Oversees overall project.  
-- **Head of Engineering** – Coordinates across departments.  
-- **Product Team** – Oversees development and implementation.  
-- **Sales & Marketing Team** – Promotes the feature to potential merchants.  
-- **Merchants** – Create, publish, and manage products.  
-- **Customers** – Browse and order products.
-
----
-
-## User Classes and Characteristics
-
-### Merchants
-- Have a business account on Prosperna.
-- Manage and publish their products.
-
-### Customers
-- Visit merchant pages to explore and purchase products.
+**Acceptance Criteria:** Standard labels are available for all merchants.  
+**Postconditions:** Three standard labels created successfully.
 
 ---
 
-## UI Mockups
-- **Low-Fidelity Wireframe:** [InVision Freehand](https://dennisvelasco229503.invisionapp.com/freehand/Web---Product-Label-Tags-ykfh1aX5s)  
-- **High-Fidelity Wireframe:** [Figma Design](https://www.figma.com/file/XQZ6TwOZcYNtyfTINm7ahN/Prosperna---Merchant?type=design&node-id=10974-6196&mode=design)
+### UC-02: Create New (Custom) Product Label
+**Actor:** Merchant (paid plan)  
+**Preconditions:** Merchant must have a paid plan.  
+**Steps:**  
+1. Navigate: Products > Product Labels > Add Product Label. Free-plan merchants see Upgrade modal.  
+2. Fill out form:  
+   - **Details:** Name (30 char), Text (12 char), Hover Text (optional), Active Dates, Start/End Time  
+   - **Colors & Style:** Label Style, Background Color, Position, Height, Width  
+   - **Text:** Font Family, Font Size, Font Color  
+   - **Margins:** Up, Down, Left, Right  
+
+> Notes: Label text must be centered horizontally/vertically.  
+> Checkbox: "Show Discounted Products Automatically" applies Sale label if price >0.
+
+3. Click Save or Cancel.  
+**Success Message:** "Successfully created product label."  
+**Error Messages:** "Please complete all required fields."  
+**Postconditions:** Custom label created and visible in Product Labels page.
 
 ---
 
-## Data Flow Diagram
-*(Insert product data flow and system architecture diagrams here.)*
+### UC-03: View a Product Label
+**Actor:** Merchant  
+**Steps:**  
+1. Navigate to Products > Product Labels, click **View**.  
+2. See preview and details: Name, Text, Hover Text, Active Dates, Start Time, Date Created, Date Updated.  
+3. Edit button visible only for custom labels.
+
+**Acceptance Criteria:** Label preview and details visible.  
 
 ---
 
-## Functional Requirements Specification (FRS)
+### UC-04: Edit a Product Label
+**Actor:** Merchant (paid plan)  
+**Preconditions:** Merchant must have a paid plan.  
+**Steps:**  
+1. Navigate: Products > Product Labels > View > Edit (not for standard labels).  
+2. Edit details: Name, Text, Hover Text, Active Dates, Start/End Time, Colors & Style, Text, Margins.  
+3. Save or Cancel.  
 
-### Use Case List
-1. Create Standard Product Labels  
-2. Create a New (Custom) Product Label  
-3. View a Product Label  
-4. Edit a Product Label  
-5. Delete a Product Label  
-6. Assign a Product Label to a Product  
-7. Remove a Product Label from a Product  
-
----
-
-### Use Case Tables
-| Use Case ID | Use Case Name |
-|--------------|----------------|
-| UC01 | Create Standard Product Labels |
-| UC02 | Create New (Custom) Product Label |
-| UC03 | View Product Label |
-| UC04 | Edit Product Label |
-| UC05 | Delete Product Label |
-| UC06 | Assign Product Label to Product |
-| UC07 | Remove Product Label from Product |
+**Success Message:** "Successfully updated product label."  
+**Error Messages:** "Please complete all required fields."  
+**Postconditions:** Product label updated successfully.
 
 ---
 
-## Business Rules / Desired Behavior
-- Product label form should be **scrollable**, while the preview remains fixed.  
-- All product labels should have:
-  - Minimum **10px internal padding**
-  - **20px margin** from the product container border
-- If the label style is **Ribbon**, disable the following position options:
-  - *Upper Center*, *Middle Left*, *Middle Center*, *Middle Right*, *Bottom Center*
+### UC-05: Delete a Product Label
+**Actor:** Merchant  
+**Steps:**  
+1. Navigate: Products > Product Labels > Delete (custom labels only).  
+2. Confirm deletion in modal.  
+3. System deletes label and shows success message.  
+
+**Success Message:** "Successfully deleted product label."  
+**Error Messages:** "Something went wrong. Please try again."  
 
 ---
 
-## Non-Functional Requirements Specification (NFRS)
+### UC-06: Assign a Product Label to a Product
+**Actor:** All Registered Merchants  
+**Steps:**  
+1. Navigate: Products > Inventory > Product Labels section.  
+2. Assign label(s) from dropdown (from Product Labels page). Max 2 labels per product.  
+3. Save or Cancel.  
+4. Display assigned labels in product listing and Page Builder.
 
-### 1. Performance
-- Response time ≤ _X seconds_ per operation.  
-- Scalable for growing number of merchants and products.  
-- Minimal impact on page load times.
-
-### 2. Security
-- Role-based access control for authorized users only.  
-- Data must be stored and transmitted securely with encryption.  
-- System must resist **SQL injection** and **XSS** attacks.
-
-### 3. Scalability
-- Database should support **horizontal scaling**.  
-- Must accommodate growth in users, merchants, and admins.
-
-### 4. Compatibility
-- Compatible with major browsers: Chrome, Firefox, Safari, Edge.  
-- Responsive across mobile, tablet, and desktop devices.
-
-### 5. Reliability
-- Must include robust **error handling** and meaningful user feedback.  
-- High uptime with minimal downtime.
-
-### 6. Usability
-- Interface should be **intuitive and user-friendly**.  
-- Real-time preview in page builder must reflect actual label display.
+**Success Message:** "Successfully created/updated product."  
+**Error Messages:** Empty required fields or failure: "Please complete all required fields." / "Something went wrong. Please try again."
 
 ---
 
-## Test Plan
-1. **Unit Testing** – Validate functionality of individual components.  
-2. **Integration Testing** – Ensure communication between module, DB, and builder.  
-3. **System Testing** – Verify end-to-end functionality.  
-4. **Performance Testing** – Assess under varying loads.  
-5. **Security Testing** – Confirm compliance with Prosperna’s security standards.  
-6. **User Acceptance Testing (UAT)** – Validate user expectations and business alignment.  
-7. **Compatibility Testing** – Confirm performance across browsers and devices.
+### UC-07: Remove a Product Label from a Product
+**Actor:** All Registered Merchants  
+**Steps:**  
+1. Navigate: Products > Inventory > Product Labels section.  
+2. Remove label by clicking X.  
+3. Save or Cancel.  
+
+**Success Message:** "Successfully updated product."  
+**Error Messages:** "Something went wrong. Please try again."  
 
 ---
 
-## Testing Documentation
-- **Feature:** Product Image Label  
-- **ClickUp Task:** [https://app.clickup.com/t/865c35yde](https://app.clickup.com/t/865c35yde)  
-- **Test Cases:** UC01–UC06  
-- **Enhancements for UC06:**  
-  1. System should allow up to **5 product labels per product**.  
-  2. Labels must also display on **Page Builder → Products component** when added or edited.
+# Non-Functional Requirements (NFRs)
+- **Performance:** Response time within [X] seconds, scalable.  
+- **Security:** Role-based access, encrypted data, XSS/SQL safe.  
+- **Scalability:** Database and feature handle growth.  
+- **Compatibility:** Chrome, Firefox, Safari, Edge; responsive UI.  
+- **Reliability:** Robust error-handling, high uptime.  
+- **Usability:** Intuitive UI, real-time preview.
 
----
+# Test Plan
+- Unit Testing  
+- Integration Testing  
+- System Testing  
+- Performance Testing  
+- Security Testing  
+- UAT  
+- Compatibility Testing
 
-## Change Request Log
+# Testing Documentation
+- Clickup Task: [Product Image Label](https://app.clickup.com/t/865c35yde)  
+- Test Cases: UC 01-06
 
-### **Change Request ID:** CR-1001
-| Field | Details |
-|--------|----------|
-| **Date Requested** | February 27, 2025 |
-| **Requested By** | Jomari Adornado |
-| **Description** | Add enable/disable button to auto-display Product Label when Sale Price > 0 |
-| **Business Justification** | Add option to automatically display label for discounted products |
-| **Impact Analysis** | Affects Products and Product Label modules (automation) |
-| **Priority** | High |
-| **Status** | Completed |
-| **Approval Status** | For Approval (Ruel) |
-| **Date Approved** | — |
-| **Date Completed** | February 27, 2025 |
-| **Assigned To** | Jomari Adornado |
-| **Comments** | — |
+# QA Requested Enhancements
+- UC-06: Max 5 labels per product.  
+- Assigned labels visible in Page Builder for assigned products.
 
----
+# Change Request Log
+| ID | Date | Requested By | Description | Status |
+|----|------|--------------|-------------|--------|
+| CR-1001 | 2025-02-27 | Jomari Adornado | Enable/disable automatic display of Sale label | Completed |
 
-## Sign-Offs
-
-| Stakeholder | Role | Status | Date Signed |
-|--------------|------|--------|--------------|
-| Dennis Velasco | CEO | Approved | Dec. 11, 2023 |
-| Ruel Nopal | HoE | Approved | Nov. 29, 2023 |
-| Adrianne Berida | BA | Completed | — |
-| (Bam) Mark Anthony | QA | Passed (UC01–07) | July 10, 2024 |
-| Jomari Adornado | PM / BA | Enhancement | Feb. 25, 2025 |
+# Signed Off
+| Stakeholder | Role | Status | Date |
+|------------|------|-------|------|
+| Dennis Velasco | CEO | - | - |
+| Ruel Nopal | HoE | Approved | Dec 11, 2023 |
+| Adrianne Berida | BA | Completed | Nov 29, 2023 |
+| Mark Anthony (Bam) | QA | Passed (UC 01-07) | Jul 10, 2024 |
+| Jomari Adornado | BA | Enhancement | Feb 25, 2025 |
 
 ---
 
