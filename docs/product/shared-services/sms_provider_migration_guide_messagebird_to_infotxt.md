@@ -2247,22 +2247,22 @@ echo "Deployment complete. Monitor logs for issues."
 
 ## Appendix B: Comparison of Key Differences
 
-| Aspect               | MessageBird                            | InfoTxt                                           | Migration Action Required                      |
-| -------------------- | -------------------------------------- | ------------------------------------------------- | ---------------------------------------------- |
-| **Base URL**         | https://rest.messagebird.com           | https://api.myinfotxt.com                         | Update INFOTXT_API_URL                         |
-| **Authentication**   | Header: Authorization: AccessKey {key} | Query params: UserID={id}&ApiKey={key}            | Rewrite all API calls                          |
-| **SMS Endpoint**     | POST /messages                         | GET/POST /v2/send.php                             | Update endpoint and method                     |
-| **OTP Generation**   | POST /verify                           | GET/POST /v2/otp-send.php                         | Update endpoint                                |
-| **OTP Verification** | GET /verify/{id}?token={token}         | GET/POST /v2/otp-check.php                        | Update endpoint and parameter names            |
-| **Mobile Format**    | +639xxxxxxxxx                          | 09xxxxxxxxx                                       | Implement formatMobileNumber()                 |
-| **Sender ID**        | Custom (e.g., "Prosperna")             | Fixed SIM: 0917.587.2020                          | Remove originator parameter                    |
-| **OTP Storage**      | MessageBird server-side                | InfoTxt server-side                               | No custom storage needed (same as MessageBird) |
-| **OTP Verification** | Returns: status (verified/failed)      | Returns: otpstatus (VALID/INVALID/EXPIRED/REPEAT) | Handle 4 statuses instead of 2                 |
-| **Success Response** | HTTP 200 with id field                 | HTTP 200 with status="00" and smsid               | Parse status field first                       |
-| **Error Response**   | HTTP 4xx/5xx with error object         | HTTP 200 with status="01-09" and error field      | Check status field in all responses            |
-| **Bulk SMS**         | Multiple POST calls                    | Single call to /v2/send-bulk.php                  | Optional: Use bulk endpoint for efficiency     |
-| **Status Checking**  | Via webhooks or GET /messages/{id}     | GET/POST /v2/status.php                           | Optional: Implement status checking            |
-| **Priority**         | Not supported                          | Optional Priority parameter (0/1/2)               | Optional: Add priority for urgent messages     |
+| Aspect               | MessageBird                                                | InfoTxt                                                            | Migration Action Required                      |
+| -------------------- | ---------------------------------------------------------- | ------------------------------------------------------------------ | ---------------------------------------------- |
+| **Base URL**         | https://rest.messagebird.com                               | https://api.myinfotxt.com                                          | Update INFOTXT_API_URL                         |
+| **Authentication**   | Header: Authorization: AccessKey &lbrace;key&rbrace;       | Query params: UserID=&lbrace;id&rbrace;&ApiKey=&lbrace;key&rbrace; | Rewrite all API calls                          |
+| **SMS Endpoint**     | POST /messages                                             | GET/POST /v2/send.php                                              | Update endpoint and method                     |
+| **OTP Generation**   | POST /verify                                               | GET/POST /v2/otp-send.php                                          | Update endpoint                                |
+| **OTP Verification** | GET /verify/&lbrace;id&rbrace;?token=&lbrace;token&rbrace; | GET/POST /v2/otp-check.php                                         | Update endpoint and parameter names            |
+| **Mobile Format**    | +639xxxxxxxxx                                              | 09xxxxxxxxx                                                        | Implement formatMobileNumber()                 |
+| **Sender ID**        | Custom (e.g., "Prosperna")                                 | Fixed SIM: 0917.587.2020                                           | Remove originator parameter                    |
+| **OTP Storage**      | MessageBird server-side                                    | InfoTxt server-side                                                | No custom storage needed (same as MessageBird) |
+| **OTP Verification** | Returns: status (verified/failed)                          | Returns: otpstatus (VALID/INVALID/EXPIRED/REPEAT)                  | Handle 4 statuses instead of 2                 |
+| **Success Response** | HTTP 200 with id field                                     | HTTP 200 with status="00" and smsid                                | Parse status field first                       |
+| **Error Response**   | HTTP 4xx/5xx with error object                             | HTTP 200 with status="01-09" and error field                       | Check status field in all responses            |
+| **Bulk SMS**         | Multiple POST calls                                        | Single call to /v2/send-bulk.php                                   | Optional: Use bulk endpoint for efficiency     |
+| **Status Checking**  | Via webhooks or GET /messages/&lbrace;id&rbrace;           | GET/POST /v2/status.php                                            | Optional: Implement status checking            |
+| **Priority**         | Not supported                                              | Optional Priority parameter (0/1/2)                                | Optional: Add priority for urgent messages     |
 
 ---
 
