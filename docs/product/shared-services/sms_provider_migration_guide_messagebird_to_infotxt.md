@@ -242,11 +242,11 @@ messagebird.verify.verify(
 
 ### 1.3 MessageBird API Endpoints Currently in Use
 
-| Endpoint                   | Method | Purpose           | Used In                                   |
-| -------------------------- | ------ | ----------------- | ----------------------------------------- |
-| `/messages`                | POST   | Send SMS messages | Orders Service, Payment Integration API   |
-| `/verify`                  | POST   | Generate OTP code | Payment Integration API, User Service API |
-| `/verify/{id}?token={otp}` | GET    | Verify OTP code   | Payment Integration API, User Service API |
+| Endpoint                                               | Method | Purpose           | Used In                                   |
+| ------------------------------------------------------ | ------ | ----------------- | ----------------------------------------- |
+| `/messages`                                            | POST   | Send SMS messages | Orders Service, Payment Integration API   |
+| `/verify`                                              | POST   | Generate OTP code | Payment Integration API, User Service API |
+| `/verify/&lbrace;id&rbrace;?token=&lbrace;otp&rbrace;` | GET    | Verify OTP code   | Payment Integration API, User Service API |
 
 ### 1.4 Configuration Files and Environment Variables
 
@@ -313,23 +313,23 @@ INFOTXT_API_KEY_DEV=<dev_api_key_if_available>
 
 #### Complete API Mapping Table
 
-| Feature                  | MessageBird                                  | InfoTxt                                                          | Changes Required                                                     |
-| ------------------------ | -------------------------------------------- | ---------------------------------------------------------------- | -------------------------------------------------------------------- |
-| **Send SMS (Single)**    | `POST /messages`                             | `GET/POST /v2/send.php`                                          | Change endpoint, auth method, mobile format                          |
-| **Send SMS (Bulk)**      | Multiple POST calls to `/messages`           | `GET/POST /v2/send-bulk.php`                                     | Use bulk endpoint for multiple recipients                            |
-| **Generate OTP**         | `POST /verify`                               | `GET/POST /v2/otp-send.php`                                      | Change endpoint, auth method, response structure                     |
-| **Verify OTP**           | `GET /verify/{id}?token={token}`             | `GET/POST /v2/otp-check.php?OTPID={id}&OTP={token}`              | Change endpoint, add OTPID parameter, handle otpstatus values        |
-| **Check SMS Status**     | Via message ID query or webhooks             | `GET/POST /v2/status.php?smsid={id}`                             | New capability to implement                                          |
-| **Authentication**       | Header: `Authorization: AccessKey {key}`     | Query params: `UserID={id}&ApiKey={key}`                         | Complete auth mechanism change                                       |
-| **Mobile Number Format** | International with country code (+639...)    | Philippine format (09...)                                        | Add transformation function                                          |
-| **Sender ID**            | Custom originator (e.g., "Prosperna")        | Fixed dedicated SIM: `0917.587.2020`                             | Remove originator parameter                                          |
-| **Response Structure**   | JSON with `id`, `recipients`, etc.           | JSON with `status` code and `smsid` or `error`                   | Update response parsing logic                                        |
-| **OTP Response**         | Returns `id`, `validUntilDatetime`, `status` | Returns `status`, `otpid`, `otp` (actual token value)            | Update OTP storage (store otpid, not otp value)                      |
-| **OTP Verification**     | Returns `status`: `verified` or other        | Returns `otpstatus`: `VALID`, `INVALID`, `EXPIRED`, or `REPEAT`  | Handle 4 different statuses instead of 2                             |
-| **Error Handling**       | HTTP status codes + error objects            | Always 200 OK with `status` field (`00`=success, `01-07`=errors) | Parse status codes in success responses                              |
-| **OTP Storage**          | MessageBird stores internally                | InfoTxt stores internally (no custom storage needed)             | No Redis needed - InfoTxt handles OTP storage similar to MessageBird |
-| **Message Priority**     | Not supported                                | Optional `Priority` parameter (0=low, 1=normal, 2=high)          | Optional: Can add priority for API sends                             |
-| **Rate Limiting**        | 500 req/s for POST                           | Not specified in docs (to be confirmed with provider)            | Monitor and implement if needed                                      |
+| Feature                  | MessageBird                                                  | InfoTxt                                                                         | Changes Required                                                     |
+| ------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| **Send SMS (Single)**    | `POST /messages`                                             | `GET/POST /v2/send.php`                                                         | Change endpoint, auth method, mobile format                          |
+| **Send SMS (Bulk)**      | Multiple POST calls to `/messages`                           | `GET/POST /v2/send-bulk.php`                                                    | Use bulk endpoint for multiple recipients                            |
+| **Generate OTP**         | `POST /verify`                                               | `GET/POST /v2/otp-send.php`                                                     | Change endpoint, auth method, response structure                     |
+| **Verify OTP**           | `GET /verify/&lbrace;id&rbrace;?token=&lbrace;token&rbrace;` | `GET/POST /v2/otp-check.php?OTPID=&lbrace;id&rbrace;&OTP=&lbrace;token&rbrace;` | Change endpoint, add OTPID parameter, handle otpstatus values        |
+| **Check SMS Status**     | Via message ID query or webhooks                             | `GET/POST /v2/status.php?smsid=&lbrace;id&rbrace;`                              | New capability to implement                                          |
+| **Authentication**       | Header: `Authorization: AccessKey &lbrace;key&rbrace;`       | Query params: `UserID=&lbrace;id&rbrace;&ApiKey=&lbrace;key&rbrace;`            | Complete auth mechanism change                                       |
+| **Mobile Number Format** | International with country code (+639...)                    | Philippine format (09...)                                                       | Add transformation function                                          |
+| **Sender ID**            | Custom originator (e.g., "Prosperna")                        | Fixed dedicated SIM: `0917.587.2020`                                            | Remove originator parameter                                          |
+| **Response Structure**   | JSON with `id`, `recipients`, etc.                           | JSON with `status` code and `smsid` or `error`                                  | Update response parsing logic                                        |
+| **OTP Response**         | Returns `id`, `validUntilDatetime`, `status`                 | Returns `status`, `otpid`, `otp` (actual token value)                           | Update OTP storage (store otpid, not otp value)                      |
+| **OTP Verification**     | Returns `status`: `verified` or other                        | Returns `otpstatus`: `VALID`, `INVALID`, `EXPIRED`, or `REPEAT`                 | Handle 4 different statuses instead of 2                             |
+| **Error Handling**       | HTTP status codes + error objects                            | Always 200 OK with `status` field (`00`=success, `01-07`=errors)                | Parse status codes in success responses                              |
+| **OTP Storage**          | MessageBird stores internally                                | InfoTxt stores internally (no custom storage needed)                            | No Redis needed - InfoTxt handles OTP storage similar to MessageBird |
+| **Message Priority**     | Not supported                                                | Optional `Priority` parameter (0=low, 1=normal, 2=high)                         | Optional: Can add priority for API sends                             |
+| **Rate Limiting**        | 500 req/s for POST                                           | Not specified in docs (to be confirmed with provider)                           | Monitor and implement if needed                                      |
 
 #### InfoTxt Status Codes Reference
 
