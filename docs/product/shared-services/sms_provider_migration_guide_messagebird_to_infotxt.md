@@ -68,6 +68,18 @@ sidebar_position: 1
 
 **Purpose:** Send SMS notifications to customers when order status changes
 
+```mermaid
+flowchart TD
+    Start([Order Status Changes]) --> Service[orders.service.ts<br/>calls sendMessageBirdSMS]
+    Service --> API[POST /messages<br/>MessageBird API]
+    API --> Payload[Send:<br/>• originator: 'Prosperna'<br/>• recipients: mobile_number<br/>• body: message]
+    Payload --> Response{Success?}
+    Response -->|Yes| Success[Customer receives SMS]
+    Response -->|No| Error[Log error]
+    Success --> End([End])
+    Error --> End
+```
+
 **Implementation:**
 
 ```typescript
@@ -116,6 +128,20 @@ export const sendMessageBirdSMS = async (
 #### Flow 2: OTP Verification for Withdrawals (Payment Integration API)
 
 **Purpose:** Generate and verify OTP codes for withdrawal requests
+
+```mermaid
+flowchart TD
+    Start([Merchant requests withdrawal]) --> Generate[Generate OTP<br/>POST /verify]
+    Generate --> Store[Store otp_id in database]
+    Store --> SMS1[Merchant receives SMS with OTP]
+    SMS1 --> Enter[Merchant enters OTP code]
+    Enter --> Verify[Verify OTP<br/>GET /verify/id?token=code]
+    Verify --> Check{Valid?}
+    Check -->|Yes| Process[Process withdrawal]
+    Check -->|No| Reject[Show error message]
+    Process --> End([End])
+    Reject --> End
+```
 
 **OTP Generation:**
 
@@ -180,6 +206,16 @@ async verifyOTP(
 
 **Purpose:** Send SMS notifications for withdrawal-related events
 
+```mermaid
+flowchart TD
+    Start([Withdrawal status changes]) --> Service[withdrawwebhook.service.ts<br/>calls sendSMS]
+    Service --> Loop[Loop through recipients]
+    Loop --> API[POST /messages<br/>MessageBird API]
+    API --> Send[Send notification SMS<br/>to each merchant]
+    Send --> SMS[Merchants receive SMS]
+    SMS --> End([End])
+```
+
 **Implementation:**
 
 ```typescript
@@ -210,6 +246,21 @@ async sendSMS(
 #### Flow 4: Merchant OTP Verification (User Service API)
 
 **Purpose:** Verify merchant phone numbers during registration/update
+
+```mermaid
+flowchart TD
+    Start([Merchant registration<br/>or phone update]) --> Generate[Generate OTP<br/>messagebird.verify.create]
+    Generate --> Store[Store verification_id<br/>in database]
+    Store --> SMS1[Merchant receives SMS with OTP]
+    SMS1 --> Enter[Merchant enters OTP code]
+    Enter --> Verify[Verify OTP<br/>messagebird.verify.verify]
+    Verify --> Check{Valid?}
+    Check -->|Yes| Update[Update mobile_verified: true]
+    Check -->|No| Reject[Show error message]
+    Update --> Complete[Registration complete]
+    Complete --> End([End])
+    Reject --> End
+```
 
 **OTP Generation:**
 
@@ -2220,10 +2271,10 @@ echo "Deployment complete. Monitor logs for issues."
 
 ---
 
-**Document Version:** 2.0
-**Last Updated:** December 02, 2025  
-**Author:** Business Analyst  
-**Review Status:** Corrected based on InfoTxt API v2.4 documentation  
+**Document Version:** 2.0<br />
+**Last Updated:** December 02, 2025<br />
+**Author:** Business Analyst<br />
+**Review Status:** Corrected based on InfoTxt API v2.4 documentation<br />  
 **Critical Changes:** Authentication method, OTP implementation, mobile number formatting, response structure, error handling
 
 ---
