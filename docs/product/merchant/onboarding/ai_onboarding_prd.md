@@ -12,7 +12,7 @@ Agile-focused PRD documenting the enhancement of Prosperna's merchant onboarding
 | Item           | Details                           |
 | -------------- | --------------------------------- |
 | Document Title | AI-Powered Onboarding Enhancement |
-| Version        | 1.0                               |
+| Version        | 1.1                               |
 | Date           | November 30, 2025                 |
 | Prepared by    | Business Analyst                  |
 | Reviewed by    | To be assigned                    |
@@ -27,6 +27,7 @@ Agile-focused PRD documenting the enhancement of Prosperna's merchant onboarding
 | Version | Date              | Author           | Change Description                                              |
 | ------- | ----------------- | ---------------- | --------------------------------------------------------------- |
 | 1.0     | November 30, 2025 | Business Analyst | Initial draft - AI-powered onboarding enhancement specification |
+| 1.1     | December 05, 2025 | Business Analyst | Added Feature F-12: Plus Button & Premium Feature Discovery     |
 
 ---
 
@@ -1921,6 +1922,177 @@ And the Send button becomes enabled
 
 ---
 
+### Feature F-12: Plus Button & Premium Feature Discovery
+
+#### 3.12.1 Feature Context
+
+Enable merchants to discover premium features (Add New Page, Connect Your Domain) during Steps 4 and 5 of onboarding through a Plus button that triggers an Upgrade Modal, promoting a 14-day Premium trial and allowing immediate trial activation with seamless redirect to Billing Page.
+
+#### 3.12.2 Business Rules
+
+**BR-53: Plus Button Visibility**
+
+- Plus button (+) appears in bottom-left corner of chat section when merchant reaches Step 4 (Set Up Shipping)
+- Plus button remains visible throughout Step 5 (Set Up Payments)
+- Plus button does NOT appear in Steps 1, 2, or 3
+- Button is positioned in the 40% chat section (left side), not in Store Preview section
+
+**BR-54: Plus Button Menu Display**
+
+- Clicking Plus button displays dropdown menu above the button
+- Menu contains two options:
+  - "Add New Page"
+  - "Connect Your Domain"
+- Both options are clearly labeled as premium/paid features
+- Menu closes when merchant clicks outside menu area or selects an option
+
+**BR-55: Upgrade Modal Trigger**
+
+- Clicking "Add New Page" or "Connect Your Domain" triggers Upgrade Modal display
+- Modal appears as overlay on top of current interface
+- Both menu options trigger identical modal content
+- Plus button menu closes automatically when modal opens
+
+**BR-56: Modal Dismissal Behavior**
+
+- Clicking "No thanks" closes the modal
+- Merchant returns to chat interface at current step (Step 4 or Step 5)
+- Current step status remains unchanged (INCOMPLETE if step not yet completed)
+- Plus button remains visible for future access
+- No data is saved or modified
+
+**BR-57: Premium Trial Activation Flow**
+
+- Clicking "ACTIVATE 14-DAY PREMIUM TRIAL NOW" triggers redirect to Billing Page
+- System marks current step as INCOMPLETE:
+  - If triggered during Step 4: "Set Up Shipping" marked INCOMPLETE
+  - If triggered during Step 5: "Set Up Payments" marked INCOMPLETE
+- Merchant exits AI onboarding interface
+- Redirect navigates to existing Prosperna Billing Page (not part of AI onboarding)
+- Merchant can complete trial activation on Billing Page
+- Merchant can resume onboarding later from incomplete step
+
+**BR-58: Step Incompletion on Billing Redirect**
+
+- Only the current step is marked INCOMPLETE (not all steps)
+- Previously completed steps (1, 2, 3) remain marked as COMPLETE
+- Step completion data is preserved in database
+- Merchant can return to complete incomplete step after trial activation
+- Resume onboarding functionality allows continuation from incomplete step
+
+#### 3.12.3 Scenarios
+
+##### Scenario 1: Plus button appears when Step 4 begins
+
+```gherkin
+Given the merchant has completed Step 3 (Upload a Product)
+And the page has refreshed after Step 3 completion
+And the AI begins Step 4: Set Up Shipping
+And the AI displays: "Great! Your store is taking shape. Now let's set up shipping for your products."
+When the chat interface loads
+Then a Plus button (+) appears in the bottom-left corner of the chat section
+And the button is visible and clickable
+And the button has a circular shape with a plus icon
+```
+
+##### Scenario 2: Plus button does NOT appear in Steps 1, 2, or 3
+
+```gherkin
+Given the merchant is on Step 1: Update Store Branding
+When the chat interface displays the AI's store name question
+Then the Plus button is NOT visible in the chat section
+And no Plus button appears in the bottom-left corner
+
+Given the merchant is on Step 2: Update Store Location
+When the chat interface displays the AI's address question
+Then the Plus button is NOT visible in the chat section
+
+Given the merchant is on Step 3: Upload a Product
+When the chat interface displays the AI's product type question
+Then the Plus button is NOT visible in the chat section
+```
+
+##### Scenario 3: Clicking Plus button displays menu options
+
+```gherkin
+Given the Plus button is visible in the bottom-left corner during Step 4 or 5
+When the merchant clicks the Plus button
+Then a dropdown menu appears above the button
+And the menu displays two options:
+  | Option                  |
+  | Add New Page            |
+  | Connect Your Domain     |
+And both options are clickable
+And the menu remains open until an option is selected or merchant clicks outside
+```
+
+##### Scenario 4: Clicking "Add New Page" triggers Upgrade Modal
+
+```gherkin
+Given the Plus button menu is displayed
+And shows "Add New Page" and "Connect Your Domain" options
+When the merchant clicks "Add New Page"
+Then the Plus button menu closes automatically
+And the Upgrade Modal appears as an overlay covering the interface
+And two action buttons are visible at the bottom:
+  - Primary button: "ACTIVATE 14-DAY PREMIUM TRIAL NOW" (green, prominent)
+  - Secondary button: "No thanks" (gray text link)
+```
+
+##### Scenario 5: Clicking "Connect Your Domain" triggers same Upgrade Modal
+
+```gherkin
+Given the Plus button menu is displayed
+When the merchant clicks "Connect Your Domain"
+Then the Plus button menu closes automatically
+And the Upgrade Modal appears with identical content as "Add New Page" trigger
+And displays the same Premium trial promotion
+And shows the same feature list and action buttons
+```
+
+##### Scenario 6: Merchant dismisses Upgrade Modal with "No thanks"
+
+```gherkin
+Given the Upgrade Modal is displayed during Step 4 or 5
+And the merchant is reviewing the Premium trial offer
+When the merchant clicks "No thanks"
+Then the Upgrade Modal closes immediately
+And the merchant returns to the chat interface at Step 4 (or 5)
+And the AI's last message is still visible (asking about shipping or payment setup)
+And the current step status remains unchanged:
+  - Step 4 (or 5) remains INCOMPLETE
+And the Plus button remains visible in the bottom-left corner
+And the merchant can continue with Step 4 (or 5) or click Plus button again later
+```
+
+##### Scenario 7: Merchant activates Premium trial
+
+```gherkin
+Given the Upgrade Modal is displayed during Step 4 (or 5)
+When the merchant clicks "ACTIVATE 14-DAY PREMIUM TRIAL NOW"
+Then the system performs the following actions:
+  - Marks Step 4 (or 5) as INCOMPLETE in the database
+  - Preserves Step 1, 2, and 3 as COMPLETE (no changes to previously completed steps)
+And the merchant is redirected OUT of the AI onboarding interface
+And navigates to the Billing Page (existing Prosperna feature)
+And the Billing Page displays Premium trial activation options
+And the merchant exits the AI-powered onboarding flow
+```
+
+##### Scenario 8: Plus button menu closes when clicking outside
+
+```gherkin
+Given the Plus button menu is displayed
+And shows "Add New Page" and "Connect Your Domain" options
+When the merchant clicks anywhere outside the menu area (e.g., on the chat messages or Store Preview)
+Then the Plus button menu closes
+And the menu disappears from view
+And the Plus button returns to its default state (unpressed)
+And the merchant can click the Plus button again to reopen the menu
+```
+
+---
+
 ## 4. Non-Functional Requirements
 
 ### 4.1 Performance
@@ -2139,7 +2311,7 @@ And the Send button becomes enabled
 | ----------------------- | --------------------------------------------------------- | -------------- | ------------------------------ |
 | Unit Tests              | Greater than 85% code coverage for chat and preview logic | Dev Team       | Jest, React Testing Library    |
 | Integration Tests       | AI service → Store configuration flow                     | Dev Team       | Jest, Supertest                |
-| BDD Scenario Tests      | All 65 Gherkin scenarios automated                        | QA Team        | Cucumber, Playwright, Cypress  |
+| BDD Scenario Tests      | All 73 Gherkin scenarios automated                        | QA Team        | Cucumber, Playwright, Cypress  |
 | API Tests               | AI chat endpoints, tool-calling, configuration APIs       | QA Team        | Postman, Newman                |
 | E2E Tests               | Complete onboarding flow from survey to dashboard         | QA Team        | Playwright, Cypress            |
 | Visual Regression Tests | Store Preview accuracy, chat UI consistency               | QA Team        | Percy, Chromatic               |
@@ -2151,7 +2323,7 @@ And the Send button becomes enabled
 
 ### 7.2 BDD Test Automation
 
-**All 65 Gherkin scenarios in sections 3.1-3.11 must be automated as executable tests.**
+**All 73 Gherkin scenarios in sections 3.1-3.12 must be automated as executable tests.**
 
 **Test Structure:**
 
