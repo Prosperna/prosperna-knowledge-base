@@ -70,14 +70,30 @@ sidebar_position: 1
 
 ```mermaid
 flowchart TD
-    Start([Order Status Changes]) --> Service[orders.service.ts<br/>calls sendMessageBirdSMS]
-    Service --> API[POST /messages<br/>MessageBird API]
-    API --> Payload[Send:<br/>• originator: 'Prosperna'<br/>• recipients: mobile_number<br/>• body: message]
-    Payload --> Response{Success?}
-    Response -->|Yes| Success[Customer receives SMS]
-    Response -->|No| Error[Log error]
-    Success --> End([End])
-    Error --> End
+    Start([Customer places order]) --> Merchant[Merchant updates order status<br/>e.g., Shipped, Out for delivery]
+    Merchant --> Email[System sends email notification<br/>to customer by default]
+    Email --> SMS[System attempts to send<br/>SMS notification]
+
+    SMS --> Retry{SMS sent<br/>successfully?}
+    Retry -->|No - Network/Provider error| Auto_Retry[System automatically retries<br/>a few times]
+    Auto_Retry --> Retry_Result{Retry<br/>successful?}
+
+    Retry_Result -->|Yes| Customer_SMS[Customer receives SMS<br/>with order status update]
+    Retry_Result -->|No - All retries failed| Silent_Fail[SMS silently fails<br/>No notification to merchant<br/>Order continues normally]
+
+    Retry -->|Yes - First attempt success| Customer_SMS
+
+    Email --> Customer_Email[Customer receives email<br/>with order status update]
+    Customer_SMS --> Check_Status[Customer can track order via:<br/>• SMS link<br/>• Email link<br/>• Order page on website]
+    Customer_Email --> Check_Status
+    Silent_Fail --> Check_Status
+
+    Check_Status --> End([Customer tracks delivery])
+
+    style Customer_Email fill:#e6f3ff
+    style Customer_SMS fill:#e6ffe6
+    style Silent_Fail fill:#f0f0f0
+    style Check_Status fill:#fff4e6
 ```
 
 **Implementation:**
@@ -131,16 +147,49 @@ export const sendMessageBirdSMS = async (
 
 ```mermaid
 flowchart TD
-    Start([Merchant requests withdrawal]) --> Generate[Generate OTP<br/>POST /verify]
-    Generate --> Store[Store otp_id in database]
-    Store --> SMS1[Merchant receives SMS with OTP]
-    SMS1 --> Enter[Merchant enters OTP code]
-    Enter --> Verify[Verify OTP<br/>GET /verify/id?token=code]
-    Verify --> Check{Valid?}
-    Check -->|Yes| Process[Process withdrawal]
-    Check -->|No| Reject[Show error message]
-    Process --> End([End])
-    Reject --> End
+    Start([Merchant clicks 'Withdraw']) --> Enter_Amount[Merchant enters withdrawal amount<br/>and clicks 'Confirm']
+    Enter_Amount --> Modal_Opens[OTP Verification modal opens]
+    Modal_Opens --> Send_OTP[System sends OTP SMS<br/>to merchant's mobile number]
+    Send_OTP --> Modal_Display[Modal displays:<br/>• OTP input field<br/>• 'Resend OTP' button disabled/grayed out<br/>• Countdown timer 2:00]
+
+    Modal_Display --> Timer_Running[Timer counts down from 2:00]
+    Timer_Running --> SMS_Received{Merchant receives<br/>SMS with OTP?}
+
+    SMS_Received -->|Yes| Enter_OTP[Merchant enters 6-digit OTP]
+    SMS_Received -->|No - SMS not received| Wait_Timer{Timer reached<br/>0:00?}
+
+    Wait_Timer -->|No - Still counting| Merchant_Waits[Merchant waits and stares at modal]
+    Merchant_Waits --> Wait_Timer
+    Wait_Timer -->|Yes - Timer at 0:00| Resend_Enabled['Resend OTP' button<br/>becomes enabled/clickable]
+    Resend_Enabled --> Merchant_Clicks{Merchant clicks<br/>'Resend OTP'?}
+
+    Merchant_Clicks -->|Yes| Send_OTP
+    Merchant_Clicks -->|No| Close_Modal{Merchant closes<br/>modal?}
+    Close_Modal -->|Yes| Start
+    Close_Modal -->|No| Resend_Enabled
+
+    Enter_OTP --> Verify{OTP correct<br/>and not expired?}
+
+    Verify -->|Yes| Success[Withdrawal approved!<br/>Merchant sees success message]
+    Success --> Confirmation[Withdrawal submitted for processing]
+
+    Verify -->|No - OTP expired| Expired_Toast[Toast notification shows:<br/>'Invalid OTP code. Please try again.']
+    Expired_Toast --> Resend_Enabled
+
+    Verify -->|No - Wrong OTP| Track_Attempts{How many<br/>wrong attempts?}
+    Track_Attempts -->|1st or 2nd attempt| Error_Toast[Toast notification shows:<br/>'Invalid OTP code. Please try again.']
+    Error_Toast --> Enter_OTP
+
+    Track_Attempts -->|3rd attempt failed| Modal_Closes[Modal automatically closes<br/>Merchant must start withdrawal process again]
+    Modal_Closes --> Start
+
+    Confirmation --> End([Merchant waits for admin approval])
+
+    style Success fill:#e6ffe6
+    style Error_Toast fill:#fff4e6
+    style Expired_Toast fill:#fff4e6
+    style Modal_Closes fill:#ffe6e6
+    style Resend_Enabled fill:#e6f3ff
 ```
 
 **OTP Generation:**
@@ -208,12 +257,35 @@ async verifyOTP(
 
 ```mermaid
 flowchart TD
-    Start([Withdrawal status changes]) --> Service[withdrawwebhook.service.ts<br/>calls sendSMS]
-    Service --> Loop[Loop through recipients]
-    Loop --> API[POST /messages<br/>MessageBird API]
-    API --> Send[Send notification SMS<br/>to each merchant]
-    Send --> SMS[Merchants receive SMS]
-    SMS --> End([End])
+    Start([Merchant submits<br/>withdrawal request]) --> Pending[Withdrawal shows as 'Pending'<br/>in merchant dashboard]
+    Pending --> Wait[Merchant waits for<br/>admin to review]
+
+    Wait --> Admin[Admin reviews and<br/>processes withdrawal request]
+    Admin --> Decision{Admin decision?}
+
+    Decision -->|Approved| Send_Approval[System sends approval SMS<br/>to merchant - single attempt]
+    Decision -->|Rejected| Send_Rejection[System sends rejection SMS<br/>to merchant - single attempt]
+
+    Send_Approval --> SMS_Success_Approval{SMS delivered?}
+    SMS_Success_Approval -->|Yes| Merchant_Approved[Merchant receives SMS:<br/>Withdrawal approved notification]
+    SMS_Success_Approval -->|No| Dashboard_Approval[SMS silently fails<br/>Merchant checks dashboard<br/>to see 'Approved' status]
+
+    Send_Rejection --> SMS_Success_Rejection{SMS delivered?}
+    SMS_Success_Rejection -->|Yes| Merchant_Rejected[Merchant receives SMS:<br/>Withdrawal rejected notification]
+    SMS_Success_Rejection -->|No| Dashboard_Rejection[SMS silently fails<br/>Merchant checks dashboard<br/>to see 'Rejected' status]
+
+    Merchant_Approved --> Dashboard_Check[Merchant can also check<br/>Balances module in dashboard<br/>for current status]
+    Merchant_Rejected --> Dashboard_Check
+    Dashboard_Approval --> Dashboard_Check
+    Dashboard_Rejection --> Dashboard_Check
+
+    Dashboard_Check --> End([End])
+
+    style Merchant_Approved fill:#e6ffe6
+    style Merchant_Rejected fill:#ffe6e6
+    style Dashboard_Check fill:#e6f3ff
+    style Dashboard_Approval fill:#f0f0f0
+    style Dashboard_Rejection fill:#f0f0f0
 ```
 
 **Implementation:**
@@ -249,17 +321,57 @@ async sendSMS(
 
 ```mermaid
 flowchart TD
-    Start([Merchant registration<br/>or phone update]) --> Generate[Generate OTP<br/>messagebird.verify.create]
-    Generate --> Store[Store verification_id<br/>in database]
-    Store --> SMS1[Merchant receives SMS with OTP]
-    SMS1 --> Enter[Merchant enters OTP code]
-    Enter --> Verify[Verify OTP<br/>messagebird.verify.verify]
-    Verify --> Check{Valid?}
-    Check -->|Yes| Update[Update mobile_verified: true]
-    Check -->|No| Reject[Show error message]
-    Update --> Complete[Registration complete]
-    Complete --> End([End])
-    Reject --> End
+    Start([Merchant enters mobile number in My Account]) --> Validate{Phone number<br/>format valid?}
+
+    Validate -->|No - Invalid format| Inline_Error[Form shows inline error<br/>as merchant types<br/>Frontend validation]
+    Inline_Error --> Start
+
+    Validate -->|Yes - Valid format| Submit[Merchant clicks 'Save']
+    Submit --> Modal_Opens[OTP Verification modal opens]
+    Modal_Opens --> Send_OTP[System sends OTP SMS<br/>to entered mobile number]
+    Send_OTP --> Modal_Display[Modal displays:<br/>• OTP input field<br/>• 'Resend OTP' button disabled/grayed out<br/>• Countdown timer 2:00]
+
+    Modal_Display --> Timer_Running[Timer counts down from 2:00]
+    Timer_Running --> SMS_Received{Merchant receives<br/>SMS with OTP?}
+
+    SMS_Received -->|Yes| Enter_OTP[Merchant enters 6-digit OTP]
+    SMS_Received -->|No - SMS not received| Wait_Timer{Timer reached<br/>0:00?}
+
+    Wait_Timer -->|No - Still counting| Merchant_Waits[Merchant waits and stares at modal]
+    Merchant_Waits --> Wait_Timer
+    Wait_Timer -->|Yes - Timer at 0:00| Resend_Enabled['Resend OTP' button<br/>becomes enabled/clickable<br/>New 2:00 countdown starts]
+    Resend_Enabled --> Merchant_Clicks{Merchant clicks<br/>'Resend OTP'?}
+
+    Merchant_Clicks -->|Yes| Send_OTP
+    Merchant_Clicks -->|No| Close_Modal{Merchant closes<br/>modal?}
+    Close_Modal -->|Yes| Start
+    Close_Modal -->|No| Resend_Enabled
+
+    Enter_OTP --> Verify{OTP correct<br/>and not expired?}
+
+    Verify -->|Yes| Success[Phone number verified successfully!<br/>Merchant sees success message]
+    Success --> Next_Step{Context?}
+    Next_Step -->|Registration| Complete[Merchant completes registration<br/>and can access dashboard]
+    Next_Step -->|Phone update| Profile_Updated[Profile updated successfully<br/>New phone number saved]
+
+    Verify -->|No - OTP expired| Expired_Toast[Toast notification shows:<br/>'Invalid OTP code. Please try again.']
+    Expired_Toast --> Can_Resend{Timer at<br/>0:00?}
+    Can_Resend -->|Yes| Resend_Enabled
+    Can_Resend -->|No| Wait_Timer
+
+    Verify -->|No - Wrong OTP| Wrong_Toast[Toast notification shows:<br/>'Invalid OTP code. Please try again.']
+    Wrong_Toast --> Enter_OTP
+
+    Complete --> End([Merchant can use platform])
+    Profile_Updated --> End
+
+    style Success fill:#e6ffe6
+    style Complete fill:#e6ffe6
+    style Profile_Updated fill:#e6ffe6
+    style Inline_Error fill:#fff4e6
+    style Wrong_Toast fill:#fff4e6
+    style Expired_Toast fill:#fff4e6
+    style Resend_Enabled fill:#e6f3ff
 ```
 
 **OTP Generation:**
