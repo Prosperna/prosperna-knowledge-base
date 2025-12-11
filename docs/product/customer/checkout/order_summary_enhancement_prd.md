@@ -8,7 +8,7 @@ sidebar_position: 1
 Agile-focused PRD documenting the enhancement of Prosperna's Order Summary section on the Checkout Page, enabling customers to modify cart items (add quantity, reduce quantity, remove items) directly during checkout without navigating back to the cart page.
 
 **Demo Recording:**
-[Checkout - Order Summary Enhancement Demo](https://p1-ba-pocs.vercel.app/edit-checkout)
+[Checkout - Order Summary Enhancement Demo](https://sharing.clickup.com/clip/p/t7537039/199acbf9-836e-456a-93c4-a77622f8cbd4/199acbf9-836e-456a-93c4-a77622f8cbd4.webm?filename=Checkout%3A%20Edit%20Cart%20Items.webm)
 
 ## Document Control
 
