@@ -8,7 +8,7 @@ sidebar_position: 2
 Agile-focused PRD documenting the enhancement to Prosperna's Create Order feature, enabling merchants to create orders for walk-in Guest customers without requiring Lead records, select store locations for order fulfillment, and manage isolated carts per store location.
 
 **Demo Recording:**
-[Enhanced Create Order Page Demo](URL_TO_DEMO)
+[Enhanced Create Order Page Demo](https://sharing.clickup.com/clip/p/t7537039/c47d6cfd-79e3-4078-9e33-6b559805644e/c47d6cfd-79e3-4078-9e33-6b559805644e.webm?filename=screen-recording-2025-12-22-11%3A57.webm)
 
 ## Document Control
 
@@ -1553,9 +1553,9 @@ And no error toast is displayed
 
 ## 8. Risks & Mitigations
 
-| Risk                                                                                                                           | Impact | Likelihood | Mitigation Strategy                                                                                                                                                                                                                                       |
-| ------------------------------------------------------------------------------------------------------------------------------ | ------ | ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Anonymous orders complicate customer service** - Guest orders without contact info make follow-up difficult for order issues | Medium | Medium     | • Encourage optional contact collection via UI hints<br>• Order confirmation display reminds merchant to collect phone for callbacks<br>• Accept that some orders will be truly anonymous<br>• Provide order ID as primary reference for customer service |
+| Risk                                                                                                                           | Impact | Likelihood | Mitigation Strategy                                                                                                                                                                                                                                             |
+| ------------------------------------------------------------------------------------------------------------------------------ | ------ | ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Anonymous orders complicate customer service** - Guest orders without contact info make follow-up difficult for order issues | Medium | Medium     | • Encourage optional contact collection via UI hints<br />• Order confirmation display reminds merchant to collect phone for callbacks<br />• Accept that some orders will be truly anonymous<br />• Provide order ID as primary reference for customer service |
 
 ---
 
