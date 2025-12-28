@@ -12,6 +12,7 @@ CI/CD stands for **Continuous Integration** and **Continuous Delivery or Deploym
 It is a structured and automated process that ensures every change to the codebase is built, tested, validated, and released safely.
 
 The goal of this pipeline is to:
+
 - Detect defects early
 - Enforce quality and security standards
 - Control how and when changes reach production
@@ -19,8 +20,7 @@ The goal of this pipeline is to:
 
 CI/CD is not only about automation. It defines **how teams work together** and **how changes flow across environments**.
 
-![CICD Flow](/static/img/cicd_flow.png)
----
+## ![CICD Flow](/img/cicd_flow.png)
 
 ## Frontend CI/CD Flow Overview
 
@@ -47,6 +47,7 @@ High-level flow:
 Used by developers for individual feature development.
 
 **Rules**
+
 - No direct deployment
 - Must be merged into Dev Branch
 - All checks run on merge
@@ -62,6 +63,7 @@ Developers
 Integration branch for ongoing development.
 
 **What happens here**
+
 - Lint
 - Unit Tests
 - SAST
@@ -83,6 +85,7 @@ Developers and QA
 Pre-release validation branch.
 
 **What happens here**
+
 - Deploy to Stage
 - Performance Tests
 - Smoke Tests
@@ -103,7 +106,8 @@ Freeze branch for scheduled production releases.
 **Key rule**  
 All releases are staged and approved for a **fixed daily release window**.
 
-**Release schedule**  
+**Release schedule**
+
 - Daily release at **9 PM**
 - Only validated changes from staging are allowed
 
@@ -117,7 +121,8 @@ Product, QA, DevOps
 **Purpose**  
 Production-ready branch.
 
-**Deployment rule**  
+**Deployment rule**
+
 - Only Release Branch or Hotfix Branch can merge
 - Deployment happens only during approved release windows
 
@@ -133,10 +138,12 @@ DevOps
 **Purpose**  
 Ensure consistent code quality and enforce coding standards.
 
-**Runs on**  
+**Runs on**
+
 - Merge to Dev Branch
 
-**Failure behavior**  
+**Failure behavior**
+
 - Pipeline stops
 - Merge is blocked
 
@@ -150,10 +157,12 @@ Developer
 **Purpose**  
 Validate components and business logic in isolation.
 
-**Runs on**  
+**Runs on**
+
 - Merge to Dev Branch
 
-**Failure behavior**  
+**Failure behavior**
+
 - Pipeline stops
 
 **Owner**  
@@ -166,7 +175,8 @@ Developer
 **Purpose**  
 Detect security issues early in source code.
 
-**Blocking rule**  
+**Blocking rule**
+
 - High severity findings block promotion
 
 **Owner**  
@@ -179,7 +189,8 @@ Developer with DevSecOps validation
 **Purpose**  
 Compile and package the frontend application.
 
-**Failure behavior**  
+**Failure behavior**
+
 - No deployment occurs
 
 **Owner**  
@@ -202,7 +213,8 @@ Early integration and functional validation.
 **Purpose**  
 Validate real user flows, integrations, and browser compatibility.
 
-**Promotion rule**  
+**Promotion rule**
+
 - All tests must pass to promote to Staging Branch
 
 **Owner**  
@@ -225,7 +237,8 @@ Production-like validation.
 **Purpose**  
 Validate frontend performance under expected load.
 
-**Blocking rule**  
+**Blocking rule**
+
 - Performance regressions block release
 
 ---
@@ -239,11 +252,13 @@ Quick validation of critical paths after staging deployment.
 
 ### 10. Release to Production
 
-**Standard release rule**  
+**Standard release rule**
+
 - Happens **once per day at 9 PM**
 - Only changes from Release Branch are deployed
 
-**Outcome**  
+**Outcome**
+
 - Predictable releases
 - Reduced risk
 - Clear rollback points
@@ -255,11 +270,13 @@ Quick validation of critical paths after staging deployment.
 Hotfixes are the **only allowed bypass** of the standard pipeline.
 
 **Definition of a hotfix**
+
 - Production outage
 - Severe customer impact
 - Security vulnerability
 
 **Rules**
+
 - Must be documented
 - Must be reviewed
 - Must be merged back to Dev and Staging branches
@@ -275,4 +292,3 @@ Hotfixes are the **only allowed bypass** of the standard pipeline.
 - Hotfixes are exceptions, not shortcuts
 
 CI/CD exists to protect users, teams, and the business.
-
