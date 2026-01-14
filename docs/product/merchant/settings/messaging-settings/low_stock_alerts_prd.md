@@ -2286,9 +2286,9 @@ flowchart TD
 
 ### 5.2 UI Mockups & Wireframes
 
-**Wireframe Link:** [Low Stock Alerts Wireframe](https://p1-ba-pocs.vercel.app/low-stock-notifications) <br />
-**Final Design Link:** [Low Stock Alerts UI](https://www.figma.com/design/Jwq5Rokf2Ui4dUzFmszD0J/Notification-on-Low-Stock?node-id=66-262&p=f&t=D3LG0vL6oGaqTwbl-0) <br />
-**Prototype Link:** [Low Stock Alerts Prototype](https://www.figma.com/proto/Jwq5Rokf2Ui4dUzFmszD0J/Notification-on-Low-Stock?page-id=66%3A262&node-id=66-362&t=D3LG0vL6oGaqTwbl-0&scaling=min-zoom&content-scaling=fixed&starting-point-node-id=66%3A362) <br />
+**Wireframe Link:** [Low Stock Alerts Wireframe](https://p1-ba-pocs.vercel.app/low-stock-notifications)<br />
+**Final Design Link:** [Low Stock Alerts UI](https://www.figma.com/design/Jwq5Rokf2Ui4dUzFmszD0J/Notification-on-Low-Stock?node-id=66-262&p=f&t=D3LG0vL6oGaqTwbl-0)<br />
+**Prototype Link:** [Low Stock Alerts Prototype](https://www.figma.com/proto/Jwq5Rokf2Ui4dUzFmszD0J/Notification-on-Low-Stock?page-id=66%3A262&node-id=66-362&t=D3LG0vL6oGaqTwbl-0&scaling=min-zoom&content-scaling=fixed&starting-point-node-id=66%3A362)<br />
 
 #### Key UI Components:
 
