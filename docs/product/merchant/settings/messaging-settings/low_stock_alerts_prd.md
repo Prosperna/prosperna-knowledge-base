@@ -9,7 +9,7 @@ Agile-focused PRD documenting the implementation of the Low Stock Alerts feature
 
 **Demo Recording:**
 
-[Low Stock Alerts Demo Recording - To follow](https://sharing.clickup.com/clip/p/t7537039/455cdc82-53f4-4b49-8fad-e05a6f72934d/455cdc82-53f4-4b49-8fad-e05a6f72934d.webm?filename=Low%20Stock%20Notifications%20Demo.webm)
+[Low Stock Alerts Demo Recording](https://sharing.clickup.com/clip/p/t7537039/5b212fcd-3d76-4670-b547-adea92692de7/5b212fcd-3d76-4670-b547-adea92692de7.webm?filename=Low%20Stock%20Alerts%20Demo%20Recording.webm)
 
 ## Document Control
 
