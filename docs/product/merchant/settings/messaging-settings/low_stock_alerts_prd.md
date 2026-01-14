@@ -99,7 +99,7 @@ The initial specification proposed real-time, event-driven notifications that wo
 
 Based on stakeholder review, the approach was redesigned with the following key changes:
 
-1. **Location Change:** Feature moved to Messaging Settings > Alerts (below SMS) to establish a foundation for future alert types
+1. **Location Change:** Feature moved to Messaging Settings `>` Alerts (below SMS) to establish a foundation for future alert types
 2. **Plan Eligibility:** Extended to Plus plan (in addition to Pro/Premium) to increase adoption
 3. **Scheduling Model:** Shifted from real-time to scheduled batch processing (Daily/Weekly/Monthly) for more predictable operations
 4. **Recipient Flexibility:** Allow up to 5 custom email recipients instead of only the main merchant account
@@ -241,13 +241,13 @@ Based on stakeholder review, the approach was redesigned with the following key 
 
 ### 3.1.1 Feature Context
 
-Provide merchants with a centralized interface to view, manage, and interact with all created alerts within the Messaging Settings > Alerts section. This includes displaying alerts in a table format with status indicators, action controls, and the ability to create new alerts.
+Provide merchants with a centralized interface to view, manage, and interact with all created alerts within the Messaging Settings `>` Alerts section. This includes displaying alerts in a table format with status indicators, action controls, and the ability to create new alerts.
 
 ### 3.1.2 Business Rules
 
 **BR-01: Alerts Section Location & Access**
 
-- The Alerts feature is located under **Messaging Settings > Alerts** in the Merchant Dashboard
+- The Alerts feature is located under **Messaging Settings `>` Alerts** in the Merchant Dashboard
 - The Alerts section appears below the SMS Notifications section on the Messaging Settings page
 - All merchants can view the Alerts section regardless of subscription plan
 - Feature functionality (creating/enabling alerts) is restricted based on subscription plan (see BR-02)
@@ -412,7 +412,7 @@ Enable merchants to create new inventory alerts by configuring alert type, thres
 
 - Alert Name is a required field
 - Maximum character limit: 100 characters
-- Character counter displays below the field showing "{current}/100"
+- Character counter displays below the field showing `{current}/100`
 - Empty field on save attempt displays "Required\*" error with red border
 - Field placeholder is empty (no placeholder text)
 
@@ -470,7 +470,7 @@ Enable merchants to create new inventory alerts by configuring alert type, thres
   - Typing email and pressing Enter or Space adds the email as a chip
   - Each chip displays email with an "×" remove button
   - Chip appears inside the input container
-- Recipient counter displays "{count}/5" next to the label
+- Recipient counter displays `{count}/5` next to the label
 - At least one recipient is required
 - Email validation: must be valid email format (name@domain.com)
 - Duplicate emails are not allowed
@@ -485,7 +485,7 @@ Enable merchants to create new inventory alerts by configuring alert type, thres
 
 - Email Subject is a required field
 - Maximum character limit: 60 characters
-- Character counter displays below the field showing "{current}/60"
+- Character counter displays below the field showing `{current}/60`
 - Empty field on save attempt displays "Required\*" error with red border
 - No placeholder text
 
@@ -1395,15 +1395,15 @@ Execute scheduled alert jobs according to configured frequency and run time, eva
 
 **BR-33: Low Stock Alert Criteria**
 
-- For "Low Stock" alerts: products are flagged when stock quantity ≤ configured threshold
-- Products with stock quantity > threshold are NOT included in the notification
-- Products with stock quantity = 0 are also included (0 ≤ threshold for any threshold ≥ 1)
+- For "Low Stock" alerts: products are flagged when stock quantity `≤` configured threshold
+- Products with stock quantity `>` threshold are NOT included in the notification
+- Products with stock quantity `=` 0 are also included (0 `≤` threshold for any threshold `≥` 1)
 
 **BR-34: Out of Stock Alert Criteria**
 
-- For "Out of Stock" alerts: products are flagged when stock quantity = 0 (exactly zero)
-- Products with stock quantity > 0 are NOT included in the notification
-- Products with stock quantity < 0 (if possible) are also included
+- For "Out of Stock" alerts: products are flagged when stock quantity `=` 0 (exactly zero)
+- Products with stock quantity `>` 0 are NOT included in the notification
+- Products with stock quantity `<` 0 (if possible) are also included
 
 **BR-35: Email Notification Trigger**
 
@@ -1681,7 +1681,7 @@ Comprehensive validation rules and error handling across the Create and Edit Ale
 
 **BR-45: Character Counter Behavior**
 
-- Counter shows "{current}/{max}" format
+- Counter shows `{current}/{max}` format
 - Counter updates in real-time as user types
 - Counter does not turn red when approaching limit
 - Input is blocked when max is reached (cannot type more)
@@ -2294,7 +2294,7 @@ flowchart TD
 
 **Alerts Listing Page:**
 
-- Location: Messaging Settings > Alerts
+- Location: Messaging Settings `>` Alerts
 - SMS Notifications section displayed above
 - Alerts table with columns: Alert Name (with type badge), Status, Actions
 - "Create Alert" button in section header
@@ -2575,18 +2575,18 @@ erDiagram
 
 ### 7.1 Test Types & Coverage
 
-| Test Type            | Coverage Target                                           | Responsibility | Tools                       |
-| -------------------- | --------------------------------------------------------- | -------------- | --------------------------- |
-| Unit Tests           | >85% code coverage for alert service and validation logic | Dev Team       | Jest, React Testing Library |
-| Integration Tests    | Alert CRUD operations, scheduler integration              | Dev Team       | Jest, Supertest             |
-| BDD Scenario Tests   | All 98 Gherkin scenarios automated                        | QA Team        | Cucumber, Playwright        |
-| API Tests            | All alert endpoints with valid/invalid inputs             | QA Team        | Postman, Newman             |
-| Regression Tests     | Existing Messaging Settings functionality unchanged       | QA Team        | Automated test suite        |
-| Performance Tests    | Alert job execution with 10K+ products                    | QA Team        | k6, JMeter                  |
-| Email Delivery Tests | Email rendering across clients                            | QA Team        | Litmus, Email on Acid       |
-| Accessibility Tests  | WCAG 2.1 AA compliance for form                           | QA Team        | axe, WAVE                   |
-| Security Tests       | Plan bypass attempts, data isolation                      | Security Team  | OWASP ZAP, manual testing   |
-| UAT                  | End-to-end merchant workflows                             | Product + QA   | Manual testing              |
+| Test Type            | Coverage Target                                             | Responsibility | Tools                       |
+| -------------------- | ----------------------------------------------------------- | -------------- | --------------------------- |
+| Unit Tests           | `>85%` code coverage for alert service and validation logic | Dev Team       | Jest, React Testing Library |
+| Integration Tests    | Alert CRUD operations, scheduler integration                | Dev Team       | Jest, Supertest             |
+| BDD Scenario Tests   | All 98 Gherkin scenarios automated                          | QA Team        | Cucumber, Playwright        |
+| API Tests            | All alert endpoints with valid/invalid inputs               | QA Team        | Postman, Newman             |
+| Regression Tests     | Existing Messaging Settings functionality unchanged         | QA Team        | Automated test suite        |
+| Performance Tests    | Alert job execution with 10K+ products                      | QA Team        | k6, JMeter                  |
+| Email Delivery Tests | Email rendering across clients                              | QA Team        | Litmus, Email on Acid       |
+| Accessibility Tests  | WCAG 2.1 AA compliance for form                             | QA Team        | axe, WAVE                   |
+| Security Tests       | Plan bypass attempts, data isolation                        | Security Team  | OWASP ZAP, manual testing   |
+| UAT                  | End-to-end merchant workflows                               | Product + QA   | Manual testing              |
 
 ### 7.2 BDD Test Automation Structure
 
