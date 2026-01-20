@@ -61,10 +61,10 @@ This phase prioritizes **minimal disruption** to existing merchants while enabli
 
 **Technical Performance:**
 
-- Address form rendering completes in < 500ms
-- ZIP-to-State validation responds in < 200ms
-- Country selection during onboarding adds < 1 second to flow
-- Database migration completes in < 5 minutes for 10,000 merchants
+- Address form rendering completes in `<` 500ms
+- ZIP-to-State validation responds in `<` 200ms
+- Country selection during onboarding adds `<` 1 second to flow
+- Database migration completes in `<` 5 minutes for 10,000 merchants
 
 **Business Impact:**
 
@@ -75,7 +75,7 @@ This phase prioritizes **minimal disruption** to existing merchants while enabli
 **User Satisfaction:**
 
 - 90%+ task success rate in usability testing for address entry
-- < 3% error rate on ZIP code validation
+- `<` 3% error rate on ZIP code validation
 - Positive feedback from beta US merchants on address form UX
 
 ### 1.4 Related Documents
@@ -621,10 +621,10 @@ Add a new "Regional Settings" section to the Store Settings page that displays t
 
 **BR-08: Timezone Options by Country**
 
-- **Philippines (`market_country` = 'PH'):**
+- **Philippines (`market_country` `=` 'PH'):**
   - Single option: "Asia/Manila (GMT+8)"
   - Displayed as read-only since only one option exists
-- **United States (`market_country` = 'US'):**
+- **United States (`market_country` `=` 'US'):**
   | Value | Display Label |
   |-------|---------------|
   | America/New_York | Eastern Time (ET) - New York |
@@ -787,14 +787,14 @@ Display country-appropriate address fields in the Store Location form based on t
 - State: Required, must be from the 50 states + DC list
 - ZIP Code: Required, must be exactly 5 digits
 - ZIP Code cross-validation with State (validate ZIP belongs to selected State)
-- Invalid ZIP shows error: "Invalid ZIP Code for {State}."
+- Invalid ZIP shows error: "Invalid ZIP Code for `{State}`."
 
 **BR-13: Philippine Address Validation Rules**
 
 - All dropdown fields (Province, City, Barangay) use cascading selection
 - Postal Code: Required, must be exactly 4 digits
 - Province → City → Barangay hierarchy must be maintained
-- Empty cascading field shows "Please select {previous field} first"
+- Empty cascading field shows "Please select `{previous field}` first"
 
 **BR-14: Incomplete Address Warning (US Only)**
 
@@ -1278,7 +1278,7 @@ Display country-appropriate shipping address fields on the customer checkout pag
 - Address Line: Required, max 35 characters
 - State: Required, must select from dropdown
 - ZIP Code: Required, 5 digits, validated against selected State
-- Invalid ZIP error: "Invalid ZIP Code for {State}."
+- Invalid ZIP error: "Invalid ZIP Code for `{State}`."
 - Address Line without number: Show "Incomplete Address" warning modal (same as merchant)
 
 **BR-26: Customer Address Validation (PH)**
@@ -1568,13 +1568,13 @@ Example: "456 Oak Street, Apt 2B, Los Angeles CA 90001, United States"
 
 **BR-32: Address Display Locations**
 
-- Checkout > Shipping Info tab > Saved Addresses cards
-- Checkout > Order Summary > Shipping Address
-- My Account > My Shipping Address list
+- Checkout `>` Shipping Info tab `>` Saved Addresses cards
+- Checkout `>` Order Summary `>` Shipping Address
+- My Account `>` My Shipping Address list
 - Order Confirmation page
 - Invoice PDF
-- Merchant Dashboard > Single Order Page > Delivery Address
-- Merchant Dashboard > Reports > Delivery Address column
+- Merchant Dashboard `>` Single Order Page `>` Delivery Address
+- Merchant Dashboard `>` Reports `>` Delivery Address column
 - Store Location display (header, footer, checkout)
 
 **BR-33: State Abbreviation in US Display**
@@ -1861,7 +1861,7 @@ Comprehensive validation rules and error handling for all address-related forms 
 - Apartment/Suite: 35 characters max
 - City: 35 characters max
 - Input blocked at limit (no typing beyond max)
-- Character counter shown: "{current}/{max}"
+- Character counter shown: "`{current}`/`{max}`"
 
 **BR-41: Postal/ZIP Code Format Validation**
 
@@ -1874,7 +1874,7 @@ Comprehensive validation rules and error handling for all address-related forms 
 
 - Validate that entered ZIP code belongs to selected State
 - Use ZIP code database or API for validation
-- Error if mismatch: "Invalid ZIP Code for {State}."
+- Error if mismatch: "Invalid ZIP Code for `{State}`."
 - Validation occurs on ZIP Code blur when State is selected
 - If State not yet selected, ZIP validation deferred until State selected
 
@@ -1882,7 +1882,7 @@ Comprehensive validation rules and error handling for all address-related forms 
 
 - Province must be selected before City is enabled
 - City must be selected before Barangay is enabled
-- Disabled dropdowns show "Please select {previous field} first"
+- Disabled dropdowns show "Please select `{previous field}` first"
 - All cascading fields required before form submission
 
 **BR-44: Error Display Timing**
@@ -2704,7 +2704,7 @@ And customers see the original invoice timestamp
 
 **Notes:**
 
-- DST = Daylight Saving Time observance
+- DST `=` Daylight Saving Time observance
 - UTC Offset shows Standard / DST offset where applicable
 - Arizona (America/Phoenix) does not observe DST
 - Hawaii (America/Honolulu) does not observe DST
@@ -2716,13 +2716,13 @@ And customers see the original invoice timestamp
 
 ### 4.1 Performance
 
-| Requirement                   | Metric                                | Measurement Method            |
-| ----------------------------- | ------------------------------------- | ----------------------------- |
-| Address form rendering        | < 500ms from page load to interactive | Browser performance profiling |
-| ZIP-to-State validation       | < 200ms response time                 | API response time monitoring  |
-| Country selection overlay     | < 300ms to display on onboarding page | Frontend performance metrics  |
-| Cascading dropdown population | < 400ms per dropdown load             | Network request timing        |
-| Database migration            | < 5 minutes for 10,000 merchants      | Migration script timing       |
+| Requirement                   | Metric                                  | Measurement Method            |
+| ----------------------------- | --------------------------------------- | ----------------------------- |
+| Address form rendering        | `<` 500ms from page load to interactive | Browser performance profiling |
+| ZIP-to-State validation       | `<` 200ms response time                 | API response time monitoring  |
+| Country selection overlay     | `<` 300ms to display on onboarding page | Frontend performance metrics  |
+| Cascading dropdown population | `<` 400ms per dropdown load             | Network request timing        |
+| Database migration            | `<` 5 minutes for 10,000 merchants      | Migration script timing       |
 
 ### 4.2 Scalability
 
@@ -3283,7 +3283,7 @@ Response:
 
 | Test Type          | Coverage Target                              | Responsibility | Tools                       |
 | ------------------ | -------------------------------------------- | -------------- | --------------------------- |
-| Unit Tests         | >85% code coverage for address components    | Dev Team       | Jest, React Testing Library |
+| Unit Tests         | `>`85% code coverage for address components  | Dev Team       | Jest, React Testing Library |
 | Integration Tests  | API and service integration                  | Dev Team       | Jest, Supertest             |
 | BDD Scenario Tests | All 95+ Gherkin scenarios automated          | QA Team        | Cucumber, Playwright        |
 | Regression Tests   | Existing PH merchant functionality unchanged | QA Team        | Automated test suite        |
