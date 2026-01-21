@@ -36,19 +36,27 @@ Agile-focused PRD documenting the Phase 1-A Single-Market MVP internationalizati
 
 This PRD defines the detailed functional requirements, acceptance criteria (using BDD/Gherkin), and technical specifications for **Phase 1-A Single-Market MVP** of Prosperna's internationalization initiative. This phase establishes the foundational "configuration-based" approach that will eventually evolve into a full Shopify Markets-like architecture.
 
-Phase 1-A enables merchants to operate in either the **Philippines (PH)** or **United States (US)** market with appropriate address fields, currency symbols, timezone settings, shipping methods, and tax/shipping zone configurations. Each merchant is locked to a single market selected during onboarding.
+Phase 1-A enables merchants to operate in either the **Philippines (PH)** or **United States (US)** market with appropriate address fields, currency symbols, timezone settings, shipping methods, and tax/shipping zone configurations. Each merchant is locked to a single market selected during the onboarding survey (Step 1 of 7 questions) before entering the AI-powered store setup.
 
 ### 1.2 Feature Vision
 
 Prosperna will support merchants operating in multiple countries with localized experiences. Phase 1-A lays the groundwork by:
 
-- Allowing new merchants to select their business country (PH or US) during onboarding
+- Allowing new merchants to select their business country (PH or US) as the first step of the onboarding survey
 - Displaying country-appropriate address fields throughout the platform
 - Auto-configuring currency, timezone, and shipping methods based on country
 - Providing zone-based shipping rates and taxes using country-specific states/provinces
 - Ensuring existing Philippine merchants continue operating without disruption
 
 This phase prioritizes **minimal disruption** to existing merchants while enabling **new US-based merchants** to onboard with a localized experience.
+
+**Onboarding Flow Overview:**
+
+1. New merchant signs up and enters the 7-question onboarding survey
+2. **Step 1 (NEW):** Country selection (Philippines or United States)
+3. Steps 2-7: Existing survey questions (who creating for, current situation, how heard about us, industry, goals, business size)
+4. After survey completion, merchant enters AI-powered onboarding for store setup
+5. All AI onboarding forms and options are pre-configured based on country selected in Step 1
 
 ### 1.3 Success Criteria
 
@@ -210,28 +218,35 @@ Prosperna's platform is currently hardcoded for Philippine merchants only:
 
 ---
 
-## Feature F-01: Merchant Onboarding - Country Selection
+## Feature F-01: Merchant Onboarding Survey - Country Selection (Step 1 of 7)
 
 ### 3.1.1 Feature Context
 
-Enable new merchants to select their business country (Philippines or United States) during the signup process. This selection determines the merchant's `market_country` and locks all subsequent configurations including address field formats, currency, timezone options, and available shipping methods.
+Enable new merchants to select their business country (Philippines or United States) as the **first step of the 7-question onboarding survey**, before entering the AI-powered store setup. This selection determines the merchant's `market_country` and locks all subsequent configurations including address field formats, currency, timezone options, available shipping methods, and dynamically affects later survey questions (e.g., Step 7 business size displays currency in ₱ or $ based on this selection).
 
 ### 3.1.2 Business Rules
 
 **BR-01: Country Selection Requirement**
 
-- Country selection is a mandatory step during merchant onboarding
-- Two options available: "Philippines" and "United States"
-- Default selection is "Philippines" (pre-selected)
-- Merchant must explicitly confirm country selection before proceeding
+- Country selection is **Step 1 of 7** in the onboarding survey (displayed immediately after clicking "Get Started")
+- Two options available as selection cards: "Philippines" and "United States"
+- Each card displays: Country flag, country name, and currency indicator (PHP (₱) or USD ($))
+- No default pre-selection; merchant must explicitly select one country
+- "Next" button proceeds to Step 2 of the survey
 - Selection determines the `market_country` value stored in the database
 
 **BR-02: Country Selection Immutability**
 
-- Once a merchant completes onboarding, the `market_country` cannot be changed via the dashboard
+- Once a merchant completes the onboarding survey and AI-powered store setup, the `market_country` cannot be changed via the dashboard
 - Changing country requires contacting support (manual intervention)
 - All downstream configurations are locked to the selected country
-- Warning message displayed during selection explaining permanence
+- Warning message displayed during Step 1: "Note: This cannot be changed after setup. Please select carefully."
+
+**BR-02A: Survey Step 7 Dynamic Currency Display**
+
+- Step 7 "What size is your business?" displays revenue thresholds in the currency selected in Step 1
+- If Philippines selected: Shows "₱250,000", "₱250K to ₱1M", "₱1M+"
+- If United States selected: Shows appropriate USD thresholds (e.g., "$10,000", "$10K to $50K", "$50K+")
 
 **BR-03: Auto-Configuration Based on Country**
 
@@ -250,85 +265,113 @@ Enable new merchants to select their business country (Philippines or United Sta
 
 ### 3.1.3 Scenarios
 
-##### Scenario 1: Country selection overlay displays on AI onboarding page load
+##### Scenario 1: Country selection displays as Step 1 of onboarding survey
 
 ```gherkin
-Given a new merchant has completed the 6-question onboarding survey
-When the merchant is redirected to the AI onboarding interface
-Then the AI onboarding page loads
-And a country selection overlay is displayed in the foreground
-And the overlay displays the question "Where is your business located?"
-And two country cards are displayed:
-  | Country       | Flag | Currency | State        |
-  | Philippines   | 🇵🇭  | PHP (₱)  | Pre-selected |
-  | United States | 🇺🇸  | USD ($)  | Unselected   |
-And an informational message displays: "This cannot be changed after setup. Please select carefully."
-And a "Continue" button is displayed and enabled
-And the chat interface is visible but dimmed in the background
-And the AI's first message is visible: "Welcome to Prosperna! 🚀 Let's start by giving your store a memorable name..."
-And the chat input is disabled/non-interactive
+Given a new merchant has clicked "Get Started" on the welcome page
+When the onboarding survey begins
+Then the survey displays "STEP 1 OF 7" progress indicator
+And the question displays: "Where is your business located?"
+And two country selection cards are displayed side by side:
+  | Country       | Flag | Currency Indicator |
+  | United States | 🇺🇸  | USD ($)            |
+  | Philippines   | 🇵🇭  | PHP (₱)            |
+And neither card is pre-selected (no default)
+And an informational message displays below the cards: "Note: This cannot be changed after setup. Please select carefully."
+And a "Next" button is displayed in the bottom-right corner
+And the "Next" button is disabled until a country is selected
 ```
 
-##### Scenario 2: Merchant selects Philippines (default) and dismisses overlay
+##### Scenario 2: Merchant selects Philippines and proceeds to Step 2
 
 ```gherkin
-Given the country selection overlay is displayed
-And "Philippines" is pre-selected
-When the merchant clicks the "Continue" button
+Given the merchant is on Step 1 of the onboarding survey
+And no country is currently selected
+When the merchant clicks on the "Philippines" card
+Then the "Philippines" card becomes selected (highlighted with dark background)
+And the "United States" card remains unselected (white background)
+And the "Next" button becomes enabled
+When the merchant clicks the "Next" button
 Then the system sets `market_country` to "PH"
 And the system sets `base_currency` to "PHP"
 And the system sets `timezone` to "Asia/Manila"
-And the overlay dismisses with a fade-out animation
-And the chat interface becomes fully interactive
-And the Store Preview becomes fully visible
-And the merchant can now type in the store name input field
-And the existing AI onboarding flow proceeds normally
+And the merchant proceeds to Step 2 of 7: "Who are you creating a website for?"
 ```
 
-##### Scenario 3: Merchant selects United States and dismisses overlay
+##### Scenario 3: Merchant selects United States and proceeds to Step 2
 
 ```gherkin
-Given the country selection overlay is displayed
-And "Philippines" is pre-selected
+Given the merchant is on Step 1 of the onboarding survey
+And no country is currently selected
 When the merchant clicks on the "United States" card
-Then the "United States" card becomes selected (highlighted)
-And the "Philippines" card becomes deselected
-When the merchant clicks the "Continue" button
+Then the "United States" card becomes selected (highlighted with dark background)
+And the "Philippines" card remains unselected (white background)
+And the "Next" button becomes enabled
+When the merchant clicks the "Next" button
 Then the system sets `market_country` to "US"
 And the system sets `base_currency` to "USD"
 And the system sets `timezone` to "America/New_York"
-And the overlay dismisses
-And the chat interface becomes interactive
-And the existing AI onboarding flow proceeds normally
+And the merchant proceeds to Step 2 of 7: "Who are you creating a website for?"
 ```
 
-##### Scenario 4: Overlay cannot be dismissed without selection
+##### Scenario 4: Merchant changes country selection before proceeding
 
 ```gherkin
-Given the country selection overlay is displayed
-When the merchant clicks outside the overlay modal
-Then the overlay remains displayed
-And no action is taken
-When the merchant presses the Escape key
-Then the overlay remains displayed
-And no action is taken
-And the merchant must click "Continue" to proceed
+Given the merchant is on Step 1 of the onboarding survey
+And the merchant has selected "Philippines"
+And the "Philippines" card is highlighted
+When the merchant clicks on the "United States" card
+Then the "United States" card becomes selected (highlighted)
+And the "Philippines" card becomes deselected (white background)
+And only one country can be selected at a time
+When the merchant clicks "Next"
+Then the system sets `market_country` to "US" (the final selection)
 ```
 
-##### Scenario 5: Country selection affects Step 2 address form
+##### Scenario 5: Country selection affects Step 7 business size currency display
 
 ```gherkin
-Given the merchant selected "United States" via the country selection overlay
-And the merchant has completed Step 1: Store Branding via AI chat
+Given the merchant selected "Philippines" in Step 1 of the survey
+And the merchant has completed Steps 2 through 6
+When the merchant reaches Step 7: "What size is your business?"
+Then the business size options display with PHP currency:
+  | Option                                 |
+  | Small (less than ₱250,000 per month)   |
+  | Medium (₱250K to ₱1M per month)        |
+  | Large (more than ₱1M+ per month)       |
+And the currency symbol is ₱ (Philippine Peso)
+```
+
+##### Scenario 6: US merchant sees USD in Step 7 business size options
+
+```gherkin
+Given the merchant selected "United States" in Step 1 of the survey
+And the merchant has completed Steps 2 through 6
+When the merchant reaches Step 7: "What size is your business?"
+Then the business size options display with USD currency:
+  | Option                                 |
+  | Small (less than $10,000 per month)    |
+  | Medium ($10K to $50K per month)        |
+  | Large (more than $50K+ per month)      |
+And the currency symbol is $ (US Dollar)
+```
+
+##### Scenario 7: Country selection affects AI onboarding address form (Step 2 of AI setup)
+
+```gherkin
+Given the merchant selected "United States" in the onboarding survey Step 1
+And the merchant has completed all 7 survey questions
+And the merchant has been redirected to the AI-powered store setup
+And the merchant has completed AI onboarding Step 1: Store Branding
 When the AI starts Step 2: Update Store Location
 Then the address form displays US-specific fields
 And the "Country" field displays "United States 🔒" (locked, read-only)
 ```
 
-##### Scenario 6: Phone country code auto-populates based on selected country (Step 2 - Contact Numbers)
+##### Scenario 8: Phone country code auto-populates based on selected country (Step 2 - Contact Numbers)
 
 ```gherkin
-Given the merchant selected "United States" via the country selection overlay
+Given the merchant selected "United States" in the onboarding survey Step 1
 And the merchant has completed Step 1: Store Branding
 And the AI has asked for store address and merchant has submitted the address
 When the AI displays: "Address updated successfully. What is the contact number for your store?"
@@ -338,10 +381,10 @@ And the "Alternate Store Number" field shows "+1" with US flag icon as the pre-s
 And the phone input expects 10-digit format
 ```
 
-##### Scenario 7: Phone country code auto-populates for Philippine merchant (Step 2 - Contact Numbers)
+##### Scenario 9: Phone country code auto-populates for Philippine merchant (Step 2 - Contact Numbers)
 
 ```gherkin
-Given the merchant selected "Philippines" via the country selection overlay
+Given the merchant selected "Philippines" in the onboarding survey Step 1
 And the merchant has completed Step 1: Store Branding
 And the AI has asked for store address and merchant has submitted the address
 When the AI displays: "Address updated successfully. What is the contact number for your store?"
@@ -351,10 +394,10 @@ And the "Alternate Store Number" field shows "+63" with Philippine flag icon as 
 And the phone input expects 10-digit format
 ```
 
-##### Scenario 8: US merchant sees only 3 shipping method cards (Step 4)
+##### Scenario 10: US merchant sees only 3 shipping method cards (Step 4)
 
 ```gherkin
-Given the merchant selected "United States" via the country selection overlay
+Given the merchant selected "United States" in the onboarding survey Step 1
 And the merchant has completed Steps 1, 2, and 3
 And the AI has started Step 4: Set Up Shipping
 When the merchant clicks "Yes, set up shipping"
@@ -371,10 +414,10 @@ And the following cards are NOT displayed:
 And no message indicates methods are hidden (clean UI)
 ```
 
-##### Scenario 9: Philippine merchant sees all 5 shipping method cards (Step 4)
+##### Scenario 11: Philippine merchant sees all 5 shipping method cards (Step 4)
 
 ```gherkin
-Given the merchant selected "Philippines" via the country selection overlay
+Given the merchant selected "Philippines" in the onboarding survey Step 1
 And the merchant has completed Steps 1, 2, and 3
 And the AI has started Step 4: Set Up Shipping
 When the merchant clicks "Yes, set up shipping"
@@ -388,10 +431,10 @@ And five shipping method cards are displayed:
   | Same Day Delivery            | Lalamove | Activate | Disabled |
 ```
 
-##### Scenario 10: Phone verification uses correct country code (Step 5 - Payments)
+##### Scenario 12: Phone verification uses correct country code (Step 5 - Payments)
 
 ```gherkin
-Given the merchant selected "United States" via the country selection overlay
+Given the merchant selected "United States" in the onboarding survey Step 1
 And the merchant has completed Steps 1-4
 And the AI has started Step 5: Set Up Payments
 When the merchant clicks "Yes, set up online payments"
@@ -403,10 +446,10 @@ Then the phone number input field is displayed with:
   | Placeholder   | 10-digit number    |
 ```
 
-##### Scenario 11: Phone verification uses Philippine country code for PH merchant (Step 5)
+##### Scenario 13: Phone verification uses Philippine country code for PH merchant (Step 5)
 
 ```gherkin
-Given the merchant selected "Philippines" via the country selection overlay
+Given the merchant selected "Philippines" in the onboarding survey Step 1
 And the merchant has completed Steps 1-4
 And the AI has started Step 5: Set Up Payments
 When the merchant clicks "Yes, set up online payments"
@@ -418,10 +461,10 @@ Then the phone number input field is displayed with:
   | Placeholder   | 10-digit number    |
 ```
 
-##### Scenario 12: US merchant address form validates ZIP code format (Step 2)
+##### Scenario 14: US merchant address form validates ZIP code format (Step 2)
 
 ```gherkin
-Given the merchant selected "United States" via the country selection overlay
+Given the merchant selected "United States" in the onboarding survey Step 1
 And the AI has asked for store address
 And the US address form is displayed
 When the merchant enters "1234" in the ZIP Code field (only 4 digits)
@@ -433,10 +476,10 @@ Then the error message disappears
 And the field border returns to normal
 ```
 
-##### Scenario 13: US merchant address form validates ZIP-to-State match (Step 2)
+##### Scenario 15: US merchant address form validates ZIP-to-State match (Step 2)
 
 ```gherkin
-Given the merchant selected "United States" via the country selection overlay
+Given the merchant selected "United States" in the onboarding survey Step 1
 And the AI has asked for store address
 And the US address form is displayed
 When the merchant selects "Texas" from the State dropdown
@@ -449,10 +492,10 @@ Then the error message disappears
 And the field border returns to normal
 ```
 
-##### Scenario 14: Philippine merchant address form validates postal code format (Step 2)
+##### Scenario 16: Philippine merchant address form validates postal code format (Step 2)
 
 ```gherkin
-Given the merchant selected "Philippines" via the country selection overlay
+Given the merchant selected "Philippines" in the onboarding survey Step 1
 And the AI has asked for store address
 And the Philippine address form is displayed
 When the merchant enters "123" in the Postal Code field (only 3 digits)
@@ -464,11 +507,11 @@ Then the error message disappears
 And the field border returns to normal
 ```
 
-##### Scenario 15: Store Preview displays correct currency symbol based on country
+##### Scenario 17: Store Preview displays correct currency symbol based on country
 
 ```gherkin
-Given the merchant selected "United States" via the country selection overlay
-And the overlay has been dismissed
+Given the merchant selected "United States" in the onboarding survey Step 1
+And the merchant has completed all 7 survey questions and entered AI onboarding
 When the merchant proceeds through Step 1: Store Branding
 Then the Store Preview displays prices with "$" currency symbol
 When the merchant proceeds to Step 3: Upload a Product
@@ -477,11 +520,11 @@ Then the Product Preview displays the price as "$1,500.00"
 And NOT as "₱1,500.00"
 ```
 
-##### Scenario 16: Store Preview displays PHP currency for Philippine merchant
+##### Scenario 18: Store Preview displays PHP currency for Philippine merchant
 
 ```gherkin
-Given the merchant selected "Philippines" via the country selection overlay
-And the overlay has been dismissed
+Given the merchant selected "Philippines" in the onboarding survey Step 1
+And the merchant has completed all 7 survey questions and entered AI onboarding
 When the merchant proceeds through Step 1: Store Branding
 Then the Store Preview displays prices with "₱" currency symbol
 When the merchant proceeds to Step 3: Upload a Product
@@ -489,10 +532,10 @@ And enters a regular price of "1500"
 Then the Product Preview displays the price as "₱1,500.00"
 ```
 
-##### Scenario 17: US merchant can manually change phone country code if needed (Step 2)
+##### Scenario 19: US merchant can manually change phone country code if needed (Step 2)
 
 ```gherkin
-Given the merchant selected "United States" via the country selection overlay
+Given the merchant selected "United States" in the onboarding survey Step 1
 And the contact number form is displayed with "+1" pre-selected
 When the merchant clicks the country code dropdown
 Then a list of available country codes appears:
@@ -507,10 +550,11 @@ Then the country code updates to "+63" with Philippine flag
 And the merchant can enter a Philippine phone number for international contact purposes
 ```
 
-##### Scenario 18: Confirmation summary shows country-locked fields (Step 1)
+##### Scenario 20: Confirmation summary shows country-locked fields (AI onboarding Step 1)
 
 ```gherkin
-Given the merchant selected "United States" via the country selection overlay
+Given the merchant selected "United States" in the onboarding survey Step 1
+And the merchant has completed all 7 survey questions and entered AI onboarding
 And the merchant has completed all Step 1 inputs
 When the AI displays the Store Branding confirmation summary
 Then the summary includes:
@@ -527,10 +571,10 @@ Then the summary includes:
 And the Store Country shows a lock icon indicating it cannot be changed
 ```
 
-##### Scenario 19: Freestyle edit cannot change country-related locked fields
+##### Scenario 21: Freestyle edit cannot change country-related locked fields
 
 ```gherkin
-Given the merchant selected "Philippines" via the country selection overlay
+Given the merchant selected "Philippines" in the onboarding survey Step 1
 And the merchant is at the Store Branding confirmation point
 When the merchant clicks "No, I'd like to make changes"
 And types "Change currency to USD"
@@ -540,10 +584,11 @@ And the base_currency remains "PHP"
 And the AI re-displays the confirmation summary
 ```
 
-##### Scenario 20: Address form country field displays as read-only with lock (Step 2)
+##### Scenario 22: Address form country field displays as read-only with lock (Step 2)
 
 ```gherkin
-Given the merchant selected "United States" via the country selection overlay
+Given the merchant selected "United States" in the onboarding survey Step 1
+And the merchant has completed all 7 survey questions and entered AI onboarding
 And the AI has started Step 2: Update Store Location
 When the address form is displayed
 Then the "Country" field displays "United States" with a lock icon (🔒)
@@ -552,18 +597,20 @@ And clicking on the "Country" field does nothing (non-interactive)
 And the cursor shows "not-allowed" icon on hover over the Country field
 ```
 
-##### Scenario 21: Merchant attempts to proceed without selecting a country
+##### Scenario 23: Merchant attempts to proceed without selecting a country
 
 ```gherkin
-Given a new merchant is on the country selection overlay
-And no country option is selected (edge case - selection cleared)
-When the merchant clicks the "Continue" button
-Then a validation error displays: "Please select your business country"
-And the merchant remains on the country selection overlay
-And the "Continue" button remains clickable but submission is blocked
+Given a new merchant is on Step 1 of the onboarding survey
+And no country card is selected
+When the merchant attempts to click the "Next" button
+Then the "Next" button is disabled (cannot be clicked)
+And the merchant must select a country to enable the "Next" button
+When the merchant selects "Philippines"
+Then the "Next" button becomes enabled
+And the merchant can proceed to Step 2
 ```
 
-##### Scenario 22: Existing Philippine merchants auto-assigned to Philippines market
+##### Scenario 24: Existing Philippine merchants auto-assigned to Philippines market
 
 ```gherkin
 Given the internationalization feature is deployed to production
@@ -2720,7 +2767,7 @@ And customers see the original invoice timestamp
 | ----------------------------- | --------------------------------------- | ----------------------------- |
 | Address form rendering        | `<` 500ms from page load to interactive | Browser performance profiling |
 | ZIP-to-State validation       | `<` 200ms response time                 | API response time monitoring  |
-| Country selection overlay     | `<` 300ms to display on onboarding page | Frontend performance metrics  |
+| Country selection survey step | `<` 300ms to display on survey page     | Frontend performance metrics  |
 | Cascading dropdown population | `<` 400ms per dropdown load             | Network request timing        |
 | Database migration            | `<` 5 minutes for 10,000 merchants      | Migration script timing       |
 
@@ -2779,21 +2826,26 @@ And customers see the original invoice timestamp
 
 ```mermaid
 flowchart TD
-    A[New Merchant Signs Up] --> B[Complete 6-Question Survey]
-    B --> C[Redirect to AI Onboarding]
-    C --> D{Country Selection Overlay}
-    D -->|Select Philippines| E[Set market_country = PH]
-    D -->|Select United States| F[Set market_country = US]
-    E --> G[Set currency = PHP, timezone = Asia/Manila]
-    F --> H[Set currency = USD, timezone = America/New_York]
-    G --> I[Dismiss Overlay]
-    H --> I
-    I --> J[AI Onboarding Step 1: Store Branding]
-    J --> K[Step 2: Store Location - Country-Specific Address Form]
-    K --> L[Step 3: Upload Product - Country-Specific Currency]
-    L --> M[Step 4: Shipping - Country-Filtered Methods]
-    M --> N[Step 5: Payments]
-    N --> O[Onboarding Complete]
+    A[New Merchant Signs Up] --> B[Click Get Started]
+    B --> C[Survey Step 1: Country Selection]
+    C -->|Select Philippines| D[Set market_country = PH]
+    C -->|Select United States| E[Set market_country = US]
+    D --> F[Set currency = PHP, timezone = Asia/Manila]
+    E --> G[Set currency = USD, timezone = America/New_York]
+    F --> H[Survey Step 2: Who creating for?]
+    G --> H
+    H --> I[Survey Step 3: How did you hear?]
+    I --> J[Survey Step 4: Current situation]
+    J --> K[Survey Step 5: Industry]
+    K --> L[Survey Step 6: Business goals]
+    L --> M[Survey Step 7: Business size - Currency from Step 1]
+    M --> N[Redirect to AI Onboarding]
+    N --> O[AI Step 1: Store Branding]
+    O --> P[AI Step 2: Store Location - Country-Specific Address Form]
+    P --> Q[AI Step 3: Upload Product - Country-Specific Currency]
+    Q --> R[AI Step 4: Shipping - Country-Filtered Methods]
+    R --> S[AI Step 5: Payments]
+    S --> T[Onboarding Complete]
 ```
 
 **Alternative Flow: US Merchant Configures Shipping Rates**
@@ -2833,34 +2885,68 @@ flowchart TD
 
 ### 5.2 UI Wireframes
 
-**Country Selection Overlay (AI Onboarding)**
+**Country Selection (Survey Step 1 of 7)**
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────┐
-│  ╔═══════════════════════════════════════════════════════════════════╗  │
-│  ║                                                                   ║  │
-│  ║         Where is your business located?                           ║  │
-│  ║                                                                   ║  │
-│  ║    ┌─────────────────────┐    ┌─────────────────────┐             ║  │
-│  ║    │  🇵🇭                 │    │  🇺🇸                 │             ║  │
-│  ║    │                     │    │                     │             ║  │
-│  ║    │    Philippines      │    │   United States     │             ║  │
-│  ║    │      PHP (₱)        │    │      USD ($)        │             ║  │
-│  ║    │                     │    │                     │             ║  │
-│  ║    │  ● SELECTED         │    │  ○                  │             ║  │
-│  ║    └─────────────────────┘    └─────────────────────┘             ║  │
-│  ║                                                                   ║  │
-│  ║  ⚠️ This cannot be changed after setup. Please select carefully. ║  │
-│  ║                                                                   ║  │
-│  ║                      ┌──────────────────┐                         ║  │
-│  ║                      │     Continue     │                         ║  │
-│  ║                      └──────────────────┘                         ║  │
-│  ║                                                                   ║  │
-│  ╚═══════════════════════════════════════════════════════════════════╝  │
 │                                                                         │
-│  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  │
-│  ░░░░░░░░░░░░░░░░ (Dimmed AI Chat Interface) ░░░░░░░░░░░░░░░░░░░░░░░░░  │
-│  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  │
+│                                Prosperna                                │
+│                                                                         │
+│                               STEP 1 OF 7                               │
+│           ━━━━━━  ──────  ──────  ──────  ──────  ──────  ────          │
+│                                                                         │
+│                   Where is your business located?                       │
+│                                                                         │
+│         ┌────────────────────────┐    ┌────────────────────────┐        │
+│         │                        │    │                        │        │
+│         │         🇺🇸             │    │         🇵🇭             │        │
+│         │                        │    │                        │        │
+│         │    United States       │    │     Philippines        │        │
+│         │       USD ($)          │    │       PHP (₱)          │        │
+│         │                        │    │                        │        │
+│         └────────────────────────┘    └────────────────────────┘        │
+│            (neither card pre-selected - no default)                     │
+│                                                                         │
+│     Note: This cannot be changed after setup. Please select carefully.  │
+│                                                                         │
+│                                                                         │
+│                                                 ┌────────────────┐      │
+│                                                 │   Next   →     │      │
+│                                                 └────────────────┘      │
+│                                                (disabled until selected)│
+│                                                                         │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+**Country Selection - United States Selected (Survey Step 1 of 7)**
+
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                                                                         │
+│                                Prosperna                                │
+│                                                                         │
+│                               STEP 1 OF 7                               │
+│           ━━━━━━  ──────  ──────  ──────  ──────  ──────  ────          │
+│                                                                         │
+│                   Where is your business located?                       │
+│                                                                         │
+│         ┌────────────────────────┐    ┌────────────────────────┐        │
+│         │████████████████████████│    │                        │        │
+│         │█████████ 🇺🇸 ███████████│    │         🇵🇭             │        │
+│         │████████████████████████│    │                        │        │
+│         │███ United States ██████│    │     Philippines        │        │
+│         │██████ USD ($) █████████│    │       PHP (₱)          │        │
+│         │████████████████████████│    │                        │        │
+│         └────────────────────────┘    └────────────────────────┘        │
+│          (SELECTED - dark background)    (unselected - white)           │
+│                                                                         │
+│     Note: This cannot be changed after setup. Please select carefully.  │
+│                                                                         │
+│                                                 ┌────────────────┐      │
+│                                                 │   Next   →     │      │
+│                                                 └────────────────┘      │
+│                                                (enabled - can proceed)  │
+│                                                                         │
 └─────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -3086,8 +3172,8 @@ flowchart TD
 flowchart TB
     subgraph "Frontend Layer"
         A[Merchant Dashboard - React]
-        B[Customer Storefront - React]
-        C[AI Onboarding Interface]
+        B[Customer Storefront - Next]
+        C[Onboarding Survey Interface]
     end
 
     subgraph "Component Library"
