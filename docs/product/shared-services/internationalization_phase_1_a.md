@@ -7,6 +7,10 @@ sidebar_position: 2
 
 Agile-focused PRD documenting the Phase 1-A Single-Market MVP internationalization feature for Prosperna's eCommerce platform, enabling country-specific configurations for address fields, timezone, currency, and shipping methods.
 
+**Demo Recording:**
+
+[Phase 1-A Single-Market MVP Demo Recording](https://t7537039.p.clickup-attachments.com/t7537039/cfdd221d-8551-4f71-942f-220dcb7c068f/Phase%201-A%20Single-Market%20MVP%20Demo%20Recording.webm?view=open)
+
 ## Document Control
 
 | Item           | Details                                                     |
