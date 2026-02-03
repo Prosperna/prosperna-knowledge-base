@@ -9,7 +9,7 @@ Agile-focused PRD with 89 scenarios documenting the integration of Stripe as a p
 
 **Demo Recording:**
 
-[Stripe Integration Prototype Demo](https://p1-ba-pocs.vercel.app/stripe-integration)
+[Stripe Integration Demo](https://sharing.clickup.com/clip/p/t7537039/5de4ff8f-baaf-478e-93b2-bd125e1156e6/5de4ff8f-baaf-478e-93b2-bd125e1156e6.webm?filename=Stripe%20Integration%20Demo%20Recording.webm)
 
 ## Document Control
 
