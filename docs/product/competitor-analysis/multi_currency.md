@@ -35,7 +35,7 @@ Several platforms lack explicit documentation on **what happens to existing orde
 
 ### Table A: Features that AUTOMATICALLY update when currency changes
 
-| Feature | Shopify | BigCommerce | WooCommerce | Magento | Wix | Squarespace | Ecwid | Dukaan | Zoho | What PROSPERNA should do |
+| Feature | Shopify | BigCommerce | WooCommerce | Magento | Wix | Squarespace | Ecwid | Dukaan | Zoho | What PROSPERNA should DO |
 |---------|---------|-------------|-------------|---------|-----|-------------|-------|--------|------|--------------------------|
 | **Product price display (symbol)** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | **Product price value (conversion)** | ❌ (same number) | ❌ | ❌ | ✅ (display only) | ❌ | ❌ | ❌ | ❌ | ✅ (display only) | ❌ (same number) |
@@ -48,7 +48,7 @@ Several platforms lack explicit documentation on **what happens to existing orde
 
 ### Table B: Features that do NOT automatically update
 
-| Feature | Shopify | BigCommerce | WooCommerce | Magento | Wix | Squarespace | Ecwid | Dukaan | Zoho | What PROSPERNA should do |
+| Feature | Shopify | BigCommerce | WooCommerce | Magento | Wix | Squarespace | Ecwid | Dukaan | Zoho | What PROSPERNA should DO |
 |---------|---------|-------------|-------------|---------|-----|-------------|-------|--------|------|--------------------------|
 | **Existing/historical orders** | ✅ Retained | ✅ Retained | ✅ Retained | ✅ Retained | N/D | ✅ Retained | ✅ Retained | N/D | ✅ Retained | ✅ Retained |
 | **Gift card balances** | ❌ Invalidated | N/D | N/D | N/D | ❌ Invalidated | ❌ Blocks change | N/D | N/D | N/D | Not Applicable |
@@ -62,7 +62,7 @@ Several platforms lack explicit documentation on **what happens to existing orde
 
 ### Table C: Features with CONDITIONAL behavior
 
-| Feature | Condition | Platforms with Documentation | What PROSPERNA should do |
+| Feature | Condition | Platforms with Documentation | What PROSPERNA should DO |
 |---------|-----------|------------------------------|--------------------------|
 | **Refunds** | Exchange rate at time of refund (not original transaction) | Shopify, WooCommerce, BigCommerce | Not Applicable |
 | **Pending payments** | Must be resolved before currency change | Shopify | Must DO this |
