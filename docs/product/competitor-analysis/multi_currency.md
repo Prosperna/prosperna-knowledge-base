@@ -6,6 +6,7 @@ sidebar_position: 4
 ---
 
 **Every major eCommerce platform treats currency fundamentally differently, from Shopify's market-based multi-currency system requiring Shopify Payments, to Wix and Squarespace's single-transaction currency models.** Understanding these patterns reveals critical design decisions: whether to support true multi-currency checkout versus display-only conversion, how to handle the permanent nature of gift card currency, and the cascading effects of base currency changes on historical data. This analysis synthesizes official documentation from 9 platforms to provide a foundation for designing Prosperna's currency feature.
+**Every major eCommerce platform treats currency fundamentally differently, from Shopify's market-based multi-currency system requiring Shopify Payments, to Wix and Squarespace's single-transaction currency models.** Understanding these patterns reveals critical design decisions: whether to support true multi-currency checkout versus display-only conversion, how to handle the permanent nature of gift card currency, and the cascading effects of base currency changes on historical data. This analysis synthesizes official documentation from 9 platforms to provide a foundation for designing Prosperna's currency feature.
 
 ---
 
