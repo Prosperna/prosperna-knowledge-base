@@ -665,7 +665,7 @@
 
 | ID | URL Path | Test Scenario | Preconditions | Parameters | Expected Status | Expected Response | Expected DB / Side Effects | Result |
 |----|----------|---------------|---------------|------------|-----------------|------------------|----------------------------|--------|
-| Product1 | https://prodev.prosperna.ph/home/inventory-listing | Verify user can navigate to Inventory Listing (Products) page | User is logged in and has access to Inventory module | `env={"dev"|"product"}` | The page or section opens successfully | Inventory listing page loads successfully |  | PASS |
+| Product1 | https://prodev.prosperna.ph/home/inventory-listing | Verify user can navigate to Inventory Listing (Products) page | User is logged in and has access to Inventory module | `env={"dev"|"product"}`  | The page or section opens successfully | Inventory listing page loads successfully |  | PASS |
 | Product2 | https://prodev.prosperna.ph/home/inventory-listing | Verify user can start Add Physical Product flow from Inventory listing | User is on Inventory listing page |  | The action is completed successfully as expected | Physical Product creation form/workflow opens |  | PASS |
 | Product3 | https://prodev.prosperna.ph/home/inventory-listing/products/create | Verify Product Title can be filled | User is in Add Physical Product form | Product Title="Test2" | The field accepts and saves the entered value correctly | Product Title is entered successfully |  | PASS |
 | Product4 | https://prodev.prosperna.ph/home/inventory-listing/products/create | Verify first product option checkbox can be checked | User is in Add Physical Product form |  | The option state is updated successfully | Checkbox becomes checked |  | PASS |
