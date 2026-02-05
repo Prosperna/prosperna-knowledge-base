@@ -1,123 +1,224 @@
-# Automation Framework
+# QA_PLAYWRIGHT
 
-A modular test automation framework built with **Python** and **Playwright**.  
-Supports two main environments: `dev` and `pay`.
+A **Python + Playwright** UI automation framework featuring:
+- modular test scripts per feature
+- JSON-driven test cases
+- JSON + Markdown reporting
+- video artifacts per run
+- **selective execution** of modules
+- **Playwright Codegen** for fast, reliable locator creation
 
----
-
-## 🚀 Key Features
-
-- **Playwright-powered automation**: Fast, reliable browser testing.
-- **Two run modes**: Run tests in either `dev` or `pay` environment.
-- **Modular design**: Each feature (Login, Checkout, Orders, etc.) has its own script.
-- **Reusable helpers**: Centralized actions in `Utility.py` (click, fill, navigation, logging).
-- **Logging & Reporting**: Outputs saved as JSON for traceability.
-- **CI/CD ready**: GitHub Actions workflows for automated runs and report uploads.
+> ⚠️ Note: This framework uses **`dev` as the primary execution environment**.  
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
-```plaintext
-.github/workflows/   # CI/CD workflows (report uploads, automation triggers)
-Outputjson/          # Stores logs and test results in JSON format
-TestcasesJson/       # Holds input test cases in JSON
-
-Utility.py           # Core helper functions (click, fill, navigation, checks)
-Logging.py           # Logging utilities (records actions, errors, outputs)
-Main.py              # Entry point for running grouped tests
-
-# Feature-specific test scripts:
-Login.py             # Login flow
-Checkout.py          # Checkout process
-Orders.py            # Order management
-Product.py           # Product-related tests
-Shipping.py          # Shipping flow
-Dashboard.py         # Dashboard checks
-Reporting.py         # Reporting automation
-Blogs.py             # Blogs automation
-Media.py             # Media library automation
-NavBar.py            # Navigation bar interactions
-Register.py          # Registration flow
-Leads.py             # Leads automation
-AI.py                # AI-related tests
-
-requirements.txt     # Python dependencies
+```
+QA_PLAYWRIGHT/
+├─ .github/                 # CI/CD workflows
+├─ Artifacts/               # Videos + temporary run artifacts
+├─ Module/                  # Feature modules (each file = a feature test flow)
+├─ OutputJson/              # Run outputs (summary, failures, temp results)
+├─ TestcasesJson/           # Source test cases (JSON)
+├─ Utility/                 # Core automation utilities
+├─ .env                     # Environment configuration (not committed)
+├─ Makefile
+├─ requirements.txt
+└─ Main.py                  # Main entry point
 ```
 
 ---
 
-## 🧑‍💻 Playwright Basics (for new users)
+## Installation Guide
 
-- **Page**: Represents a single browser tab. Interact using methods like `.goto()`, `.click()`, `.fill()`.
-- **Locators**: Find elements in different ways:
-    - `page.get_by_role("button", name="Login")` — best for accessible role-based selectors.
-    - `page.get_by_text("Submit")` — finds by visible text.
-    - `page.locator("#id")` — standard CSS/XPath selector.
-- **Headless vs Headed**: By default, Playwright runs headless (no visible browser). For debugging:
-    ```python
-    browser = p.chromium.launch(headless=False)
-    ```
-- **Waits**: Playwright auto-waits for elements before interacting, reducing flaky tests.
+### 1️⃣ Install Python
 
----
+**Windows**
+1. Download Python from: https://www.python.org/downloads/
+2. During installation:
+   - ✅ Check **“Add Python to PATH”**
+3. Verify installation:
+```bash
+python --version
+```
 
-## ✅ Best Practices
+**macOS / Linux**
+```bash
+python3 --version
+```
 
-- Keep test logic inside feature files (`Login.py`, `Checkout.py`, etc.).
-- Keep reusable actions inside `Utility.py`.
-- Use environment flags (`--env dev` / `--env pay`) to switch environments cleanly.
-
----
-
-## 📌 Notes
-
-### 🔹 Modular Design
-
-- Each feature (e.g., `Login.py`, `Checkout.py`) contains only test flow steps.
-- Shared actions live in `Utility.py`, so they don’t need to be rewritten everywhere.
-- **Maintainability**: If a locator or logic changes, update it once in `Utility.py`.
-
-> Example: A button locator used across multiple tests only needs to be fixed in one place.
+Recommended version: **Python 3.10+**
 
 ---
 
-### 🔹 Utility Function Example
+### 2️⃣ Create a Virtual Environment (Recommended)
 
-**Utility.py**
-```python
-def click(page, locator_type, locator_value):
-        if locator_type == "role":
-                page.get_by_role(locator_value[0], name=locator_value[1]).click()
-        elif locator_type == "text":
-                page.get_by_text(locator_value).click()
+```bash
+python -m venv venv
+```
+
+Activate it:
+
+**Windows**
+```bash
+venv\Scripts\activate
+```
+
+**macOS / Linux**
+```bash
+source venv/bin/activate
 ```
 
 ---
 
-### 🔹 Example Test Script
+### 3️⃣ Install Project Dependencies
 
-**Login.py**
-```python
-from Utility import click, fill
-
-def run_login(page, env):
-        url = "https://dev.example.com" if env == "dev" else "https://pay.example.com"
-        page.goto(url + "/login")
-
-        fill(page, "role", ("textbox", "Email"), "test@example.com")
-        fill(page, "role", ("textbox", "Password"), "mypassword")
-        click(page, "role", ("button", "Login"))
+```bash
+pip install -r requirements.txt
 ```
 
 ---
 
-## ▶️ Running Tests
+### 4️⃣ Install Playwright Browsers
+
+```bash
+playwright install
+```
+
+This installs Chromium, Firefox, and WebKit required for test execution.
+
+---
+
+## Environment Configuration (.env)
+
+Create a `.env` file at the project root:
+
+```env
+DEV_BASE_URL=https://dev.example.com
+EMAIL=test@example.com
+PASSWORD=your_password
+```
+
+> Never commit `.env` to version control.
+
+---
+
+## How to Run Tests
+
+### Full Regression Run (dev)
 
 ```bash
 python Main.py --env dev
 ```
-or
+
+This executes the full test flow defined in `Main.py`.
+
+---
+
+## Selective Module Execution
+
+Run only specific feature modules:
+
 ```bash
-python Main.py --env pay
+python Main.py --env dev --modules nav,dashboard,product,orders
 ```
+
+Execution behavior:
+- Login runs once
+- Each module is resolved via `MODULE_MAP`
+- Unknown modules are skipped safely
+
+### Supported Module Keys
+
+```
+nav, dashboard, product, ai, shipping, orders, blogs,
+media, design, leads, store, onboard, billing,
+customer, categories, marketplace, digital,
+page, template, reports, announcement
+```
+
+---
+
+## Outputs & Artifacts
+
+After execution, the framework generates:
+
+### 📁 OutputJson/
+- `summary.json`
+- `failed_statuses.json`
+- `temp_results.json`
+
+### 🎥 Artifacts/
+- Temporary and final test run videos
+- Automatically cleaned and saved via `Utility/Artifacts.py`
+
+### 📊 Markdown Reports
+- Generated via `json_to_md_tables(...)`
+
+---
+
+## Playwright Codegen (Locator & Flow Recording)
+
+Playwright **Codegen** records browser actions and generates stable selectors.
+
+### Install Codegen
+Codegen is included with Playwright. No extra install needed.
+
+### Run Codegen (Python Output)
+```bash
+playwright codegen --target python https://dev.example.com
+```
+
+Start from a specific page:
+```bash
+playwright codegen --target python https://dev.example.com/login
+```
+
+---
+
+### How to Use Codegen with This Framework
+
+Codegen output is **reference-only**.
+
+#### From Codegen:
+```python
+page.get_by_role("textbox", name="Email").fill("test@example.com")
+page.get_by_role("button", name="Login").click()
+```
+
+#### Translate into Framework Style:
+```python
+from Utility.Helpers import fill, click
+
+fill(page, "role", ("textbox", "Email"), "test@example.com")
+click(page, "role", ("button", "Login"))
+```
+
+---
+
+## Best Practices
+
+- Keep business logic in `Module/*.py`
+- Keep reusable UI actions in `Utility/Helpers.py`
+- Prefer locators in this order:
+  1. Role / Label
+  2. data-testid
+  3. CSS / XPath (last resort)
+- Re-run codegen after UI changes to refresh selectors
+
+---
+
+## Troubleshooting
+
+- **Playwright opens but does nothing**
+  - Check `.env` values
+  - Ensure login credentials are valid
+
+- **Module not executed**
+  - Confirm module key exists in `MODULE_MAP`
+  - Verify module import in `Main.py`
+
+## Video
+
+https://drive.google.com/file/d/1dxoYnMEuj-Yvm39uk9ttyKFMhkqrcFSl/view?usp=sharing
