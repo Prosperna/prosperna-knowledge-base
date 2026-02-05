@@ -5,7 +5,8 @@ sidebar_label: Multi-Currency
 sidebar_position: 4
 ---
 
-**Every major eCommerce platform treats currency fundamentally differently, from Shopify's market-based multi-currency system requiring Shopify Payments, to Wix and Squarespace's single-transaction currency models.** Understanding these patterns reveals critical design decisions: whether to support true multi-currency checkout versus display-only conversion, how to handle the permanent nature of gift card currency, and the cascading effects of base currency changes on historical data. This analysis synthesizes official documentation from 9 platforms to provide a foundation for designing a new eCommerce currency feature.
+**Every major eCommerce platform treats currency fundamentally differently, from Shopify's market-based multi-currency system requiring Shopify Payments, to Wix and Squarespace's single-transaction currency models.** Understanding these patterns reveals critical design decisions: whether to support true multi-currency checkout versus display-only conversion, how to handle the permanent nature of gift card currency, and the cascading effects of base currency changes on historical data. This analysis synthesizes official documentation from 9 platforms to provide a foundation for designing Prosperna's currency feature.
+**Every major eCommerce platform treats currency fundamentally differently, from Shopify's market-based multi-currency system requiring Shopify Payments, to Wix and Squarespace's single-transaction currency models.** Understanding these patterns reveals critical design decisions: whether to support true multi-currency checkout versus display-only conversion, how to handle the permanent nature of gift card currency, and the cascading effects of base currency changes on historical data. This analysis synthesizes official documentation from 9 platforms to provide a foundation for designing Prosperna's currency feature.
 
 ---
 
@@ -35,42 +36,42 @@ Several platforms lack explicit documentation on **what happens to existing orde
 
 ### Table A: Features that AUTOMATICALLY update when currency changes
 
-| Feature | Shopify | BigCommerce | WooCommerce | Magento | Wix | Squarespace | Ecwid | Dukaan | Zoho |
-|---------|---------|-------------|-------------|---------|-----|-------------|-------|--------|------|
-| **Product price display (symbol)** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **Product price value (conversion)** | ❌ (same number) | ❌ | ❌ | ✅ (display only) | ❌ | ❌ | ❌ | ❌ | ✅ (display only) |
-| **Currency formatting** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | N/A | ✅ |
-| **Flat shipping rates** | ❌ | ✅ | ❌ | ❌ | N/D | N/D | N/D | N/D | N/D |
-| **Fixed-amount discounts (symbol)** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | N/D | ✅ |
-| **Market currencies (third-party)** | ✅ | N/A | N/A | N/A | N/A | N/A | N/A | N/A | N/A |
+| Feature | Shopify | BigCommerce | WooCommerce | Magento | Wix | Squarespace | Ecwid | Dukaan | Zoho | What PROSPERNA should DO |
+|---------|---------|-------------|-------------|---------|-----|-------------|-------|--------|------|--------------------------|
+| **Product price display (symbol)** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **Product price value (conversion)** | ❌ (same number) | ❌ | ❌ | ✅ (display only) | ❌ | ❌ | ❌ | ❌ | ✅ (display only) | ❌ (same number) |
+| **Currency formatting** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | N/A | ✅ | ✅ |
+| **Flat shipping rates** | ❌ | ✅ | ❌ | ❌ | N/D | N/D | N/D | N/D | N/D | ❌ |
+| **Fixed-amount discounts (symbol)** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | N/D | ✅ | ✅ |
+| **Market currencies (third-party)** | ✅ | N/A | N/A | N/A | N/A | N/A | N/A | N/A | N/A | N/A |
 
 **Key insight**: Most platforms change the currency symbol but **do not convert numerical values**. Shopify explicitly states: "A product that was listed as 20 USD is now listed as 20 CAD" with no automatic conversion.
 
 ### Table B: Features that do NOT automatically update
 
-| Feature | Shopify | BigCommerce | WooCommerce | Magento | Wix | Squarespace | Ecwid | Dukaan | Zoho |
-|---------|---------|-------------|-------------|---------|-----|-------------|-------|--------|------|
-| **Existing/historical orders** | ✅ Retained | ✅ Retained | ✅ Retained | ✅ Retained | N/D | ✅ Retained | ✅ Retained | N/D | ✅ Retained |
-| **Gift card balances** | ❌ Invalidated | N/D | N/D | N/D | ❌ Invalidated | ❌ Blocks change | N/D | N/D | N/D |
-| **Shipping rates** | ❌ Must recreate | N/D | N/D | N/D | N/D | N/D | N/D | N/D | N/D |
-| **Historical pricing records** | ❌ Not preserved | ❌ Unchanged | N/D | N/D | N/D | N/D | N/D | N/D | N/D |
-| **Store credit** | N/A | ❌ Default only | N/D | N/D | N/D | N/D | N/D | N/D | N/D |
-| **Coupons** | N/A | ❌ Default only | N/D | N/D | N/D | N/D | N/D | N/D | N/D |
-| **Existing subscriptions** | ✅ Original rate | N/D | ✅ Original price | N/D | N/D | ✅ Original terms | N/D | N/D | N/D |
+| Feature | Shopify | BigCommerce | WooCommerce | Magento | Wix | Squarespace | Ecwid | Dukaan | Zoho | What PROSPERNA should DO |
+|---------|---------|-------------|-------------|---------|-----|-------------|-------|--------|------|--------------------------|
+| **Existing/historical orders** | ✅ Retained | ✅ Retained | ✅ Retained | ✅ Retained | N/D | ✅ Retained | ✅ Retained | N/D | ✅ Retained | ✅ Retained |
+| **Gift card balances** | ❌ Invalidated | N/D | N/D | N/D | ❌ Invalidated | ❌ Blocks change | N/D | N/D | N/D | Not Applicable |
+| **Shipping rates** | ❌ Must recreate | N/D | N/D | N/D | N/D | N/D | N/D | N/D | N/D | ❌ Must recreate |
+| **Historical pricing records** | ❌ Not preserved | ❌ Unchanged | N/D | N/D | N/D | N/D | N/D | N/D | N/D | ❌ Not preserved |
+| **Store credit** | N/A | ❌ Default only | N/D | N/D | N/D | N/D | N/D | N/D | N/D | Not Applicable |
+| **Coupons** | N/A | ❌ Default only | N/D | N/D | N/D | N/D | N/D | N/D | N/D | Already in discounts |
+| **Existing subscriptions** | ✅ Original rate | N/D | ✅ Original price | N/D | N/D | ✅ Original terms | N/D | N/D | N/D | ✅ Original rate, but not a priority | 
 
 **Critical finding**: **Gift cards represent the most problematic currency change scenario**. Shopify invalidates gift cards with remaining balances. Squarespace **completely blocks currency changes** after any gift card sale, including test orders. Wix gift cards purchased in old currency become non-redeemable.
 
 ### Table C: Features with CONDITIONAL behavior
 
-| Feature | Condition | Platforms with Documentation |
-|---------|-----------|------------------------------|
-| **Refunds** | Exchange rate at time of refund (not original transaction) | Shopify, WooCommerce, BigCommerce |
-| **Pending payments** | Must be resolved before currency change | Shopify |
-| **Cart currency** | Locks when first item added (requires cart deletion) | BigCommerce |
-| **App compatibility** | Depends on app's currency support | Shopify, BigCommerce |
-| **Analytics/Reports** | Converted to store currency with historical rates | Shopify, WooCommerce |
-| **Subscription renewals** | Use original currency/rate unless explicitly updated | Shopify, WooCommerce, Squarespace |
-| **Payment provider markets** | All markets update to new currency with third-party providers | Shopify |
+| Feature | Condition | Platforms with Documentation | What PROSPERNA should DO |
+|---------|-----------|------------------------------|--------------------------|
+| **Refunds** | Exchange rate at time of refund (not original transaction) | Shopify, WooCommerce, BigCommerce | Not Applicable |
+| **Pending payments** | Must be resolved before currency change | Shopify | Must DO this |
+| **Cart currency** | Locks when first item added (requires cart deletion) | BigCommerce | Must DO this |
+| **App compatibility** | Depends on app's currency support | Shopify, BigCommerce | Not Applicable |
+| **Analytics/Reports** | Converted to store currency with historical rates | Shopify, WooCommerce | Must DO this |
+| **Subscription renewals** | Use original currency/rate unless explicitly updated | Shopify, WooCommerce, Squarespace | Original rate, but not a priority | 
+| **Payment provider markets** | All markets update to new currency with third-party providers | Shopify | Not Applicable |
 
 ---
 
