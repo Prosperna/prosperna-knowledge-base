@@ -6,7 +6,6 @@ sidebar_position: 4
 ---
 
 **Every major eCommerce platform treats currency fundamentally differently, from Shopify's market-based multi-currency system requiring Shopify Payments, to Wix and Squarespace's single-transaction currency models.** Understanding these patterns reveals critical design decisions: whether to support true multi-currency checkout versus display-only conversion, how to handle the permanent nature of gift card currency, and the cascading effects of base currency changes on historical data. This analysis synthesizes official documentation from 9 platforms to provide a foundation for designing Prosperna's currency feature.
-**Every major eCommerce platform treats currency fundamentally differently, from Shopify's market-based multi-currency system requiring Shopify Payments, to Wix and Squarespace's single-transaction currency models.** Understanding these patterns reveals critical design decisions: whether to support true multi-currency checkout versus display-only conversion, how to handle the permanent nature of gift card currency, and the cascading effects of base currency changes on historical data. This analysis synthesizes official documentation from 9 platforms to provide a foundation for designing Prosperna's currency feature.
 
 ---
 
@@ -69,7 +68,7 @@ Several platforms lack explicit documentation on **what happens to existing orde
 | **Pending payments** | Must be resolved before currency change | Shopify | Must DO this |
 | **Cart currency** | Locks when first item added (requires cart deletion) | BigCommerce | Must DO this |
 | **App compatibility** | Depends on app's currency support | Shopify, BigCommerce | Not Applicable |
-| **Analytics/Reports** | Converted to store currency with historical rates | Shopify, WooCommerce | Must DO this |
+| **Analytics/Reports** | Shopify: Converts to store currency using transaction-time rates; new currency picker uses historical rates | Shopify | Must DO this |
 | **Subscription renewals** | Use original currency/rate unless explicitly updated | Shopify, WooCommerce, Squarespace | Original rate, but not a priority | 
 | **Payment provider markets** | All markets update to new currency with third-party providers | Shopify | Not Applicable |
 
