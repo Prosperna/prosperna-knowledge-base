@@ -486,7 +486,7 @@ Enable merchants to add additional selling currencies to their store by selectin
 - Currency is selected from a dropdown of available currencies
 - The dropdown only shows currencies that have NOT already been added to the store
 - The store currency (USD) is never shown in the dropdown
-- Each option displays: "{CODE} - {Full Name}" (e.g., "PHP - Philippine Peso")
+- Each option displays: "`{CODE}` - `{Full Name}`" (e.g., "PHP - Philippine Peso")
 - Currency selection is required; the form cannot be saved without a selection
 
 **BR-12: Available Currencies List (Phase 1)**
@@ -502,7 +502,7 @@ Enable merchants to add additional selling currencies to their store by selectin
 - Note: The list is defined in a configurable reference table, not hardcoded
 
 **BR-13: Exchange Rate Input**
-- Exchange rate is displayed in the format: "1 USD = {rate} {CURRENCY_CODE}"
+- Exchange rate is displayed in the format: "1 USD = `{rate}` `{CURRENCY_CODE}`"
 - The rate field is a numeric input accepting decimal values
 - Minimum value: greater than 0 (cannot be zero or negative)
 - Maximum decimal precision: 10 decimal places (stored as DECIMAL(20,10))
@@ -552,7 +552,7 @@ Enable merchants to add additional selling currencies to their store by selectin
 **BR-18: Duplicate Currency Prevention**
 - A currency code can only be added once per store
 - If a currency is already added, it does not appear in the dropdown
-- Backend validation also prevents duplicate entries (unique constraint on store_id + currency_code)
+- Backend validation also prevents duplicate entries (unique constraint on `store_id` + `currency_code`)
 
 ### 3.3.3 Scenarios
 
@@ -887,7 +887,7 @@ Allow merchants to remove an additional selling currency from their store. Delet
 **BR-24: Delete Confirmation Modal**
 - Clicking "Delete" from the three-dot actions menu opens a confirmation modal
 - Modal title: "Remove Currency"
-- Modal message: "Are you sure you want to remove {Currency Name} from your selling currencies? Customers will no longer be able to browse or pay in {Currency Name}. This action cannot be undone."
+- Modal message: "Are you sure you want to remove `{Currency Name}` from your selling currencies? Customers will no longer be able to browse or pay in `{Currency Name}`. This action cannot be undone."
 - Modal has two buttons: "Cancel" and "Remove Currency"
 - "Cancel" closes the modal without deleting
 - "Remove Currency" confirms deletion
@@ -1201,7 +1201,7 @@ When a customer proceeds to checkout, a Stripe Checkout Session is created in th
   - `customer_currency`: the customer's selected currency code
   - `exchange_rate_used`: the rate at the time of session creation
   - `exchange_rate_snapshot_at`: timestamp of rate capture
-  - All existing Phase 1-B metadata fields (store_id, cart items, shipping, etc.)
+  - All existing Phase 1-B metadata fields (`store_id`, cart items, shipping, etc.)
 
 **BR-41: Customer Selects USD at Checkout**
 - If the customer's selected currency is USD (the store currency), the checkout behaves identically to the standard Phase 1-B flow
@@ -1501,15 +1501,15 @@ Orders placed in foreign currencies are recorded with dual-currency data. The me
 - Each order record stores:
   | Field | Description | Example |
   |-------|-------------|---------|
-  | store_currency | Merchant's base currency | USD |
-  | customer_currency | Currency customer browsed/paid in | PHP |
-  | payment_currency | Currency the payment was processed in | PHP |
-  | exchange_rate_used | Rate at time of Checkout Session creation | 56.50 |
-  | exchange_rate_snapshot_at | Timestamp of rate capture | 2026-02-12T14:00:00Z |
-  | subtotal_store_currency | Subtotal in USD | 149.97 |
-  | subtotal_customer_currency | Subtotal in customer currency | 8473.31 |
-  | total_store_currency | Total in USD | 159.96 |
-  | total_customer_currency | Total in customer currency | 9037.74 |
+  | `store_currency` | Merchant's base currency | USD |
+  | `customer_currency` | Currency customer browsed/paid in | PHP |
+  | `payment_currency` | Currency the payment was processed in | PHP |
+  | `exchange_rate_used` | Rate at time of Checkout Session creation | 56.50 |
+  | `exchange_rate_snapshot_at` | Timestamp of rate capture | 2026-02-12T14:00:00Z |
+  | `subtotal_store_currency` | Subtotal in USD | 149.97 |
+  | `subtotal_customer_currency` | Subtotal in customer currency | 8473.31 |
+  | `total_store_currency` | Total in USD | 159.96 |
+  | `total_customer_currency` | Total in customer currency | 9037.74 |
 
 **BR-54: Dashboard & Analytics**
 - Dashboard metrics (GMV, total sales, average order value) are calculated in the store currency (USD)
