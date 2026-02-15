@@ -9,7 +9,7 @@ Agile-focused PRD documenting the implementation of the Multi-Currency feature f
 
 **Demo Recording:**
 
-[Multi-Currency POC](https://p1-ba-pocs.vercel.app/multi-currency)
+[Multi-Currency Demo](https://sharing.clickup.com/clip/p/t7537039/9d479e5d-e79d-4768-8490-f113e6a501bd/9d479e5d-e79d-4768-8490-f113e6a501bd.webm?filename=screen-recording-2026-02-15-14%3A06.webm)
 
 ## Document Control
 
