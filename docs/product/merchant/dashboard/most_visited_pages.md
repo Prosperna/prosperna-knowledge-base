@@ -691,7 +691,7 @@ Paginate the Most Visited Pages report at 20 rows per page to maintain performan
   - Next page button (→ chevron) — disabled on last page
 
 **BR-27: Result Count Indicator**
-- A text indicator displays: "Showing `{start}`-`{end}` of `{total}` pages"
+- A text indicator displays: "Showing \{start\}-\{end\} of \{total\} pages"
 - Example: "Showing 1-20 of 45 pages" on page 1, "Showing 21-40 of 45 pages" on page 2
 - The indicator is positioned to the left of the pagination controls
 
@@ -1659,7 +1659,7 @@ Merchant Dashboard
 
 Most Visited Pages Report (accessed via widget View buttons only)
 URL: /dashboard/analytics/most-visited-pages
-Query params: ?pageType={ALL|PRODUCTS|BLOGS|CUSTOM|STORE}&dateFrom={YYYY-MM-DD}&dateTo={YYYY-MM-DD}
+Query params: ?pageType=\{ALL|PRODUCTS|BLOGS|CUSTOM|STORE\}&dateFrom=\{YYYY-MM-DD\}&dateTo=\{YYYY-MM-DD\}
 ├── Header: ← Back | "Most Visited Pages" | (?) tooltip
 ├── Filters: [Page Type dropdown] [Date Range dropdown]
 │            └── Custom: [FROM date picker] [TO date picker]
@@ -1699,13 +1699,13 @@ Query params: ?pageType={ALL|PRODUCTS|BLOGS|CUSTOM|STORE}&dateFrom={YYYY-MM-DD}&
 - Bootstrap `pagination pagination-sm` class
 - `<ChevronLeft>` and `<ChevronRight>` icons for previous/next buttons
 - Active page highlighted with Bootstrap `active` class
-- Result indicator: "Showing {start}-{end} of {total} pages" — left-aligned, `text-muted small`
+- Result indicator: "Showing \{start\}-\{end\} of \{total\} pages" — left-aligned, `text-muted small`
 
 **Dashboard Widgets (Enhanced):**
 - Widget title in `text-uppercase small` style
 - "View" button: `btn btn-sm btn-outline-dark` aligned to right in widget header
 - Product/blog icon area: 80×80px `bg-light rounded` container with `d-flex align-items-center justify-content-center`
-- View count: `text-muted small` — format: "{N} views (Last 7 days)"
+- View count: `text-muted small` — format: "\{N\} views (Last 7 days)"
 - Page path: `text-muted small text-truncate` with `maxWidth: "250px"` and `title` attribute for tooltip
 
 ---
