@@ -1404,49 +1404,49 @@ flowchart TD
 ┌──────────────────────────────────────────────────────────────────────────────┐
 │                     ONLINE STORE WEBSITE (Next.js Storefront)                │
 │                                                                              │
-│  ┌──────────────────────────────────────────────────────────────────────┐   │
-│  │  Tracking Script (tracking.js — injected globally via _app.js)       │   │
-│  │  • Reads / generates visitorId from localStorage                     │   │
-│  │  • Reads / generates sessionId from sessionStorage                   │   │
-│  │  • Detects pageType from window.location.pathname                    │   │
-│  │  • Collects pagePath, pageTitle, merchantId, storeId, timestamp      │   │
-│  │  • Fires POST /track/page-view asynchronously (fire-and-forget)      │   │
-│  └──────────────────────────────────────────────────────────────────────┘   │
+│   ┌──────────────────────────────────────────────────────────────────────┐   │
+│   │  Tracking Script (tracking.js — injected globally via _app.js)       │   │
+│   │  • Reads / generates visitorId from localStorage                     │   │
+│   │  • Reads / generates sessionId from sessionStorage                   │   │
+│   │  • Detects pageType from window.location.pathname                    │   │
+│   │  • Collects pagePath, pageTitle, merchantId, storeId, timestamp      │   │
+│   │  • Fires POST /track/page-view asynchronously (fire-and-forget)      │   │
+│   └──────────────────────────────────────────────────────────────────────┘   │
 └──────────────────────────────────────────────────────────────────────────────┘
          │ POST /track/page-view (async)
          ▼
 ┌──────────────────────────────────────────────────────────────────────────────┐
 │                      BACKEND API (Node.js + Express)                         │
 │                                                                              │
-│  ┌──────────────────────────────────────────────────────────────────────┐   │
-│  │  Tracking Controller                                                 │   │
-│  │  POST /track/page-view                                               │   │
-│  │  • Validates required fields and merchantId/storeId                  │   │
-│  │  • Applies rate limiting per storeId                                 │   │
-│  │  • Inserts event into events_raw collection                          │   │
-│  │  • Returns 202 Accepted                                              │   │
-│  └──────────────────────────────────────────────────────────────────────┘   │
+│   ┌──────────────────────────────────────────────────────────────────────┐   │
+│   │  Tracking Controller                                                 │   │
+│   │  POST /track/page-view                                               │   │
+│   │  • Validates required fields and merchantId/storeId                  │   │
+│   │  • Applies rate limiting per storeId                                 │   │
+│   │  • Inserts event into events_raw collection                          │   │
+│   │  • Returns 202 Accepted                                              │   │
+│   └──────────────────────────────────────────────────────────────────────┘   │
 │                                                                              │
-│  ┌──────────────────────────────────────────────────────────────────────┐   │
-│  │  Analytics Controller                                                │   │
-│  │  GET /api/analytics/most-visited-pages                               │   │
-│  │  • Requires authenticated merchant JWT                               │   │
-│  │  • Accepts: pageType, dateFrom, dateTo, page, limit                  │   │
-│  │  • Queries page_stats_daily with compound index                      │   │
-│  │  • Sums metrics across date range, groups by pagePath                │   │
-│  │  • Returns paginated, sorted JSON response                           │   │
-│  └──────────────────────────────────────────────────────────────────────┘   │
+│   ┌──────────────────────────────────────────────────────────────────────┐   │
+│   │  Analytics Controller                                                │   │
+│   │  GET /api/analytics/most-visited-pages                               │   │
+│   │  • Requires authenticated merchant JWT                               │   │
+│   │  • Accepts: pageType, dateFrom, dateTo, page, limit                  │   │
+│   │  • Queries page_stats_daily with compound index                      │   │
+│   │  • Sums metrics across date range, groups by pagePath                │   │
+│   │  • Returns paginated, sorted JSON response                           │   │
+│   └──────────────────────────────────────────────────────────────────────┘   │
 │                                                                              │
-│  ┌──────────────────────────────────────────────────────────────────────┐   │
-│  │  Agenda Background Job — aggregate-page-analytics                    │   │
-│  │  • Runs every 10 minutes                                             │   │
-│  │  • Processes up to 5,000 unprocessed raw events per run             │   │
-│  │  • Groups by: merchantId, storeId, pagePath, date                   │   │
-│  │  • Calculates: pageViews (count), sessions (distinct sessionId),    │   │
-│  │    uniqueVisitors (distinct visitorId)                               │   │
-│  │  • Upserts results into page_stats_daily                             │   │
-│  │  • Marks processed events or removes from queue                      │   │
-│  └──────────────────────────────────────────────────────────────────────┘   │
+│   ┌──────────────────────────────────────────────────────────────────────┐   │
+│   │  Agenda Background Job — aggregate-page-analytics                    │   │
+│   │  • Runs every 10 minutes                                             │   │
+│   │  • Processes up to 5,000 unprocessed raw events per run              │   │
+│   │  • Groups by: merchantId, storeId, pagePath, date                    │   │
+│   │  • Calculates: pageViews (count), sessions (distinct sessionId),     │   │
+│   │    uniqueVisitors (distinct visitorId)                               │   │
+│   │  • Upserts results into page_stats_daily                             │   │
+│   │  • Marks processed events or removes from queue                      │   │
+│   └──────────────────────────────────────────────────────────────────────┘   │
 └──────────────────────────────────────────────────────────────────────────────┘
          │                           │
          ▼                           ▼
@@ -1471,31 +1471,31 @@ flowchart TD
 ┌──────────────────────────────────────────────────────────────────────────────┐
 │                    MERCHANT DASHBOARD (React SPA)                            │
 │                                                                              │
-│  ┌──────────────────────────────────────────────────────────────────────┐   │
-│  │  Dashboard View                                                      │   │
-│  │  ┌─────────────────────────────┐  ┌──────────────────────────────┐  │   │
-│  │  │ Most Visited Product Widget │  │ Most Visited Blog Widget     │  │   │
-│  │  │ • Product image/icon        │  │ • Blog icon                  │  │   │
-│  │  │ • Product title             │  │ • Blog post title            │  │   │
-│  │  │ • "832 views (Last 7 days)" │  │ • "687 views (Last 7 days)"  │  │   │
-│  │  │ • Truncated page path       │  │ • Truncated page path (FIXED)│  │   │
-│  │  │ • [View] button ──────────────────────────────────────────────┼──┼──▶│
-│  │  └─────────────────────────────┘  └──────────────────────────────┘  │   │
-│  └──────────────────────────────────────────────────────────────────────┘   │
+│   ┌──────────────────────────────────────────────────────────────────────┐   │
+│   │  Dashboard View                                                      │   │
+│   │  ┌─────────────────────────────┐  ┌──────────────────────────────┐   │   │
+│   │  │ Most Visited Product Widget │  │ Most Visited Blog Widget     │   │   │
+│   │  │ • Product image/icon        │  │ • Blog icon                  │   │   │
+│   │  │ • Product title             │  │ • Blog post title            │   │   │
+│   │  │ • "832 views (Last 7 days)" │  │ • "687 views (Last 7 days)"  │   │   │
+│   │  │ • Truncated page path       │  │ • Truncated page path (FIXED)│   │   │
+│   │  │ • [View] button ──────────────────────────────────────────────┼───┼─▶│
+│   │  └─────────────────────────────┘  └──────────────────────────────┘   │   │
+│   └──────────────────────────────────────────────────────────────────────┘   │
 │                                                                              │
-│  ┌──────────────────────────────────────────────────────────────────────┐   │
-│  │  Most Visited Pages Report View                                      │   │
-│  │  ← Back  |  Most Visited Pages  (?)                                 │   │
-│  │  ─────────────────────────────────────────────────────────────────  │   │
-│  │  [Page Type: All ▼]        [Date: Last 7 Days ▼]                   │   │
-│  │  ─────────────────────────────────────────────────────────────────  │   │
-│  │  # │ Page Title    │ Page Path   │ Views │ Sessions │ Unique Visitors│   │
-│  │  1 │ Home Page     │ /           │ 1,245 │ 487      │ 362           │   │
-│  │  2 │ Jumbo Double..│ /product/.. │   832 │ 412      │ 298           │   │
-│  │  3 │ 10 Tips for.. │ /blog/10-.. │   687 │ 289      │ 234           │   │
-│  │  ─────────────────────────────────────────────────────────────────  │   │
-│  │  Showing 1-20 of 45 pages              [← 1  2  3 →]               │   │
-│  └──────────────────────────────────────────────────────────────────────┘   │
+│   ┌──────────────────────────────────────────────────────────────────────┐   │
+│   │  Most Visited Pages Report View                                      │   │
+│   │  ← Back  |  Most Visited Pages  (?)                                  │   │
+│   │  ─────────────────────────────────────────────────────────────────   │   │
+│   │  [Page Type: All ▼]        [Date: Last 7 Days ▼]                     │   │
+│   │  ─────────────────────────────────────────────────────────────────   │   │
+│   │  # │ Page Title    │ Page Path   │ Views │ Sessions │ Unique Visitors│   │
+│   │  1 │ Home Page     │ /           │ 1,245 │ 487      │ 362            │   │
+│   │  2 │ Jumbo Double..│ /product/.. │   832 │ 412      │ 298            │   │
+│   │  3 │ 10 Tips for.. │ /blog/10-.. │   687 │ 289      │ 234            │   │
+│   │  ─────────────────────────────────────────────────────────────────   │   │
+│   │  Showing 1-20 of 45 pages              [← 1  2  3 →]                 │   │
+│   └──────────────────────────────────────────────────────────────────────┘   │
 └──────────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -1566,7 +1566,7 @@ sequenceDiagram
         Storage-->>Script: existing UUID
     end
     Script->>Storage: Read sessionId + lastActivity from sessionStorage
-    alt No session or session expired (>30 min)
+    alt No session or session expired (&gt;30 min)
         Script->>Storage: Generate + store new sessionId; update lastActivity
     else Valid session
         Script->>Storage: Update lastActivity timestamp
@@ -1984,26 +1984,26 @@ Pipeline:
 9. Aggregation job correctly calculates pageViews, sessions, and uniqueVisitors
 10. Report API returns only data belonging to the authenticated merchant (tenant isolation)
 
-**Medium Priority (P1 — Critical):**
-11. Session expires and new sessionId generated after 30 minutes of inactivity
-12. Same browser returns same visitorId across multiple sessions
-13. New browser/device generates a new visitorId
-14. Tracking script failure does not impact customer storefront experience
-15. Raw events auto-expire from `events_raw` after 30 days (TTL)
-16. `page_stats_daily` data is retained after raw events expire
-17. Tooltips display correct definitions for Sessions and Unique Visitors
-18. Long page paths truncated with ellipsis in both widget and report table
-19. Empty state renders when no data matches selected filters
-20. Pagination controls (previous/next) correctly disabled at first/last page
+**Medium Priority (P1 — Critical):** <br />
+11. Session expires and new sessionId generated after 30 minutes of inactivity <br />
+12. Same browser returns same visitorId across multiple sessions <br />
+13. New browser/device generates a new visitorId <br />
+14. Tracking script failure does not impact customer storefront experience <br />
+15. Raw events auto-expire from `events_raw` after 30 days (TTL) <br />
+16. `page_stats_daily` data is retained after raw events expire <br />
+17. Tooltips display correct definitions for Sessions and Unique Visitors <br />
+18. Long page paths truncated with ellipsis in both widget and report table <br />
+19. Empty state renders when no data matches selected filters <br />
+20. Pagination controls (previous/next) correctly disabled at first/last page <br />
 
-**Lower Priority (P2 — Important):**
-21. Widget shows "No data available" when no product/blog data exists
-22. "View" button remains functional in widget empty state
-23. Filter combination (Page Type + Date Range) applies both simultaneously
-24. Rate limiting on tracking endpoint returns 429 on excess requests
-25. Report URL query params reflect selected filters (bookmarkable state)
-26. Back arrow returns to Dashboard and resets filters to defaults
-27. Mobile card-based layout renders correctly at 375px width
+**Lower Priority (P2 — Important):** <br />
+21. Widget shows "No data available" when no product/blog data exists <br />
+22. "View" button remains functional in widget empty state <br />
+23. Filter combination (Page Type + Date Range) applies both simultaneously <br />
+24. Rate limiting on tracking endpoint returns 429 on excess requests <br />
+25. Report URL query params reflect selected filters (bookmarkable state) <br />
+26. Back arrow returns to Dashboard and resets filters to defaults <br />
+27. Mobile card-based layout renders correctly at 375px width <br />
 
 ---
 
