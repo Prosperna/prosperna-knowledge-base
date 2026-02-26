@@ -9,7 +9,7 @@ Agile-focused PRD documenting the implementation of the Date Picker for Dashboar
 
 **Demo Recording:**
 
-[Dashboard Date Picker POC](https://p1-ba-pocs.vercel.app/dashboard-date-filter)
+[Dashboard Date Picker Demo](https://sharing.clickup.com/clip/p/t7537039/adb3217a-9ca9-4a70-a3f0-96b30a379a7f/adb3217a-9ca9-4a70-a3f0-96b30a379a7f.webm?filename=Dashboard%20Date%20Picker%20Demo%20Recording.webm)
 
 ## Document Control
 
@@ -73,7 +73,7 @@ Empower Prosperna merchants with a single, unified date filter that controls the
 ### 1.4 Related Documents
 
 - [Dashboard Date Picker POC](https://p1-ba-pocs.vercel.app/dashboard-date-filter)
-- [Standard Reports | Most Visited Pages PRD](https://pkb.prosperna.ph/docs/product/standard-reports/most-visited-pages) — Most Visited Pages report with date range filter integration
+- [Standard Reports | Most Visited Pages PRD](https://pkb.prosperna.ph/docs/product/merchant/dashboard/most-visited-pages) — Most Visited Pages report with date range filter integration
 
 ---
 

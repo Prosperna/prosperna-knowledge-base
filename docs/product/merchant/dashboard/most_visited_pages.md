@@ -1,14 +1,14 @@
 ---
 id: most-visited-pages
 title: Standard Reports | Most Visited Pages PRD
-sidebar_label: Standard Reports | Most Visited Pages
+sidebar_label: Most Visited Pages
 sidebar_position: 1
 ---
 
 Agile-focused PRD documenting the implementation of the Standard Reports | Most Visited Pages feature for Prosperna's Merchant Dashboard, enabling merchants to identify which storefront pages attract the most visitors and correlate traffic performance with AI-generated content tools.
 
 **Demo Recording:**
-[Most Visited Pages POC Demo](https://p1-ba-pocs.vercel.app/most-visited-pages)
+[Most Visited Pages Demo](https://sharing.clickup.com/clip/p/t7537039/4062fe87-6d2e-43ca-960d-73c25d53e345/4062fe87-6d2e-43ca-960d-73c25d53e345.webm?filename=Most%20Visited%20Pages%20Demo%20Recording)
 
 ## Document Control
 
@@ -1566,7 +1566,7 @@ sequenceDiagram
         Storage-->>Script: existing UUID
     end
     Script->>Storage: Read sessionId + lastActivity from sessionStorage
-    alt No session or session expired (&gt;30 min)
+    alt No session or session expired (over 30 min)
         Script->>Storage: Generate + store new sessionId; update lastActivity
     else Valid session
         Script->>Storage: Update lastActivity timestamp
