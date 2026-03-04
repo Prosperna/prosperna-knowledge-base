@@ -49,7 +49,7 @@ This document describes the API contract changes required to support the Discoun
 | Staging | `https://api-staging.prosperna.com/v1` | QA and UAT | Feature-flagged |
 | Production | `https://api.prosperna.com/v1` | Live merchant traffic | Rolled out per phase plan |
 
-> Note: Exact base URLs are illustrative. Confirm with Engineering.
+- Note: Exact base URLs are illustrative. Confirm with Engineering.
 
 ---
 
@@ -137,7 +137,7 @@ Tokens are scoped to a single merchant account. Cross-merchant access is not per
 | Endpoint | Limit | Window | Action on Breach |
 |---|---|---|---|
 | POST /discounts | 60 requests | per merchant per hour | HTTP 429 |
-| GET /orders/{orderId} | 300 requests | per merchant per hour | HTTP 429 |
+| GET /orders/`{orderId}` | 300 requests | per merchant per hour | HTTP 429 |
 | POST /checkout/discount-resolve | 120 requests | per session per hour | HTTP 429 |
 
 ---

@@ -104,13 +104,13 @@ A Prosperna CS team member investigating an order with a discount discrepancy. T
    Replace the "Only apply discount once per order" checkbox with a labeled radio button group with supporting example text for each option.
 
 3. **Merchant Dashboard — Order Details — Discount Line Conditional Display**
-   When the cap is triggered (actual deduction < configured value), update the discount label to `/ ₱X.XX of ₱Y` and add a `?` tooltip icon with text "Discount capped at item price."
+   When the cap is triggered (actual deduction `<` configured value), update the discount label to `/ ₱X.XX of ₱Y` and add a `?` tooltip icon with text "Discount capped at item price."
 
 4. **Online Store Website — Checkout — Discount Tag Tooltip**
    Add hover (desktop) / tap (mobile) tooltip on discount tags for Flat Amount (Once Per Order) discounts: *"This discount applies to one item per order."*
 
 5. **Merchant Dashboard — Create Discount Modal — Cap Scenario Warning**
-   Display a non-blocking inline warning when Discount Type = Flat Amount AND Minimum Purchase Amount < Discount Value. Warning updates dynamically and auto-dismisses when the condition is resolved.
+   Display a non-blocking inline warning when Discount Type = Flat Amount AND Minimum Purchase Amount `<` Discount Value. Warning updates dynamically and auto-dismisses when the condition is resolved.
 
 ### Out of Scope
 
