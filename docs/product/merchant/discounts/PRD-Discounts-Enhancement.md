@@ -25,7 +25,7 @@ This PRD defines the product requirements for five targeted improvements to the 
 
 #### Merchant — Creating a Flat Amount (Once Per Order) Discount
 
-1. Merchant navigates to Merchant Dashboard > Marketing > Discounts.
+1. Merchant navigates to Merchant Dashboard `>` Marketing `>` Discounts.
 2. Merchant clicks "Create Discount."
 3. Merchant selects Discount Type = `Flat Amount`.
 4. The form shows a **Discount Application** radio group:
@@ -47,7 +47,7 @@ This PRD defines the product requirements for five targeted improvements to the 
 
 #### Merchant — Reviewing an Order with a Capped Discount
 
-1. Merchant navigates to Dashboard > Orders > [Order Detail].
+1. Merchant navigates to Dashboard `>` Orders `>` [Order Detail].
 2. The Discount line shows:
    - If no cap triggered: `(Discount Name / ₱100)  ₱100.00` — unchanged.
    - If cap triggered: `Discount: [?]  (Discount Name / ₱82.00 of ₱100)  ₱82.00`
@@ -61,7 +61,7 @@ This PRD defines the product requirements for five targeted improvements to the 
 | Coupon code entered does not match any active discount | "Invalid promo code" or no application; discount not applied |
 | Coupon code entered is valid but store location does not match | Discount not applied |
 | Coupon code entered is valid but minimum purchase amount not met | Discount not applied |
-| Flat Amount discount value > all eligible item prices (full cap on all items) | Each item discounted to ₱0.00; total discount = sum of all item prices, not configured value |
+| Flat Amount discount value `>` all eligible item prices (full cap on all items) | Each item discounted to ₱0.00; total discount = sum of all item prices, not configured value |
 | Merchant sets minimum purchase amount ≥ discount value (no cap risk) | Warning does not appear |
 | Merchant changes minimum amount to ≥ discount value after warning appeared | Warning auto-dismisses |
 | End date is in the past | Discount is inactive; not applied at checkout |
@@ -93,7 +93,7 @@ This PRD defines the product requirements for five targeted improvements to the 
 | ID | Requirement |
 |---|---|
 | NFR-1 | The item selection algorithm change (FR-1) MUST NOT increase discount calculation latency by more than 50ms under normal cart sizes (≤ 50 line items). |
-| NFR-2 | The cap scenario warning (FR-5, FR-6) MUST render in real time with no perceptible delay (<100ms) as the merchant types values into the form fields. |
+| NFR-2 | The cap scenario warning (FR-5, FR-6) MUST render in real time with no perceptible delay (`<` 100ms) as the merchant types values into the form fields. |
 | NFR-3 | All UI changes MUST be accessible (WCAG 2.1 AA): radio buttons must be keyboard navigable; tooltips must be accessible via keyboard focus as well as hover/tap. |
 | NFR-4 | The checkout tooltip (FR-10) MUST be responsive and function on both desktop and mobile viewports. |
 | NFR-5 | Cap detection in Order Details (FR-8, FR-9) MUST be performant — the comparison between configured and actual discount values MUST be done server-side and returned in the Order Details API response; no additional client-side network call is required. |
@@ -468,7 +468,7 @@ Feature: Existing Discount Behaviors — Regression Guard
 | FR-2 | Cap at item price; floor at zero | "Flat amount exceeds item price — cap applied", "Flat amount does not exceed item price — no cap", "All eligible items priced below discount value" |
 | FR-3 | Radio button group replaces checkbox when Discount Type = Flat Amount | "Radio group appears when Discount Type is Flat Amount", "Radio group does not appear for non-Flat Amount types", "Radio group does not appear for Free Shipping" |
 | FR-4 | Two radio options with labels and examples | Covered by "Radio group appears when Discount Type is Flat Amount" |
-| FR-5 | Inline warning when min purchase < discount value | "Warning appears when minimum purchase amount is less than discount value", "Warning does not appear when minimum purchase amount equals discount value", "Warning does not appear when Minimum Requirements = None", "Warning does not appear for Discount (%) type" |
+| FR-5 | Inline warning when min purchase `<` discount value | "Warning appears when minimum purchase amount is less than discount value", "Warning does not appear when minimum purchase amount equals discount value", "Warning does not appear when Minimum Requirements = None", "Warning does not appear for Discount (%) type" |
 | FR-6 | Warning is dynamic and auto-dismisses | "Warning auto-dismisses when merchant corrects the minimum amount", "Warning updates dynamically when discount value changes", "Warning is non-blocking — merchant can still save" |
 | FR-7 | No-cap order details display unchanged | "No cap — discount line displays as normal" |
 | FR-8 | Cap-triggered order details shows partial amount format | "Cap triggered — discount line shows partial amount with tooltip icon" |
