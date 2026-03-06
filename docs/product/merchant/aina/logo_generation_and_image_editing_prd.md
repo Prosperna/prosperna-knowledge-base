@@ -1,5 +1,5 @@
 ---
-id: logo_generation_and_image_editing
+id: logo-generation-and-image-editing
 title: Logo Generation and Image Editing PRD
 sidebar_label: Logo Generation and Image Editing
 sidebar_position: 4
