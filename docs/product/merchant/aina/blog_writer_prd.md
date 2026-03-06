@@ -1,5 +1,5 @@
 ---
-id: blog_writer
+id: blog-writer
 title: Blog Writer PRD
 sidebar_label: Blog Writer
 sidebar_position: 3
