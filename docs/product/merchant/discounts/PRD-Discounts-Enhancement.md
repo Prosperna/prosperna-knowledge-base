@@ -28,9 +28,9 @@ This PRD defines the product requirements for five targeted improvements to the 
 1. Merchant navigates to Merchant Dashboard `>` Marketing `>` Discounts.
 2. Merchant clicks "Create Discount."
 3. Merchant selects Discount Type = `Flat Amount`.
-4. The form shows a **Discount Application** radio group:
-   - ◉ Customer saves on 1 item (highest-priced) — with example text
-   - ○ Customer saves on every eligible item — with example text
+4. The form shows a **HOW DO YOU WANT TO APPLY THE DISCOUNT?** radio group:
+   - ◉ Customer saves money on the highest-priced item — with example text
+   - ○ Customer saves money on every eligible item — with example text
 5. Merchant selects mode, fills remaining fields (name, value, products, locations, minimum requirements, dates, combine toggles).
 6. **If Discount Type = Flat Amount AND Minimum Purchase Amount < Discount Value:** An inline warning appears beneath the Minimum Requirements amount field (non-blocking).
 7. Merchant saves the discount. No interruption.
@@ -75,8 +75,8 @@ This PRD defines the product requirements for five targeted improvements to the 
 |---|---|
 | FR-1 | When a Flat Amount (Once Per Order) discount is applied to a cart with multiple eligible items, the system MUST apply the discount to the single highest-priced eligible item (sorted by unit price descending). |
 | FR-2 | If the highest-priced eligible item's price is less than the configured discount value, the deduction MUST be capped at the item's price (item price → ₱0.00; no negative prices). |
-| FR-3 | The Create Discount modal MUST replace the "Only apply discount once per order" checkbox with a radio button group labeled "Discount Application" when Discount Type = Flat Amount. |
-| FR-4 | The radio button group MUST display two options: "Customer saves on 1 item (highest-priced)" with a supporting example, and "Customer saves on every eligible item" with a supporting example. |
+| FR-3 | The Create Discount modal MUST replace the "Only apply discount once per order" checkbox with a radio button group labeled "HOW DO YOU WANT TO APPLY THE DISCOUNT?" when Discount Type = Flat Amount. |
+| FR-4 | The radio button group MUST display two options: "Customer saves money on the highest-priced item" with a supporting example, and "Customer saves money on every eligible item" with a supporting example. |
 | FR-5 | The Create Discount modal MUST display an inline, non-blocking warning when: Discount Type = Flat Amount (either mode) AND Minimum Requirements = Minimum Purchase Amount AND the entered Amount is less than the entered Discount Value. |
 | FR-6 | The cap scenario warning MUST update dynamically as the merchant edits the discount value or minimum purchase amount fields, and MUST auto-dismiss when the minimum amount ≥ discount value. |
 | FR-7 | In the Merchant Dashboard Order Details view, when the actual applied discount amount equals the configured discount value (no cap), the discount line MUST display as currently: `(Discount Name / ₱X)  ₱X.XX`. |
@@ -252,26 +252,26 @@ Feature: Flat Amount Discount Cap
 ### FR-3, FR-4 — Create Modal Flat Amount Radio Group
 
 ```gherkin
-Feature: Create Discount Modal — Discount Application Radio Group
+Feature: Create Discount Modal — "HOW DO YOU WANT TO APPLY THE DISCOUNT?" Radio Group
 
   Scenario: Radio group appears when Discount Type is Flat Amount
     Given a merchant is on the Create Discount modal
     When the merchant selects Discount Type = Flat Amount
-    Then a "Discount Application" radio group appears
+    Then a "HOW DO YOU WANT TO APPLY THE DISCOUNT?" radio group appears
     And it shows two options:
       | Option | Label                                   | Example Text |
-      | 1      | Customer saves on 1 item (highest-priced) | e.g. Cart has 3 items at ₱380, ₱200, ₱100. The discount is deducted from the ₱380 item only. |
-      | 2      | Customer saves on every eligible item     | e.g. Cart has 3 items. The discount is deducted from each one individually. |
+      | 1      | Customer saves money on the highest-priced item | e.g. Cart has 3 items that cost 150, 75, 25. The discount is only applied to the 150 item. |
+      | 2      | Customer saves money on every eligible item     | e.g. Cart has 3 items. The discount is applied to each one individually. |
 
   Scenario: Radio group does not appear for non-Flat Amount types
     Given a merchant is on the Create Discount modal
     When the merchant selects Discount Type = Discount (%)
-    Then no "Discount Application" radio group is shown
+    Then no "HOW DO YOU WANT TO APPLY THE DISCOUNT?" radio group is shown
 
   Scenario: Radio group does not appear for Free Shipping
     Given a merchant is on the Create Discount modal
     When the merchant selects Discount Type = Free Shipping
-    Then no "Discount Application" radio group is shown
+    Then no "HOW DO YOU WANT TO APPLY THE DISCOUNT?" radio group is shown
 
   Scenario: View modal label unchanged when option 1 is selected
     Given a merchant creates a Flat Amount discount with radio option 1 selected
