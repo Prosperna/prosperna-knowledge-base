@@ -9,7 +9,7 @@ sidebar_position: 4
 
 ### 1.1 Document Purpose
 
-This PRD defines the detailed functional requirements, acceptance criteria (using BDD/Gherkin), and technical specifications for the Logo Generation and Image Editing features in Prosperna's Merchant Dashboard via MaxAI chat and the shared Media Library.
+This PRD defines the detailed functional requirements, acceptance criteria (using BDD/Gherkin), and technical specifications for the Logo Generation and Image Editing features in Prosperna's Merchant Dashboard via MaxAI chat.
 
 This feature enables merchants to use AI to generate base logos, logo variations (favicons, wordmarks), and perform image editing tasks (background removal, quality enhancement, lighting adjustment, and background replacement) directly from the dashboard, leveraging a centralized AI infrastructure.
 
@@ -38,7 +38,6 @@ Empower merchants to create professional-grade branding assets and high-quality 
 
 - [MaxAI Architecture Overview](docs/max-ai/architecture)
 - [Prosperna AI Credits System Guide](docs/max-ai/credits)
-- [Media Library Components Reference](docs/components/media-library)
 
 ---
 
@@ -52,7 +51,7 @@ Merchants starting on the platform often lack professional logos or high-quality
 Currently, if a merchant wants a logo or an edited product image, they must:
 1. Leave Prosperna to use tools like Canva, Photoshop, or hire a designer.
 2. Download the resulting assets locally.
-3. Return to Prosperna, navigate to the Media Library or Business Profile, and manually upload the assets.
+3. Return to Prosperna and manually upload the assets to the appropriate section (e.g., Business Profile).
 4. If adjustments are needed, they must repeat the entire external workflow.
 
 **Impact of Current Limitations:**
@@ -69,7 +68,7 @@ Currently, if a merchant wants a logo or an edited product image, they must:
    - No built-in assistance for brand creation.
 
 2. **Image Management:**
-   - The Media Library serves merely as a storage repository for manual file uploads.
+   - The Media Library serves as a storage repository for manual file uploads and AI-generated/edited assets.
    - MaxAI chat can attach images, but cannot generate or manipulate them natively.
 
 **Current Limitations:**
@@ -78,16 +77,16 @@ Currently, if a merchant wants a logo or an edited product image, they must:
 
 ### 2.3 Desired Future State
 
-**Enhanced Media Library and MaxAI with AI Capabilities:**
+**MaxAI AI Capabilities and Media Library Storage:**
 
 1. **Conversational Logo Generation:**
    - Merchants can chat with MaxAI to define their brand, resulting in prompt-engineered, AI-generated base logos (transparent and with background) and variations (favicons, wordmarks).
 
-2. **Centralized AI Image Editing:**
-   - Within the Media Library (accessible standalone or via MaxAI), merchants can remove backgrounds, enhance quality, adjust lighting, and replace backgrounds on any image.
+2. **AI Image Editing via MaxAI Chat:**
+   - Merchants can use natural language in MaxAI chat to remove backgrounds, enhance quality, adjust lighting, and replace backgrounds on any attached or previously generated image.
 
-3. **Seamless Asset Integration:**
-   - Generated/edited images are immediately available in the Media Library, can be attached to chat for further AI iterations, and applied directly to the store profile with a single click.
+3. **Seamless Asset Flow:**
+   - Generated/edited images are automatically saved to the Media Library, can be attached to chat for further AI iterations, and applied directly to the store profile with a single click.
 
 **Benefits After Implementation:**
 - **Frictionless Branding:** Create a core brand identity directly alongside store setup conversations.
@@ -208,50 +207,7 @@ And the agent responds with a confirmation message in the chat
 
 ---
 
-### Feature F-03: Centralized AI Image Editing in Media Library
-
-#### 3.3.1 Feature Context
-
-The Media Library offers a suite of AI tools (`useAIImageEditing`) to modify existing images. These include Background Removal, Quality Enhancement, Lighting Adjustment, and Background Replacement.
-
-#### 3.3.2 Business Rules
-
-**BR-01: File Handling**
-- AI tools must validate the target image as a valid data URL or HTTP(S) URL.
-- Processed images from external AI endpoints must be converted to `File` objects and uploaded via `MediaAPI.useUploadImageMediaItem` as new media entities.
-
-**BR-02: Specific Operation Hooks**
-- Background Removal routes to `useRemoveBackground` -> Fal.ai `BRIA_2` -> Upload.
-- Enhancement routes to `useEnhanceImage` -> Fal.ai `TOPAZ_ENHANCEMENT` -> Upload.
-- Background Replacement (text/image) routes to `useBackgroundReplacement` -> Fal.ai `NANO_BANANA_EDIT` -> Upload.
-- Filtering operations run locally via Canvas manipulations before saving.
-
-#### 3.3.3 Scenarios
-
-##### Scenario 1: Remove Image Background via Media Library UI
-
-```gherkin
-Given the merchant opens a product image in the Media Library AI editing view
-When the user selects "Remove Background"
-Then the system calls the frontend background removal service
-And processes the image via the AI endpoint
-And converts the result to a new file and uploads it to the Media Library
-And displays a success notification notifying the user the new asset is ready
-```
-
-##### Scenario 2: Save Edited Canvas Filters
-
-```gherkin
-Given the merchant has an image open in the Media Library AI editing view
-When the user applies standard visual filters using canvas sliders
-And clicks the specific "Save Edited Image" button
-Then the localized edits are converted to a file
-And uploaded to the Media Library as a distinct new item
-```
-
----
-
-### Feature F-04: Reusing AI Assets in MaxAI Chat
+### Feature F-03: Reusing AI Assets in MaxAI Chat
 
 #### 3.4.1 Feature Context
 
@@ -283,7 +239,7 @@ And the assistant message block displays a thumbnail of the attached image
 
 ---
 
-### Feature F-05: Image Editing Conversational Tools (Agent Chat)
+### Feature F-04: Image Editing Conversational Tools (Agent Chat)
 
 #### 3.5.1 Feature Context
 
@@ -310,6 +266,42 @@ And uploads the new transparent image to the Media Library
 And outputs a chat turn containing the new `<image>` tag showcasing the result
 ```
 
+##### Scenario 2: Natural Language Image Quality Enhancement
+
+```gherkin
+Given the user has attached an image URL to their MaxAI prompt
+And has at least 52 AI credits
+When the user asks "Can you enhance the quality of this image?"
+Then the agent executes the `image_quality_enhancer` tool reading the attached URL
+And the agent processes the stream, deducting credits upon `feature-response` completion
+And uploads the enhanced image to the Media Library
+And outputs a chat turn containing the new `<image>` tag showcasing the result
+```
+
+##### Scenario 3: Natural Language Lighting Adjustment
+
+```gherkin
+Given the user has attached an image URL to their MaxAI prompt
+And has at least 14 AI credits
+When the user asks "Can you adjust the lighting of this image?"
+Then the agent executes the `lighting_adjustment` tool reading the attached URL
+And the agent processes the stream, deducting credits upon `feature-response` completion
+And uploads the adjusted image to the Media Library
+And outputs a chat turn containing the new `<image>` tag showcasing the result
+```
+
+##### Scenario 4: Natural Language Background Replacement
+
+```gherkin
+Given the user has attached an image URL to their MaxAI prompt
+And has at least 14 AI credits
+When the user asks "Can you replace the background of this image with a white background?"
+Then the agent executes the `background_replacer` tool reading the attached URL and the background description
+And the agent processes the stream, deducting credits upon `feature-response` completion
+And uploads the new image with replaced background to the Media Library
+And outputs a chat turn containing the new `<image>` tag showcasing the result
+```
+
 ---
 
 ## 4. Non-Functional Requirements
@@ -319,7 +311,7 @@ And outputs a chat turn containing the new `<image>` tag showcasing the result
 | Requirement | Metric | Measurement Method |
 | ----------- | ------ | ------------------ |
 | Logo Generation API Speed | < 25 seconds for initial prompt + Fal stream | APM tracing on Fal/OpenAI tool wrapper |
-| Media Library Initialization | < 2 seconds opening from chat | Client-side performance monitoring |
+| MaxAI Chat Response Time | < 2 seconds for image editing operations | Client-side performance monitoring |
 
 ### 4.2 Usability
 
@@ -365,8 +357,8 @@ And outputs a chat turn containing the new `<image>` tag showcasing the result
 │  │ ├ maxAI.scss (Grid)   │   │ ├ useAIImageEditing       │  │
 │  └───────────────────────┘   └───────────────────────────┘  │
 └─────────────────────────────────────────────────────────────┘
-              │                             │
-              ▼                             ▼
+               │                             │
+               ▼                             ▼
 ┌─────────────────────────────────────────────────────────────┐
 │                 API Gateway / Backend Services              │
 │  ┌────────────────────────┐  ┌───────────────────────────┐  │
