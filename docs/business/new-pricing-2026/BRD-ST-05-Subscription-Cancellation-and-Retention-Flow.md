@@ -80,7 +80,7 @@ Additionally, there is currently no formal downgrade flow. Merchants who want to
 
 | Value Driver | Description |
 |---|---|
-| **Churn reduction** | The retention flow (reason + counter-offer) is a proven SaaS pattern used by Shopify, Netflix, and Spotify. A >20% counter-offer acceptance rate is the initial target. |
+| **Churn reduction** | The retention flow (reason + counter-offer) is a proven SaaS pattern used by Shopify, Netflix, and Spotify. A `>20%` counter-offer acceptance rate is the initial target. |
 | **Higher lifetime value** | Merchants who downgrade (rather than cancel) continue generating subscription revenue at a lower tier. |
 | **Product intelligence** | Cancellation reason data directly informs the product roadmap, pricing decisions, and support priorities. |
 | **Compliance with new pricing structure** | Without this subtask, the platform has no legal or functional path to handle cancellations once the Free Plan is removed. This is a mandatory blocker for the pricing restructuring initiative. |
@@ -148,7 +148,7 @@ Additionally, there is currently no formal downgrade flow. Merchants who want to
 | Risk | Likelihood | Impact | Mitigation |
 |---|---|---|---|
 | **Xendit does not support `cancel_at_period_end`** | Medium | High | Design the Xendit adapter to schedule deactivation as a job, or deactivate immediately and record access end date independently. Coordinate with payment team early. |
-| **cancellation-processor fails silently for some merchants** | Low | High | Log all failures. Alert ops if failure count exceeds threshold (>5 per run). Job must be idempotent — safe to re-run. |
+| **cancellation-processor fails silently for some merchants** | Low | High | Log all failures. Alert ops if failure count exceeds threshold (`>5` per run). Job must be idempotent — safe to re-run. |
 | **Merchant cancels on the exact day billing period ends** | Medium | Medium | The `effective_date` is set to the billing period end. If the job has already run that morning, the next renewal may have charged. In this case, the cancellation applies to the new period — merchant gets one full additional period of access. This is acceptable and must be communicated clearly. |
 | **Simultaneous cancel + upgrade attempt** | Low | Medium | Upgrade should automatically void a pending cancellation. The upgrade flow must check for and clear a pending cancellation record on the same transaction. |
 | **Gateway and internal state diverge** | Low | High | Cancellation and reactivation calls to the gateway must be atomic with internal DB updates. On failure, internal state rolls back. Alert and log on any divergence. |
@@ -169,9 +169,9 @@ Additionally, there is currently no formal downgrade flow. Merchants who want to
 
 | Metric | Target | How to Measure |
 |---|---|---|
-| **Voluntary Cancellation Rate** | <5% monthly | Cancellations / total active paid merchants per month |
-| **Counter-Offer Acceptance Rate** | >20% | Merchants who accepted a counter-offer / merchants shown a counter-offer |
-| **Resubscription Rate (during pending period)** | >10% | Merchants who voided cancellation / total confirmed cancellations |
-| **Reactivation Rate (30-day post-suspension)** | >15% | Suspended merchants who reactivated within 30 days / total suspended from cancellation |
+| **Voluntary Cancellation Rate** | `<5%` monthly | Cancellations / total active paid merchants per month |
+| **Counter-Offer Acceptance Rate** | `>20%` | Merchants who accepted a counter-offer / merchants shown a counter-offer |
+| **Resubscription Rate (during pending period)** | `>10%` | Merchants who voided cancellation / total confirmed cancellations |
+| **Reactivation Rate (30-day post-suspension)** | `>15%` | Suspended merchants who reactivated within 30 days / total suspended from cancellation |
 | **Top Cancellation Reason** | Tracked, no target | Most common reason — informs product and pricing decisions |
 | **Feature Request Volume from Cancellation** | Tracked, no target | Feature requests submitted via the "Missing features" counter-offer |
