@@ -141,7 +141,7 @@ The campaign is self-managing: it cancels remaining emails immediately on plan c
 | ID | Requirement |
 |---|---|
 | FR-24 | When an admin extends a merchant's trial (updates `trial_end_date`), the system shall cancel all remaining scheduled `send-trial-email:*` Agenda jobs for that merchant. |
-| FR-25 | After cancellation, the system shall reschedule the remaining unsent emails relative to the new `trial_end_date` (e.g., Strong Nudge = new end − 2 days, Final Warning = new end − 1 day). |
+| FR-25 | After cancellation, the system shall reschedule the remaining unsent emails relative to the new `trial_end_date` (e.g., Strong Nudge `=` new end − 2 days, Final Warning `=` new end − 1 day). |
 | FR-26 | Already-sent emails (present in `drip_emails_sent`) shall not be re-sent during rescheduling. |
 
 ### Personalization

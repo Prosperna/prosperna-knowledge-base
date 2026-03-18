@@ -84,7 +84,7 @@ Today, no usage limits exist on any plan. This feature is entirely new infrastru
 |---|---|
 | **Revenue protection** | Prevents merchants from consuming Scale-tier resources at Launch-tier pricing. Creates natural upgrade triggers at 200, 750, and 2,500 orders/month. |
 | **Upgrade conversion** | Progressive enforcement (80% → 95% → 100% → 125%) creates 4 touchpoints to drive plan upgrades, each with clear upgrade CTAs. Target: 75–85% of merchants upgrade before hitting hard limit. |
-| **Merchant retention** | Graduated model prevents shocking merchants with sudden shutdowns. Celebratory framing at 80% reduces churn risk. Target: churn due to limits < 5%. |
+| **Merchant retention** | Graduated model prevents shocking merchants with sudden shutdowns. Celebratory framing at 80% reduces churn risk. Target: churn due to limits `<` 5%. |
 | **Infrastructure cost control** | Bandwidth and storage caps prevent unbounded resource consumption by high-growth merchants on low-tier plans. |
 | **Overage revenue** | Merchants who exceed limits and choose overages contribute per-unit revenue during their over-limit period. Not a primary revenue target — upgrades are preferred. |
 | **Pricing validation** | Shadow mode (Phase A) collects 4 weeks of real usage data before enforcement goes live, allowing threshold validation and adjustment before merchants are affected. |
@@ -169,7 +169,7 @@ Today, no usage limits exist on any plan. This feature is entirely new infrastru
 | Fraud/bot attacks consume merchant order quota | Low | Medium | Fraud detection at 10× daily average triggers temporary throttle + ops alert |
 | Overage invoice payment failure — unclear handling | Medium | Medium | Open question raised with stakeholders; assumption documented (A-4); resolution required before billing goes live |
 | Platform downtime affects merchant grace period unfairly | Low | Medium | Grace period auto-extends by downtime duration; incident logged and merchant notified |
-| Bandwidth tracking adds latency to order processing | Low | High | Tracking is async (does not block serving); NFR target: < 50 ms added latency |
+| Bandwidth tracking adds latency to order processing | Low | High | Tracking is async (does not block serving); NFR target: `<` 50 ms added latency |
 | Customer-facing error messages reveal internal plan limits | Medium | Medium | Error messages to customers during hard block are generic; merchant plan details are internal only |
 
 ---
@@ -190,8 +190,8 @@ Today, no usage limits exist on any plan. This feature is entirely new infrastru
 | Metric | Target |
 |---|---|
 | Merchants who upgrade before hitting hard limit | 75–85% |
-| Churn due to limits | < 5% |
-| Negative reviews mentioning limits | < 2% |
+| Churn due to limits | `<` 5% |
+| Negative reviews mentioning limits | `<` 2% |
 
 ### System Reliability
 | Metric | Target |
@@ -200,14 +200,14 @@ Today, no usage limits exist on any plan. This feature is entirely new infrastru
 | Merchants receive urgent at 95% | 100% |
 | Merchants receive 48-hour grace at 100% | 100% |
 | Orders lost during enforcement | 0% (queue only, no drops) |
-| Time from upgrade click to limit increase | < 30 seconds |
+| Time from upgrade click to limit increase | `<` 30 seconds |
 
 ### Performance
 | Metric | Target |
 |---|---|
-| Usage tracking latency added to order processing | < 50 ms |
-| Usage dashboard page load | < 2 seconds |
-| Threshold check execution time | < 100 ms |
+| Usage tracking latency added to order processing | `<` 50 ms |
+| Usage dashboard page load | `<` 2 seconds |
+| Threshold check execution time | `<` 100 ms |
 | Queued orders processed within promised window | 100% within 15 min ± 1 min |
 
 ### Business Health

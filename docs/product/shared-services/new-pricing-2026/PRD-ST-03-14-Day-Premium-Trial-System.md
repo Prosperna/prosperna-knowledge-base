@@ -139,11 +139,11 @@ A 6-step onboarding checklist card must appear on the main Merchant Dashboard pa
 | Step # | Step ID | Label | Completion Criteria | Navigation Target |
 |---|---|---|---|---|
 | 1 | `store_setup` | Set up your store | Store name, logo, and domain configured | Store Settings |
-| 2 | `first_product` | Add your first product | At least 1 product created | Products > Add Product |
+| 2 | `first_product` | Add your first product | At least 1 product created | Products `>` Add Product |
 | 3 | `page_builder` | Customize your storefront | Page Builder opened and saved at least once | Page Builder |
 | 4 | `payment_gateway` | Configure payment gateway | Customer-facing payment gateway connected | Payment Settings |
 | 5 | `kyb` | Complete KYB verification | KYB form submitted | KYB Section |
-| 6 | `store_published` | Publish your store | Store set to published/live state | Store Settings > Publish |
+| 6 | `store_published` | Publish your store | Store set to published/live state | Store Settings `>` Publish |
 
 **Checklist rules:**
 - Completed steps show a green checkmark and strikethrough text.
@@ -168,8 +168,8 @@ Four scheduled in-app conversion prompts must appear during the trial at specifi
 | P-4 | Day 13 | Automatic on dashboard load | Prominent overlay card | "Your trial ends tomorrow. Your store will go offline unless you subscribe. [Choose My Plan Now →]" | Yes — session only |
 
 **Prompt rules:**
-- Day count is calculated from `trial_start_date`. Day 1 = signup day.
-- "Day N" means the merchant is on the Nth day of their trial (e.g., Day 5 = `floor((now - trial_start_date) / 86400000) + 1 === 5`).
+- Day count is calculated from `trial_start_date`. Day 1 `=` signup day.
+- "Day N" means the merchant is on the Nth day of their trial (e.g., Day 5 `=` `floor((now - trial_start_date) / 86400000) + 1 === 5`).
 - P-1 only appears if `onboarding_steps_completed.length >= 3`. If not met, it does not appear.
 - P-2, P-3, P-4 appear automatically regardless of onboarding progress.
 - P-3 and P-4 "Maybe Later" dismissal hides the prompt for the current browser session only. It reappears on next login or page refresh.
@@ -233,7 +233,7 @@ After gateway selection, the merchant must be shown billing cycle options.
 If the merchant's current published product count exceeds the selected plan's SKU limit, a warning must be displayed before proceeding to payment.
 
 **Warning message:**
-> "Your current product count ([N]) exceeds the [Plan Name] plan limit ([limit]). [N - limit] products will be hidden from your storefront. You can upgrade later to make them visible again."
+`>` "Your current product count ([N]) exceeds the [Plan Name] plan limit ([limit]). [N - limit] products will be hidden from your storefront. You can upgrade later to make them visible again."
 
 - This warning appears as a modal or prominent alert before the payment step.
 - The merchant must acknowledge the warning before proceeding.
@@ -385,8 +385,8 @@ The system must prevent a merchant from starting a new trial using an email addr
 ### NFR-1 — Trial Status API Performance
 
 The `GET /api/v1/trial/status` endpoint must respond within:
-- p95 < 300ms
-- p99 < 500ms
+- p95 `<` 300ms
+- p99 `<` 500ms
 
 under normal load (up to 500 concurrent authenticated requests).
 
@@ -478,7 +478,7 @@ All merchant data (products, orders, customers, settings, media) must be fully p
 2. Plan comparison page loads.
 3. Merchant sees Launch / Grow (RECOMMENDED) / Scale cards.
 4. Merchant selects a plan.
-5. If merchant's current SKU count > selected plan's SKU limit → excess SKU warning modal shown.
+5. If merchant's current SKU count `>` selected plan's SKU limit → excess SKU warning modal shown.
 6. Merchant acknowledges warning (or is not shown it if no excess).
 7. Payment gateway selection step shown. Gateway auto-selected per `marketCountry`; merchant can override.
 8. Billing cycle selection shown (Monthly / Quarterly / Annual).
@@ -860,7 +860,7 @@ The following analytics events must be emitted to the telemetry pipeline:
 | Phase | Scope | Criteria |
 |---|---|---|
 | **Phase 1 — Internal testing** | Staging environment, internal Prosperna accounts only | All FRs pass QA. Background jobs verified idempotent. Legacy deprecations verified not to affect existing Free Plan records. |
-| **Phase 2 — Canary (5% new signups)** | 5% of new signups routed to TRIAL default. Existing accounts unaffected. | Monitor trial-expiry-processor error rate (<0.1%). Monitor conversion rate baseline. ST-08 email triggers firing correctly. |
+| **Phase 2 — Canary (5% new signups)** | 5% of new signups routed to TRIAL default. Existing accounts unaffected. | Monitor trial-expiry-processor error rate (`<0.1%`). Monitor conversion rate baseline. ST-08 email triggers firing correctly. |
 | **Phase 3 — Full rollout (100% new signups)** | All new signups receive TRIAL plan. Existing Free Plan merchants unchanged. | Canary metrics stable. No regressions in existing plan operations. ST-01 integration confirmed stable. |
 | **Phase 4 — ST-16 migration** | Existing Free Plan merchants migrated (separate initiative) | Out of scope for this PRD. |
 

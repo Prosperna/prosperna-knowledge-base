@@ -34,8 +34,8 @@ The Trial Email Drip Campaign solves this by providing a fully automated, person
 
 ## Goals
 
-1. Maximize trial-to-paid conversion within the 14-day trial window (target: >15%).
-2. Maximize 30-day post-trial conversion including win-back sequences (target: >25%).
+1. Maximize trial-to-paid conversion within the 14-day trial window (target: `>15%`).
+2. Maximize 30-day post-trial conversion including win-back sequences (target: `>25%`).
 3. Guide new merchants through onboarding steps in the first 3 days.
 4. Introduce plan pricing and conversion intent at the strategic midpoint (Day 7).
 5. Create progressively urgent, empathetic prompts to convert before trial expiry.
@@ -162,7 +162,7 @@ They are time-constrained, may not read every email, and need clear, friendly gu
 
 | Risk | Likelihood | Impact | Mitigation |
 |---|---|---|---|
-| Email domain reputation damage (high bounce/spam rate) | Medium | High | Monitor bounce and spam complaint rates against defined thresholds (<2% bounce, <0.1% spam). Use clean email sending practices. Implement bounce handling to suppress future sends to hard-bouncing addresses. |
+| Email domain reputation damage (high bounce/spam rate) | Medium | High | Monitor bounce and spam complaint rates against defined thresholds (`<2%` bounce, `<0.1%` spam). Use clean email sending practices. Implement bounce handling to suppress future sends to hard-bouncing addresses. |
 | Duplicate email sends (idempotency failure) | Medium | Medium | ST-08 owns a `drip_emails_sent` log on `merchant_trial_info`. Every send attempt checks this log before sending. |
 | Win-back emails sent to deleted accounts | Low | Medium | `win-back-email-sender` job checks merchant account existence and `account_deleted` flag before sending. |
 | Win-back emails sent to re-subscribed merchants | Low | Medium | `win-back-email-sender` checks `converted_to_paid === false` before sending. Reactivated merchants are excluded. |
@@ -190,16 +190,16 @@ They are time-constrained, may not read every email, and need clear, friendly gu
 
 | Metric | Target | Measurement Method |
 |---|---|---|
-| Email open rate (average across sequence) | > 40% | Email service provider open pixel tracking |
-| Email click-through rate (CTA clicks) | > 10% | Link click tracking on CTA buttons |
-| Trial-to-paid conversion within 14 days | > 15% | Merchants who select a plan during trial / total new sign-ups |
-| Trial-to-paid conversion within 30 days (including win-back) | > 25% | Merchants who convert within 30 days of trial end / total new sign-ups |
-| Average time from sign-up to conversion | < 10 days | Days between `trial_start_date` and `conversion_date` |
-| Win-back conversion rate at T+7 | > 5% | Suspended merchants who reactivate within 7–14 days post-suspension |
-| Win-back conversion rate at T+30 | > 3% | Suspended merchants who reactivate within 14–30 days post-suspension |
-| Unsubscribe rate | < 1% | Unsubscribes / total emails sent |
-| Bounce rate | < 2% | Hard + soft bounces / total emails sent |
-| Spam complaint rate | < 0.1% | Complaints / total emails sent |
+| Email open rate (average across sequence) | `>` 40% | Email service provider open pixel tracking |
+| Email click-through rate (CTA clicks) | `>` 10% | Link click tracking on CTA buttons |
+| Trial-to-paid conversion within 14 days | `>` 15% | Merchants who select a plan during trial / total new sign-ups |
+| Trial-to-paid conversion within 30 days (including win-back) | `>` 25% | Merchants who convert within 30 days of trial end / total new sign-ups |
+| Average time from sign-up to conversion | `<` 10 days | Days between `trial_start_date` and `conversion_date` |
+| Win-back conversion rate at T+7 | `>` 5% | Suspended merchants who reactivate within 7–14 days post-suspension |
+| Win-back conversion rate at T+30 | `>` 3% | Suspended merchants who reactivate within 14–30 days post-suspension |
+| Unsubscribe rate | `<` 1% | Unsubscribes / total emails sent |
+| Bounce rate | `<` 2% | Hard + soft bounces / total emails sent |
+| Spam complaint rate | `<` 0.1% | Complaints / total emails sent |
 
 ### Attribution Notes
 
