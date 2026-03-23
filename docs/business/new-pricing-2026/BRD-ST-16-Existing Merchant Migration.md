@@ -171,10 +171,10 @@ Internal Prosperna staff responsible for monitoring migration progress, handling
 
 | Metric | Target | Measurement Window |
 |---|---|---|
-| Free Plan → Paid Conversion Rate | >30% of active Free merchants | Within 90 days of T-0 |
-| Migration Promo Redemption Rate | >40% of converting Free merchants | Within 90 days of T-0 |
-| Free Plan Churn (Lost, never reactivate) | <50% of inactive Free merchants | 90 days post-T-0 |
-| Paid Plan Migration Satisfaction | >90% positive or neutral | Survey after T-0 |
-| Bulk Migration Job Success Rate | >99% | T-0 execution |
-| Migration-Related Support Tickets | <500 tickets in first 2 weeks | T-0 through T+14 |
-| Email Delivery Rate | >95% for all migration emails | Each scheduled send |
+| Free Plan → Paid Conversion Rate | `>30%` of active Free merchants | Within 90 days of T-0 |
+| Migration Promo Redemption Rate | `>40%` of converting Free merchants | Within 90 days of T-0 |
+| Free Plan Churn (Lost, never reactivate) | `<50%` of inactive Free merchants | 90 days post-T-0 |
+| Paid Plan Migration Satisfaction | `>90%` positive or neutral | Survey after T-0 |
+| Bulk Migration Job Success Rate | `>99%` | T-0 execution |
+| Migration-Related Support Tickets | `<500` tickets in first 2 weeks | T-0 through T+14 |
+| Email Delivery Rate | `>95%` for all migration emails | Each scheduled send |
