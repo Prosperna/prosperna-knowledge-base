@@ -14,8 +14,8 @@ sidebar_position: 2
 ---
 
 ## Linked Documents
-- BRD: [BRD-CDD-TempClose.md](BRD-CDD-TempClose.md)
-- PRD: [PRD-CDD-TempClose.md](PRD-CDD-TempClose.md)
+- BRD: [BRD-CDD-TempClose.md](https://pkb.prosperna.ph/docs/business/cdd-temporarily-close-integration)
+- PRD: [PRD-CDD-TempClose.md](https://pkb.prosperna.ph/docs/product/merchant/settings/store-settings/cdd-temporarily-close-integration)
 
 ---
 
