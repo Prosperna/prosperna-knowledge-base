@@ -34,11 +34,6 @@ Empower merchants to create professional-grade branding assets and high-quality 
 **User Satisfaction:**
 - Positive feedback specifically mentioning ease of creating store branding via MaxAI.
 
-### 1.4 Related Documents
-
-- [MaxAI Architecture Overview](docs/max-ai/architecture)
-- [Prosperna AI Credits System Guide](docs/max-ai/credits)
-
 ---
 
 ## 2. Background & Context
