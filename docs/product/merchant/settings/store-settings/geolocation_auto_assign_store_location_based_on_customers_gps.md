@@ -2,7 +2,7 @@
 id: geolocation-auto-assign-store-location-based-on-customers-gps
 title: Geolocation Auto Assign Store Location based on Customer's GPS BRD
 sidebar_label: Geolocation BRD
-sidebar_position: 1
+sidebar_position: 2
 ---
 
 # Summary
