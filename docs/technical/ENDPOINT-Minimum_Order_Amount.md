@@ -333,7 +333,7 @@ curl -X PUT "https://api.prosperna.com/business-profile/order/update/settings" \
 
 | Status | Code | Condition | Consumer Action |
 |---|---|---|---|
-| 400 | `VALIDATION_ERROR` | `is_minimum_order_enabled` is `true` and `minimum_order_amount` is <= 0 | Show inline validation error; do not retry as-is |
+| 400 | `VALIDATION_ERROR` | `is_minimum_order_enabled` is `true` and `minimum_order_amount` is `<= 0` | Show inline validation error; do not retry as-is |
 | 400 | `VALIDATION_ERROR` | `minimum_order_amount` is not a valid number | Show inline validation error |
 | 401 | `UNAUTHORIZED` | Missing or invalid Bearer token | Re-authenticate and retry |
 | 403 | `FORBIDDEN` | Token does not belong to this merchant | Do not retry; investigate token |
