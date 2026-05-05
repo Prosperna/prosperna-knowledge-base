@@ -481,7 +481,7 @@ Price and stock labels must be formatted identically on the aina-service preview
 4. **Multi-currency enabled; currency code not in API response**
    - Multi-currency is enabled but product_price.currency_code is missing.
    - Tool defaults to 'PHP'.
-   - Price is formatted as PHP {amount}.
+   - Price is formatted as `PHP {amount}`.
 
 5. **Product with 0 sale_price (treated as "no sale")**
    - Product has sale_price: 0 and regular_price: 100.
