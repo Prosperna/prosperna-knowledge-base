@@ -15,7 +15,7 @@ sidebar_position: 1
 
 ## Summary
 
-This PRD defines the product requirements for five targeted improvements to the Prosperna Discounts feature, triggered by a support ticket exposing a broken item selection algorithm and missing UI transparency around discount cap behavior. Changes span the backend engine, the Merchant Dashboard (Create Discount modal and Order Details), and the Online Store Website (checkout page).
+This PRD defines the product requirements for five targeted improvements to the Prosperna Discounts feature, triggered by a support ticket exposing a broken discount application logic and missing UI transparency around discount cap behavior. Changes span the backend engine, the Merchant Dashboard (Create Discount modal and Order Details), and the Online Store Website (checkout page).
 
 ---
 
@@ -29,7 +29,7 @@ This PRD defines the product requirements for five targeted improvements to the 
 2. Merchant clicks "Create Discount."
 3. Merchant selects Discount Type = `Flat Amount`.
 4. The form shows a **HOW DO YOU WANT TO APPLY THE DISCOUNT?** radio group:
-   - ◉ Customer saves money on the highest-priced item — with example text
+   - ◉ Customer saves money on the order subtotal — with example text
    - ○ Customer saves money on every eligible item — with example text
 5. Merchant selects mode, fills remaining fields (name, value, products, locations, minimum requirements, dates, combine toggles).
 6. **If Discount Type = Flat Amount AND Minimum Purchase Amount < Discount Value:** An inline warning appears beneath the Minimum Requirements amount field (non-blocking).
@@ -42,8 +42,8 @@ This PRD defines the product requirements for five targeted improvements to the 
 3. For Automatic discounts: system evaluates eligibility and applies automatically.
 4. For Coupon Code discounts: customer enters the discount name and clicks Apply.
 5. Eligible items show a discount tag badge with the discount name.
-6. For Flat Amount (Once Per Order) discounts: hovering (desktop) or tapping (mobile) the discount tag shows tooltip: *"This discount applies to one item per order."*
-7. Only the highest-priced eligible item receives the discount deduction.
+6. For Flat Amount (Once Per Order) discounts: hovering (desktop) or tapping (mobile) the discount tag shows tooltip: *"This discount applies to your order subtotal."*
+7. The discount is deducted from the order subtotal.
 
 #### Merchant — Reviewing an Order with a Capped Discount
 
@@ -51,7 +51,7 @@ This PRD defines the product requirements for five targeted improvements to the 
 2. The Discount line shows:
    - If no cap triggered: `(Discount Name / ₱100)  ₱100.00` — unchanged.
    - If cap triggered: `Discount: [?]  (Discount Name / ₱82.00 of ₱100)  ₱82.00`
-3. Hovering the `?` icon shows tooltip: *"Discount capped at item price."*
+3. Hovering the `?` icon shows tooltip: *"Discount capped at order subtotal."*
 
 ### Alternate and Failure Paths
 
@@ -61,7 +61,7 @@ This PRD defines the product requirements for five targeted improvements to the 
 | Coupon code entered does not match any active discount | "Invalid promo code" or no application; discount not applied |
 | Coupon code entered is valid but store location does not match | Discount not applied |
 | Coupon code entered is valid but minimum purchase amount not met | Discount not applied |
-| Flat Amount discount value `>` all eligible item prices (full cap on all items) | Each item discounted to ₱0.00; total discount = sum of all item prices, not configured value |
+| Flat Amount (Once Per Order) discount value `>` order subtotal | Discount is capped at the order subtotal; order total becomes ₱0.00 |
 | Merchant sets minimum purchase amount ≥ discount value (no cap risk) | Warning does not appear |
 | Merchant changes minimum amount to ≥ discount value after warning appeared | Warning auto-dismisses |
 | End date is in the past | Discount is inactive; not applied at checkout |
@@ -73,16 +73,16 @@ This PRD defines the product requirements for five targeted improvements to the 
 
 | ID | Requirement |
 |---|---|
-| FR-1 | When a Flat Amount (Once Per Order) discount is applied to a cart with multiple eligible items, the system MUST apply the discount to the single highest-priced eligible item (sorted by unit price descending). |
-| FR-2 | If the highest-priced eligible item's price is less than the configured discount value, the deduction MUST be capped at the item's price (item price → ₱0.00; no negative prices). |
+| FR-1 | When a Flat Amount (Once Per Order) discount is applied to a cart, the system MUST apply the discount to the order subtotal. |
+| FR-2 | If the order subtotal is less than the configured discount value, the deduction MUST be capped at the order subtotal (subtotal → ₱0.00; no negative totals). |
 | FR-3 | The Create Discount modal MUST replace the "Only apply discount once per order" checkbox with a radio button group labeled "HOW DO YOU WANT TO APPLY THE DISCOUNT?" when Discount Type = Flat Amount. |
 | FR-4 | The radio button group MUST display two options: "Customer saves money on the highest-priced item" with a supporting example, and "Customer saves money on every eligible item" with a supporting example. |
 | FR-5 | The Create Discount modal MUST display an inline, non-blocking warning when: Discount Type = Flat Amount (either mode) AND Minimum Requirements = Minimum Purchase Amount AND the entered Amount is less than the entered Discount Value. |
 | FR-6 | The cap scenario warning MUST update dynamically as the merchant edits the discount value or minimum purchase amount fields, and MUST auto-dismiss when the minimum amount ≥ discount value. |
 | FR-7 | In the Merchant Dashboard Order Details view, when the actual applied discount amount equals the configured discount value (no cap), the discount line MUST display as currently: `(Discount Name / ₱X)  ₱X.XX`. |
 | FR-8 | In the Merchant Dashboard Order Details view, when the actual applied discount amount is less than the configured discount value (cap triggered), the discount line MUST display as: `Discount: [?]  (Discount Name / ₱actual of ₱configured)  ₱actual`. |
-| FR-9 | The `?` icon in the Order Details discount line MUST only appear when a cap is triggered. On hover, it MUST display the tooltip text: *"Discount capped at item price."* |
-| FR-10 | On the Online Store Website checkout page, discount tags for Flat Amount (Once Per Order) discounts MUST display a tooltip on hover (desktop) and on tap (mobile) with the text: *"This discount applies to one item per order."* |
+| FR-9 | The `?` icon in the Order Details discount line MUST only appear when a cap is triggered. On hover, it MUST display the tooltip text: *"Discount capped at order subtotal."* |
+| FR-10 | On the Online Store Website checkout page, discount tags for Flat Amount (Once Per Order) discounts MUST display a tooltip on hover (desktop) and on tap (mobile) with the text: *"This discount applies to your order subtotal."* |
 | FR-11 | The checkout discount tag tooltip (FR-10) MUST NOT appear for Flat Amount (Per Eligible Item), Discount (%), or Free Shipping discount types. |
 | FR-12 | All existing discount behaviors not listed in scope MUST remain unchanged (cap floor-at-zero, tax computed post-discount, additional fee not discounted, no. of transactions counter, combine toggles, scheduling rules). |
 
@@ -92,7 +92,7 @@ This PRD defines the product requirements for five targeted improvements to the 
 
 | ID | Requirement |
 |---|---|
-| NFR-1 | The item selection algorithm change (FR-1) MUST NOT increase discount calculation latency by more than 50ms under normal cart sizes (≤ 50 line items). |
+| NFR-1 | The discount application logic change (FR-1) MUST NOT increase discount calculation latency by more than 50ms under normal cart sizes (≤ 50 line items). |
 | NFR-2 | The cap scenario warning (FR-5, FR-6) MUST render in real time with no perceptible delay (`<` 100ms) as the merchant types values into the form fields. |
 | NFR-3 | All UI changes MUST be accessible (WCAG 2.1 AA): radio buttons must be keyboard navigable; tooltips must be accessible via keyboard focus as well as hover/tap. |
 | NFR-4 | The checkout tooltip (FR-10) MUST be responsive and function on both desktop and mobile viewports. |
@@ -103,7 +103,7 @@ This PRD defines the product requirements for five targeted improvements to the 
 
 ## UX Notes
 
-- **Radio button group (FR-3, FR-4):** Both options appear simultaneously. The currently-selected option is pre-filled to match the previous checkbox state for any existing merchant session flow. Default for new discounts: option 1 (Once Per Order / highest-priced).
+- **Radio button group (FR-3, FR-4):** Both options appear simultaneously. The currently-selected option is pre-filled to match the previous checkbox state for any existing merchant session flow. Default for new discounts: option 1 (Once Per Order / order subtotal).
 - **Cap warning (FR-5):** Styled as a yellow/amber advisory banner (`⚠️`). Not red (not an error). Positioned directly beneath the Minimum Requirements amount field.
 - **Order Details `?` icon (FR-9):** Inline, positioned immediately after the `Discount:` label text, before the discount name. Standard `?` tooltip icon or `ℹ` icon per design system. Only rendered when cap applies.
 - **Checkout tooltip (FR-10):** Tooltip style matches existing design system tooltips. On mobile, tap-to-show, tap-outside-to-dismiss. Tooltip text is concise (one sentence).
@@ -185,12 +185,12 @@ The item selection sort (FR-1) is a runtime computation at discount application 
 
 ---
 
-### FR-1 — Highest-Priced Item Selection (Once Per Order)
+### FR-1 — Order Subtotal Application (Once Per Order)
 
 ```gherkin
-Feature: Flat Amount Once Per Order — Item Selection Algorithm
+Feature: Flat Amount Once Per Order — Subtotal Application
 
-  Scenario: Discount applied to highest-priced eligible item
+  Scenario: Discount applied to order subtotal
     Given a merchant has a Flat Amount Once Per Order discount of ₱100
     And the discount applies to All Products with No minimum requirement
     And a customer's cart contains:
@@ -199,20 +199,20 @@ Feature: Flat Amount Once Per Order — Item Selection Algorithm
       | The Milk Shake            | ₱125.00 |
       | Jumbo Double Cheeseburger | ₱2.00   |
     When the discount is applied at checkout
-    Then the discount MUST be applied to The Milk Shake (highest price)
-    And The Milk Shake's price becomes ₱25.00 (₱125 - ₱100)
-    And the other items remain at their original prices
+    Then the discount MUST be applied to the order subtotal (₱228.00)
+    And the subtotal after discount is ₱128.00 (₱228 - ₱100)
+    And individual item prices remain unchanged
     And the total discount shown is ₱100.00
 
-  Scenario: Discount applied to single eligible item (specific product)
+  Scenario: Discount applied when only one product is eligible
     Given a merchant has a Flat Amount Once Per Order discount of ₱200
     And the discount applies to Specific Product: Jumbo Double Cheeseburger only
     And a customer's cart contains:
       | item                      | price  |
       | Jumbo Double Cheeseburger | ₱2.00  |
     When the discount is applied at checkout
-    Then the discount is applied to Jumbo Double Cheeseburger
-    And the item price is capped at ₱0.00 (not negative)
+    Then the discount is applied to the eligible item subtotal (₱2.00)
+    And the subtotal is capped at ₱0.00 (not negative)
     And the total discount shown is ₱2.00 (capped, not ₱200)
 ```
 
@@ -237,14 +237,13 @@ Feature: Flat Amount Discount Cap
     Then the Milk Shake price becomes ₱75.00
     And ₱50.00 is deducted (no cap applied)
 
-  Scenario: All eligible items priced below discount value
+  Scenario: Order subtotal below discount value
     Given a Flat Amount Once Per Order discount of ₱100
-    And a customer's cart contains only items priced below ₱100
-    And the highest-priced item is ₱45.00
+    And a customer's cart subtotal of eligible items is ₱45.00
     When the discount is applied at checkout
-    Then the discount is applied to the ₱45.00 item
-    And the item price becomes ₱0.00
-    And the total discount is ₱45.00 (capped)
+    Then the discount is applied to the order subtotal
+    And the subtotal becomes ₱0.00
+    And the total discount is ₱45.00 (capped at subtotal)
 ```
 
 ---
@@ -260,7 +259,7 @@ Feature: Create Discount Modal — "HOW DO YOU WANT TO APPLY THE DISCOUNT?" Radi
     Then a "HOW DO YOU WANT TO APPLY THE DISCOUNT?" radio group appears
     And it shows two options:
       | Option | Label                                   | Example Text |
-      | 1      | Customer saves money on the highest-priced item | e.g. Cart has 3 items that cost 150, 75, 25. The discount is only applied to the 150 item. |
+      | 1      | Customer saves money on the order subtotal | e.g. Cart has 3 items that cost 150, 75, 25. The ₱X discount is applied to the cart subtotal of ₱250. |
       | 2      | Customer saves money on every eligible item     | e.g. Cart has 3 items. The discount is applied to each one individually. |
 
   Scenario: Radio group does not appear for non-Flat Amount types
@@ -300,7 +299,7 @@ Feature: Create Discount Modal — Cap Scenario Warning
     Then an inline warning appears beneath the Minimum Purchase Amount field:
       """
       ⚠️ Your minimum purchase amount (₱80) is less than your discount value (₱100).
-         If an eligible item costs less than ₱100, the discount will be capped at that item's price.
+         If the order subtotal is less than ₱100, the discount will be capped at the order subtotal.
       """
 
   Scenario: Warning does not appear when minimum purchase amount equals discount value
@@ -386,16 +385,16 @@ Feature: Online Store Checkout — Discount Tag Tooltip
 
   Scenario: Tooltip appears on hover for Flat Amount Once Per Order tag (desktop)
     Given a customer is on the checkout page
-    And a Flat Amount (Once Per Order) discount is applied to an item
-    And the item shows a discount tag badge
+    And a Flat Amount (Once Per Order) discount is applied
+    And the discount tag badge is shown on the order
     When the customer hovers over the discount tag
-    Then a tooltip appears with text: "This discount applies to one item per order."
+    Then a tooltip appears with text: "This discount applies to your order subtotal."
 
   Scenario: Tooltip appears on tap for Flat Amount Once Per Order tag (mobile)
     Given a customer is on the checkout page on a mobile device
-    And a Flat Amount (Once Per Order) discount is applied to an item
+    And a Flat Amount (Once Per Order) discount is applied
     When the customer taps the discount tag badge
-    Then a tooltip appears with text: "This discount applies to one item per order."
+    Then a tooltip appears with text: "This discount applies to your order subtotal."
     And tapping outside the tooltip dismisses it
 
   Scenario: Tooltip does NOT appear for Flat Amount Per Eligible Item
@@ -413,12 +412,12 @@ Feature: Online Store Checkout — Discount Tag Tooltip
     When the customer hovers over the discount tag
     Then no tooltip is shown
 
-  Scenario: Multiple items in cart — only tagged item shows tooltip
+  Scenario: Multiple items in cart — discount tag shown at cart level
     Given a cart with 3 items and a Flat Amount Once Per Order discount
-    And only the highest-priced item has the discount tag
-    When the customer hovers over the tagged item's discount badge
-    Then the tooltip appears on that item only
-    And the untagged items show no tooltip
+    And the discount tag is shown at the cart/subtotal level
+    When the customer hovers over the discount badge
+    Then the tooltip appears with text: "This discount applies to your order subtotal."
+    And no item-level discount tags are shown
 ```
 
 ---
@@ -464,8 +463,8 @@ Feature: Existing Discount Behaviors — Regression Guard
 
 | FR | Requirement Summary | Gherkin Scenario(s) |
 |---|---|---|
-| FR-1 | Highest-priced item receives Once Per Order discount | "Discount applied to highest-priced eligible item", "Discount applied to single eligible item (specific product)" |
-| FR-2 | Cap at item price; floor at zero | "Flat amount exceeds item price — cap applied", "Flat amount does not exceed item price — no cap", "All eligible items priced below discount value" |
+| FR-1 | Order subtotal receives Once Per Order discount | "Discount applied to order subtotal", "Discount applied when only one product is eligible" |
+| FR-2 | Cap at order subtotal; floor at zero | "Flat amount exceeds item price — cap applied", "Flat amount does not exceed item price — no cap", "Order subtotal below discount value" |
 | FR-3 | Radio button group replaces checkbox when Discount Type = Flat Amount | "Radio group appears when Discount Type is Flat Amount", "Radio group does not appear for non-Flat Amount types", "Radio group does not appear for Free Shipping" |
 | FR-4 | Two radio options with labels and examples | Covered by "Radio group appears when Discount Type is Flat Amount" |
 | FR-5 | Inline warning when min purchase `<` discount value | "Warning appears when minimum purchase amount is less than discount value", "Warning does not appear when minimum purchase amount equals discount value", "Warning does not appear when Minimum Requirements = None", "Warning does not appear for Discount (%) type" |
@@ -473,6 +472,6 @@ Feature: Existing Discount Behaviors — Regression Guard
 | FR-7 | No-cap order details display unchanged | "No cap — discount line displays as normal" |
 | FR-8 | Cap-triggered order details shows partial amount format | "Cap triggered — discount line shows partial amount with tooltip icon" |
 | FR-9 | `?` icon with tooltip only when cap triggered | "Hovering ? icon shows tooltip", "? icon only appears when cap is triggered", "Edge case — configured value equals applied amount with rounding" |
-| FR-10 | Checkout tooltip on hover/tap for Once Per Order tags | "Tooltip appears on hover for Flat Amount Once Per Order tag (desktop)", "Tooltip appears on tap for Flat Amount Once Per Order tag (mobile)", "Multiple items in cart — only tagged item shows tooltip" |
+| FR-10 | Checkout tooltip on hover/tap for Once Per Order tags | "Tooltip appears on hover for Flat Amount Once Per Order tag (desktop)", "Tooltip appears on tap for Flat Amount Once Per Order tag (mobile)", "Multiple items in cart — discount tag shown at cart level" |
 | FR-11 | Tooltip NOT shown for other discount types | "Tooltip does NOT appear for Flat Amount Per Eligible Item", "Tooltip does NOT appear for Discount (%) type", "Tooltip does NOT appear for Free Shipping type" |
 | FR-12 | Existing behaviors preserved | "Additional Fee is never discounted", "Tax is computed on post-discount item prices", "No. of Transactions counter increments on successful discount use", "Automatic discount applied without coupon code entry", "Coupon Code discount requires exact name entry" |

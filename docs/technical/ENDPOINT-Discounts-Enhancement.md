@@ -188,7 +188,7 @@ Use this standard structure for all error responses:
 ### 1. createDiscount
 
 **Operation ID:** `createDiscount`
-**Purpose:** Creates a new discount for a merchant. When `discountType` is `FLAT_AMOUNT`, the `applicationMode` field is required to specify whether the discount applies once per order (highest-priced item) or per eligible item.
+**Purpose:** Creates a new discount for a merchant. When `discountType` is `FLAT_AMOUNT`, the `applicationMode` field is required to specify whether the discount applies once per order (applied to the order subtotal) or per eligible item.
 
 **Method:** POST
 **Path:** `/discounts`
@@ -455,15 +455,11 @@ curl -X POST https://api.prosperna.com/v1/checkout/discount-resolve \
       "discountType": "FLAT_AMOUNT",
       "applicationMode": "ONCE_PER_ORDER",
       "method": "AUTOMATIC",
-      "targetItemProductId": "prod_001",
+      "targetItemProductId": null,
       "configuredValue": "100.00",
       "appliedAmount": "100.00",
       "discountCapTriggered": false,
-      "itemBreakdown": [
-        { "productId": "prod_001", "originalPrice": "125.00", "discountedPrice": "25.00", "discountApplied": "100.00" },
-        { "productId": "prod_002", "originalPrice": "101.00", "discountedPrice": "101.00", "discountApplied": "0.00" },
-        { "productId": "prod_003", "originalPrice": "2.00", "discountedPrice": "2.00", "discountApplied": "0.00" }
-      ]
+      "itemBreakdown": null
     }
   ],
   "totalDiscount": "100.00",
@@ -522,7 +518,7 @@ curl -X POST https://api.prosperna.com/v1/checkout/discount-resolve \
 **Guard Rails:**
 - Do not cache the response from `resolveCheckoutDiscount`. Cart state (items, quantities, promo codes) changes frequently.
 - Use `discountType = "FLAT_AMOUNT"` AND `applicationMode = "ONCE_PER_ORDER"` to gate the checkout tooltip rendering — both conditions must be true.
-- Use `targetItemProductId` to know which specific item to render the discount tag on (Once Per Order mode).
+- For `ONCE_PER_ORDER` mode, `targetItemProductId` is `null` — the discount is applied at the cart subtotal level, not to a specific item. Do not attempt to render an item-level discount tag for this mode.
 - Treat `appliedDiscounts: []` as a valid success — no discount applies; suppress discount UI.
 - Do not show tooltip if `appliedDiscounts` is empty or `discountType` is absent.
 
@@ -541,7 +537,7 @@ curl -X POST https://api.prosperna.com/v1/checkout/discount-resolve \
 | `discountCapTriggered` | Response body (getOrderDetails, resolveCheckoutDiscount) | boolean | — | Read-only | Whether the discount was capped on this order |
 | `configuredValue` | Response body | decimal string | — | Read-only | The discount value as configured by merchant |
 | `appliedAmount` | Response body | decimal string | — | Read-only | The actual amount deducted (may be less than configuredValue if cap triggered) |
-| `targetItemProductId` | Response body (resolveCheckoutDiscount) | string | — | Present for ONCE_PER_ORDER mode | The product ID of the item that received the discount |
+| `targetItemProductId` | Response body (resolveCheckoutDiscount) | string or null | — | `null` for ONCE_PER_ORDER (subtotal-based) mode; present for PER_ELIGIBLE_ITEM mode if applicable | The product ID of the item that received the discount; null when discount is applied at subtotal level |
 
 ---
 
@@ -604,7 +600,7 @@ No SDK changes are required. The new fields are additive and will be accessible 
 | New `applicationMode` field in create discount request | `POST /discounts` | Additive — new required field for FLAT_AMOUNT type only | Yes (existing FLAT_AMOUNT discounts use deprecation shim) |
 | New `discountCapTriggered`, `configuredValue`, `appliedAmount` in order details response | `GET /orders/{orderId}` | Additive — new response fields | Yes |
 | New `discountType`, `applicationMode`, `targetItemProductId`, `discountCapTriggered`, `appliedAmount` in checkout resolve response | `POST /checkout/discount-resolve` | Additive — new response fields | Yes |
-| Item selection algorithm change (highest-priced first for ONCE_PER_ORDER) | Backend only — no API signature change | Behavioral — affects which item receives the discount | N/A (backend behavior change) |
+| Discount application change (order subtotal for ONCE_PER_ORDER) | Backend only — no API signature change | Behavioral — discount now applied to order subtotal instead of a specific item | N/A (backend behavior change) |
 
 ---
 
