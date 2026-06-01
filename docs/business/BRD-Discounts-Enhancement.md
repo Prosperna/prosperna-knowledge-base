@@ -21,7 +21,7 @@ A support ticket (Order 699e9d141182c5c2d9891e33 — Merchant: I Want Dimsum / H
 2. The discount badge tag appearing on only one item in a multi-item cart felt arbitrary, with no contextual label to explain why.
 
 Root cause analysis identified three underlying problems:
-- **(a) Suboptimal item selection algorithm** — the system applied the discount to a low-priced item instead of the highest-priced eligible item, causing a cap to be triggered unnecessarily and reducing the customer's actual savings.
+- **(a) Suboptimal discount application logic** — the system applied the discount to a low-priced item instead of the order subtotal, causing a cap to be triggered unnecessarily and reducing the customer's actual savings.
 - **(b) No UI communication when cap behavior is triggered** — both the merchant order details and the checkout page were silent on cap events.
 - **(c) No contextual label on single-item discount tags** — customers and CS staff had no way to understand why only one item showed a discount tag.
 
@@ -31,7 +31,7 @@ All proposed improvements are validated against global ecommerce industry standa
 
 ## Goals
 
-1. Fix the item selection algorithm so "Flat Amount – Once Per Order" discounts always maximize customer savings by targeting the highest-priced eligible item first.
+1. Fix the discount application logic so "Flat Amount – Once Per Order" discounts apply to the order subtotal, maximizing customer savings.
 2. Surface clear, contextual UI communication whenever a discount cap is triggered (both merchant-side and customer-side).
 3. Replace the ambiguous checkbox UI for Flat Amount application mode with a self-documenting radio button group to reduce merchant misconfiguration.
 4. Add a proactive cap-risk warning during discount creation when minimum purchase amount is less than the discount value.
@@ -98,16 +98,16 @@ A Prosperna CS team member investigating an order with a discount discrepancy. T
 ### In Scope
 
 1. **Backend — Item Selection Algorithm Fix**
-   Flat Amount (Once Per Order) discounts apply to the highest-priced eligible item first (descending sort by unit price). Floor-at-zero cap rule unchanged.
+   Flat Amount (Once Per Order) discounts apply to the order subtotal directly. Cap rule unchanged (discount cannot exceed the order subtotal).
 
 2. **Merchant Dashboard — Create Discount Modal — Flat Amount Application Mode UI**
    Replace the "Only apply discount once per order" checkbox with a labeled radio button group with supporting example text for each option.
 
 3. **Merchant Dashboard — Order Details — Discount Line Conditional Display**
-   When the cap is triggered (actual deduction `<` configured value), update the discount label to `/ ₱X.XX of ₱Y` and add a `?` tooltip icon with text "Discount capped at item price."
+   When the cap is triggered (actual deduction `<` configured value), update the discount label to `/ ₱X.XX of ₱Y` and add a `?` tooltip icon with text "Discount capped at order subtotal."
 
 4. **Online Store Website — Checkout — Discount Tag Tooltip**
-   Add hover (desktop) / tap (mobile) tooltip on discount tags for Flat Amount (Once Per Order) discounts: *"This discount applies to one item per order."*
+   Add hover (desktop) / tap (mobile) tooltip on discount tags for Flat Amount (Once Per Order) discounts: *"This discount applies to your order subtotal."*
 
 5. **Merchant Dashboard — Create Discount Modal — Cap Scenario Warning**
    Display a non-blocking inline warning when Discount Type = Flat Amount AND Minimum Purchase Amount `<` Discount Value. Warning updates dynamically and auto-dismisses when the condition is resolved.
@@ -120,7 +120,7 @@ See Non-Goals above.
 
 ## Assumptions
 
-1. The discount cap (floor-at-zero) existing behavior remains unchanged — only the item selection order changes.
+1. The discount cap (floor-at-zero) existing behavior remains unchanged — only the discount application target changes (from highest-priced item to order subtotal).
 2. The View Discount Modal labels (`Flat Amount (Once Per Order)`, `Flat Amount (Per Eligible Item)`) are not changed — only the Create modal UI changes.
 3. The cap scenario warning applies to both Flat Amount modes (Once Per Order and Per Eligible Item).
 4. Tooltip display on checkout is scoped to `Flat Amount (Once Per Order)` only — not other discount types.
@@ -144,7 +144,7 @@ See Non-Goals above.
 
 | Risk | Likelihood | Impact | Mitigation |
 |---|---|---|---|
-| Regression in existing Flat Amount (Per Eligible Item) behavior from algorithm change | Medium | High | Scope algorithm change strictly to Once Per Order mode; add regression test suite |
+| Regression in existing Flat Amount (Per Eligible Item) behavior from discount application logic change | Medium | High | Scope application logic change strictly to Once Per Order mode; add regression test suite |
 | Cap tooltip appears on wrong discount types at checkout | Low | Medium | Type-gated by discount type = `FLAT_ONCE`; strict conditional check |
 | Warning banner causes merchant friction during discount creation | Low | Low | Warning is non-blocking and advisory only; no save restriction |
 | Backward compatibility of existing discounts configured with checkbox | Low | Low | Radio button maps directly to the same underlying flag; no migration needed |
