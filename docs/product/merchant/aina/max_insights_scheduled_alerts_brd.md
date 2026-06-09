@@ -269,7 +269,7 @@ A merchant can only ever list and delete their own store's scheduled alerts.
 
 ### Happy Path
 
-- Create a daily orders+leads alert at 9:00 AM in chat → confirmation appears → it later shows on the Scheduled Alerts page reading "Daily at 9:00 AM (<tz>)" with scope "Orders, Leads · <period>" and an ENABLED badge.
+- Create a daily orders+leads alert at 9:00 AM in chat → confirmation appears → it later shows on the Scheduled Alerts page reading "Daily at 9:00 AM (`<tz>`)" with scope "Orders, Leads · `<period>`" and an ENABLED badge.
 - Create a one-time alert 5 minutes out → at fire time a bell row and an email arrive with a real-data summary → the alert later shows as DISABLED on the page.
 - Open Settings → Scheduled Alerts, click Delete on an alert, confirm → the row disappears and the alert no longer fires.
 
